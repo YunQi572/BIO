@@ -41,4 +41,68 @@ public class AnimalTracking {
 
     @Column(nullable = false, precision = 10, scale = 6)
     private BigDecimal longitude;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
+    public String getSpeciesId() {
+        return speciesId;
+    }
+
+    public void setSpeciesId(String speciesId) {
+        this.speciesId = speciesId;
+    }
+
+    public String getAnimalId() {
+        return animalId;
+    }
+
+    public void setAnimalId(String animalId) {
+        this.animalId = animalId;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
 }
