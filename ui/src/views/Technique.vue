@@ -1,10 +1,10 @@
 <template>
   <div class="technique">
     <div class="page-banner">
-      <div class="banner-content">
-        <h1>AI赋能的生物多样性守护</h1>
-        <p>探索我们的核心技术，革新野生动物保护模式。</p>
-        <div class="banner-features">
+      <div class="banner-content fade-in">
+        <h1 class="slide-up">AI赋能的生物多样性守护</h1>
+        <p class="slide-up delay-1">探索我们的核心技术，革新野生动物保护模式。</p>
+        <div class="banner-features slide-up delay-2">
           <div class="banner-feature-card">
             <h4>
               <span class="icon">
@@ -39,7 +39,7 @@
     </div>
 
     <div class="container">
-      <section class="tech-intro">
+      <section class="tech-intro fade-in-up">
         <div class="tech-intro-content">
           <div class="tech-intro-text">
             <h2>技术概览</h2>
@@ -60,12 +60,12 @@
             </div>
           </div>
           <div class="tech-intro-image">
-            <img src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="技术概览">
+            <img src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="技术概览" class="hover-scale">
           </div>
         </div>
       </section>
 
-      <section class="ai-identification-section">
+      <section class="ai-identification-section fade-in-up">
         <div class="ai-identification-wrapper">
           <div class="ai-identification-left">
             <div class="ai-identification-label">个体识别技术</div>
@@ -106,12 +106,12 @@
             </div>
           </div>
           <div class="ai-identification-right">
-            <img src="@/assets/Picture/核心技术/acbdffbfefbedHraplgZFcBCOqLjRqNK.jpeg" alt="AI识别系统">
+            <img src="@/assets/Picture/核心技术/acbdffbfefbedHraplgZFcBCOqLjRqNK.jpeg" alt="AI识别系统" class="hover-scale">
           </div>
         </div>
       </section>
 
-      <section class="night-vision-section">
+      <section class="night-vision-section fade-in-up">
         <div class="night-vision-label">夜视能力，守护黑暗中的生命</div>
         <h2 class="night-vision-title">夜间增强技术</h2>
         <div class="night-vision-desc">
@@ -121,15 +121,15 @@
         <div class="night-vision-detail">
           通过与AI算法结合，夜间增强技术能够自动识别和追踪夜行动物，提升监测效率和准确性。
         </div>
-        <button class="night-vision-btn">了解更多</button>
+        <button class="night-vision-btn hover-lift">了解更多</button>
       </section>
 
-      <div class="night-vision-img-wrapper">
-        <img class="night-vision-img" src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="夜间增强技术相关图片">
+      <div class="night-vision-img-wrapper fade-in-up">
+        <img class="night-vision-img hover-scale" src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="夜间增强技术相关图片">
       </div>
 
       <!-- 跨模态识别技术区块 -->
-      <section class="cross-modal-section">
+      <section class="cross-modal-section fade-in-up">
         <div class="cross-modal-label">探索</div>
         <h2 class="cross-modal-title">跨模态识别技术</h2>
         <div class="cross-modal-desc">
@@ -177,7 +177,7 @@
         </div>
       </section>
 
-      <section class="tech-section">
+      <section class="tech-section fade-in-up">
         <div class="section-header">
           <h2>生态系统监测网络</h2>
           <div class="section-line"></div>
@@ -218,12 +218,12 @@
             </ul>
           </div>
           <div class="tech-image">
-            <img src="@/assets/Picture/核心技术/accacaaaccaadRsRYgXZrXMkYyJwBpVc.jpeg" alt="监测网络">
+            <img src="@/assets/Picture/核心技术/accacaaaccaadRsRYgXZrXMkYyJwBpVc.jpeg" alt="监测网络" class="hover-scale">
           </div>
         </div>
       </section>
 
-      <section class="tech-section">
+      <section class="tech-section fade-in-up">
         <div class="section-header">
           <h2>大数据分析平台</h2>
           <div class="section-line"></div>
@@ -231,7 +231,7 @@
         
         <div class="tech-content">
           <div class="tech-image">
-            <img src="@/assets/Picture/核心技术/czaUZknhMkKjPfSGAjdUQwfUMkSIJRVt.webp" alt="大数据分析">
+            <img src="@/assets/Picture/核心技术/czaUZknhMkKjPfSGAjdUQwfUMkSIJRVt.webp" alt="大数据分析" class="hover-scale">
           </div>
           <div class="tech-details">
             <p>我们的大数据分析平台采用分布式云架构，能够实时处理和分析来自全球监测网络的海量数据：</p>
@@ -269,32 +269,32 @@
         </div>
       </section>
 
-      <section class="tech-innovations">
+      <section class="tech-innovations fade-in-up">
         <div class="section-header">
           <h2>技术创新点</h2>
           <div class="section-line"></div>
         </div>
         
         <div class="innovations-grid">
-          <div class="innovation-card">
+          <div class="innovation-card hover-lift-card">
             <div class="innovation-icon">💻</div>
             <h3>边缘计算</h3>
             <p>将AI计算能力部署到监测设备端，减少数据传输，提高响应速度，实现在偏远地区的离线分析能力</p>
           </div>
           
-          <div class="innovation-card">
+          <div class="innovation-card hover-lift-card">
             <div class="innovation-icon">🔗</div>
             <h3>跨物种关联分析</h3>
             <p>通过图数据库技术建立物种间关系网络，分析生态系统平衡，预测关键物种消失的连锁反应</p>
           </div>
           
-          <div class="innovation-card">
+          <div class="innovation-card hover-lift-card">
             <div class="innovation-icon">🧠</div>
             <h3>自适应学习</h3>
             <p>系统能够从新数据中持续学习，不断提高识别准确率和适应能力，减少人工干预</p>
           </div>
           
-          <div class="innovation-card">
+          <div class="innovation-card hover-lift-card">
             <div class="innovation-icon">🔋</div>
             <h3>低功耗监测</h3>
             <p>创新低功耗硬件设计和智能唤醒机制，实现监测设备在野外环境下长达5年的独立工作</p>
@@ -304,7 +304,7 @@
       </section>
     </div>
 
-    <section class="tech-application-steps">
+    <section class="tech-application-steps fade-in-up">
       <div class="section-header">
         <h2>技术应用步骤</h2>
         <p>简单几步，即可开始使用我们的核心技术，助力野生动物保护。</p>
@@ -352,44 +352,44 @@
       </div>
     </section>
 
-    <section class="core-features-section">
+    <section class="core-features-section fade-in-up">
       <div class="features-grid-container">
-        <div class="feature-item">
+        <div class="feature-item hover-lift">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>
           </div>
           <h4>精准识别</h4>
           <p>个体识别技术，精准锁定保护对象。</p>
         </div>
-        <div class="feature-item">
+        <div class="feature-item hover-lift">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8zm-2.8-5.2a1 1 0 011.4-1.4 5 5 0 00-1.4-1.4z" /></svg>
           </div>
           <h4>夜间增强</h4>
           <p>夜视能力，无惧黑暗挑战。</p>
         </div>
-        <div class="feature-item">
+        <div class="feature-item hover-lift">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 11h8V3H3v8zm0 10h8v-8H3v8zM13 3v8h8V3h-8zm8 18v-8h-8v8h8z"/></svg>
           </div>
           <h4>跨模态融合</h4>
           <p>多源数据，全面感知。</p>
         </div>
-        <div class="feature-item">
+        <div class="feature-item hover-lift">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
           </div>
           <h4>云端部署</h4>
           <p>无需服务器，轻松使用。</p>
         </div>
-        <div class="feature-item">
+        <div class="feature-item hover-lift">
           <div class="feature-icon">
              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </div>
           <h4>安全可靠</h4>
           <p>数据安全，隐私保护。</p>
         </div>
-        <div class="feature-item">
+        <div class="feature-item hover-lift">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </div>
@@ -405,6 +405,29 @@
 export default {
   name: 'Technique',
   components: {
+  },
+  mounted() {
+    this.initAnimations();
+  },
+  methods: {
+    initAnimations() {
+      // 观察元素进入视窗
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      // 观察所有动画元素
+      document.querySelectorAll('.fade-in-up, .slide-in-left, .slide-in-right, .float-animation').forEach(el => {
+        observer.observe(el);
+      });
+    }
   }
 }
 </script>
@@ -412,6 +435,130 @@ export default {
 <style scoped>
 .technique {
   width: 100%;
+}
+
+/* 动画关键帧 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* 动画类 */
+.fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.slide-up {
+  opacity: 0;
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.slide-up.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.slide-up.delay-2 {
+  animation-delay: 0.4s;
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.6s ease-out;
+}
+
+.slide-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.6s ease-out;
+}
+
+.slide-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.float-animation {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+  animation: float 3s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.float-animation.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation-play-state: running;
+}
+
+/* 悬停效果 */
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.hover-lift-card {
+  transition: all 0.3s ease;
+}
+
+.hover-lift-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
 }
 
 .page-banner {
@@ -651,9 +798,7 @@ export default {
   transition: transform 0.3s ease;
 }
 
-.innovation-card:hover {
-  transform: translateY(-5px);
-}
+
 
 .innovation-icon {
   font-size: 2.2rem;
@@ -835,10 +980,7 @@ export default {
   transition: all 0.3s ease;
 }
 
-.feature-item:hover .feature-icon {
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(66, 185, 131, 0.2);
-}
+
 
 .feature-icon svg {
   width: 32px;

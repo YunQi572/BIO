@@ -2,13 +2,13 @@
   <div class="home">
     <!-- 英雄区域 -->
     <section class="hero-section">
-      <div class="hero-content">
-        <h1>增强型全球生物多样性AI守护者</h1>
-        <p>利用人工智能技术保护地球生物多样性</p>
-        <div class="hero-buttons">
-          <router-link to="/project-overview" class="btn btn-primary">了解更多</router-link>
-          <router-link to="/technique" class="btn btn-secondary">探索技术</router-link>
-          <router-link to="/map" class="btn btn-secondary">生态地图</router-link>
+      <div class="hero-content fade-in">
+        <h1 class="slide-up">增强型全球生物多样性AI守护者</h1>
+        <p class="slide-up delay-1">利用人工智能技术保护地球生物多样性</p>
+        <div class="hero-buttons slide-up delay-2">
+          <router-link to="/project-overview" class="btn btn-primary hover-lift">了解更多</router-link>
+          <router-link to="/technique" class="btn btn-secondary hover-lift">探索技术</router-link>
+          <router-link to="/map" class="btn btn-secondary hover-lift">生态地图</router-link>
         </div>
       </div>
     </section>
@@ -16,35 +16,35 @@
     <!-- 简介部分 -->
     <section class="intro-section">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header fade-in-up">
           <h2>项目简介</h2>
           <div class="subtitle">智能科技助力生物多样性保护</div>
         </div>
         <div class="intro-content">
-          <div class="intro-text">
+          <div class="intro-text fade-in-up delay-1">
             <p>增强型全球生物多样性AI守护者是一个结合人工智能与生态保护的创新项目，旨在通过先进技术手段监测、分析和保护全球生物多样性。</p>
             <p>我们的系统利用机器学习、计算机视觉和物联网技术，构建了一个全面的生态监测和保护网络，为濒危物种和生态系统提供有力支持。</p>
             <div class="feature-highlights">
-              <div class="feature">
+              <div class="feature float-animation">
                 <div class="feature-icon">🌍</div>
                 <div class="feature-text">全球覆盖</div>
               </div>
-              <div class="feature">
+              <div class="feature float-animation delay-1">
                 <div class="feature-icon">🔍</div>
                 <div class="feature-text">实时监测</div>
               </div>
-              <div class="feature">
+              <div class="feature float-animation delay-2">
                 <div class="feature-icon">🤖</div>
                 <div class="feature-text">AI分析</div>
               </div>
-              <div class="feature">
+              <div class="feature float-animation delay-3">
                 <div class="feature-icon">🔄</div>
                 <div class="feature-text">可持续发展</div>
               </div>
             </div>
           </div>
-          <div class="intro-image">
-            <img src="@/assets/Picture/项目概览/9a8fe4be-ce73-4418-91e5-a14efc07ab5a.jpeg" alt="项目简介">
+          <div class="intro-image fade-in-up delay-2">
+            <img src="@/assets/Picture/项目概览/9a8fe4be-ce73-4418-91e5-a14efc07ab5a.jpeg" alt="项目简介" class="hover-scale">
           </div>
         </div>
       </div>
@@ -53,14 +53,14 @@
     <!-- 核心内容卡片 -->
     <section class="cards-section">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header fade-in-up">
           <h2>探索更多</h2>
           <div class="subtitle">了解我们的技术与项目</div>
         </div>
         <div class="cards-grid">
-          <router-link to="/project-overview" class="card">
+          <router-link to="/project-overview" class="card hover-lift-card">
             <div class="card-image">
-              <img src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="核心技术">
+              <img src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="核心技术" class="hover-zoom">
             </div>
             <div class="card-content">
               <h3>项目概览</h3>
@@ -68,9 +68,9 @@
             </div>
           </router-link>
 
-          <router-link to="/technique" class="card">
+          <router-link to="/technique" class="card hover-lift-card">
             <div class="card-image">
-              <img src="@/assets/Picture/项目概览/c14c8985-845c-4f71-ab76-bb94e99a720b.jpeg" alt="项目概览">
+              <img src="@/assets/Picture/项目概览/c14c8985-845c-4f71-ab76-bb94e99a720b.jpeg" alt="项目概览" class="hover-zoom">
             </div>
             <div class="card-content">
               <h3>核心技术</h3>
@@ -78,9 +78,9 @@
             </div>
           </router-link>
 
-          <router-link to="/technique" class="card">
+          <router-link to="/technique" class="card hover-lift-card">
             <div class="card-image">
-              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/photo-1458724338480-79bc7a8352e4.webp" alt="AI守护者">
+              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/photo-1458724338480-79bc7a8352e4.webp" alt="AI守护者" class="hover-zoom">
             </div>
             <div class="card-content">
               <h3>AI守护者</h3>
@@ -88,9 +88,9 @@
             </div>
           </router-link>
 
-          <router-link to="/map" class="card">
+          <router-link to="/map" class="card hover-lift-card">
             <div class="card-image">
-              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/北极生态图片.png" alt="生态地图">
+              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/北极生态图片.png" alt="生态地图" class="hover-zoom">
             </div>
             <div class="card-content">
               <h3>生态地图</h3>
@@ -105,13 +105,166 @@
 
 <script>
 export default {
-  name: 'HomeView'
+  name: 'HomeView',
+  mounted() {
+    this.initAnimations();
+  },
+  methods: {
+    initAnimations() {
+      // 观察元素进入视窗
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      // 观察所有动画元素
+      document.querySelectorAll('.fade-in-up, .float-animation').forEach(el => {
+        observer.observe(el);
+      });
+    }
+  }
 }
 </script>
 
 <style scoped>
 .home {
   width: 100%;
+}
+
+/* 动画关键帧 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* 动画类 */
+.fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.slide-up {
+  opacity: 0;
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.slide-up.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.slide-up.delay-2 {
+  animation-delay: 0.4s;
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-up.delay-1 {
+  transition-delay: 0.2s;
+}
+
+.fade-in-up.delay-2 {
+  transition-delay: 0.4s;
+}
+
+.float-animation {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+  animation: float 3s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.float-animation.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation-play-state: running;
+}
+
+.float-animation.delay-1 {
+  animation-delay: 0.5s;
+}
+
+.float-animation.delay-2 {
+  animation-delay: 1s;
+}
+
+.float-animation.delay-3 {
+  animation-delay: 1.5s;
+}
+
+/* 悬停效果 */
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.hover-lift-card {
+  transition: all 0.3s ease;
+}
+
+.hover-lift-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-zoom {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .hover-zoom {
+  transform: scale(1.1);
 }
 
 /* 英雄区域 */
@@ -265,10 +418,6 @@ section {
   color: inherit;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-}
-
 .card-image {
   height: 200px;
   overflow: hidden;
@@ -279,10 +428,6 @@ section {
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
-}
-
-.card:hover .card-image img {
-  transform: scale(1.05);
 }
 
 .card-content {
