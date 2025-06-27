@@ -38,4 +38,16 @@ public class AnimalTrackingController {
         List<AnimalTracking> allData = animalTrackingRepository.findAll();
         return ResponseEntity.ok(allData);
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<AnimalTracking> test() {
+        List<AnimalTracking> all = animalTrackingRepository.findAll();
+        if (all.isEmpty()) {
+            System.out.println("数据库无数据");
+            return ResponseEntity.noContent().build();
+        }
+        AnimalTracking at = all.get(0);
+        System.out.println("测试输出: " + at);
+        return ResponseEntity.ok(at);
+    }
 }
