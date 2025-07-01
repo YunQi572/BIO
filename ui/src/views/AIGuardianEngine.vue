@@ -3,7 +3,7 @@
     <!-- 页面标题和描述-->
     <div v-if="currentStep === 'select'" class="page-header">
       <h1 class="main-title">🔬 AI-REID 多模态个体识别引擎</h1>
-      <p class="main-subtitle">结合图像与文本信息，运用先进的REID技术，精准识别并追踪每一个独特的野生动物个体。</p>
+      <p class="main-subtitle">融合图像、文本与环境元数据，驱动跨场景高鲁棒性个体识别引擎，解锁前所未有的识别精度与深度洞察。</p>
     </div>
 
     <!-- 步骤1：选择动物样本或上传图片-->
@@ -67,8 +67,8 @@
               <div class="card-img upload-img-bg" :class="{ 'drag-over': isDragOver }">
                 <div v-if="!uploadedImage && !isUploading" class="upload-content">
                   <svg class="upload-plus" viewBox="0 0 64 64" width="48" height="48">
-                    <line x1="32" y1="14" x2="32" y2="50" stroke="#A7F3D0" stroke-width="4" stroke-linecap="round"/>
-                    <line x1="14" y1="32" x2="50" y2="32" stroke="#A7F3D0" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="32" y1="14" x2="32" y2="50" stroke="#2ECC71" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="14" y1="32" x2="50" y2="32" stroke="#2ECC71" stroke-width="4" stroke-linecap="round"/>
                   </svg>
                   <div class="upload-text">点击或拖拽上传</div>
                 </div>
@@ -119,7 +119,7 @@
         
         <div class="action-section">
           <button class="start-btn" :disabled="!canStart || isUploading" @click="startAnalysis">
-            <span v-if="!isStarting">🚀 开始REID识别</span>
+            <span v-if="!isStarting">🚀 启动分析引擎</span>
             <span v-else>
               <div class="btn-spinner"></div>
               启动中...
@@ -129,11 +129,11 @@
           <div class="tips-section">
             <div class="tip-item">
               <span class="tip-icon">💡</span>
-              <span>上传清晰的动物侧面照片，REID效果更佳</span>
+              <span>我们的 <b>AdaFreq</b> 技术能有效忽略背景干扰，即使在杂乱环境中也能精准识别。</span>
             </div>
             <div class="tip-item">
               <span class="tip-icon">⚡</span>
-              <span>支持红外图像与高频信息提取，精准区分个体</span>
+              <span>得益于 <b>RotTrans</b> 模型，引擎能够抵抗无人机等设备的剧烈视角旋转，确保识别稳定性。</span>
             </div>
           </div>
         </div>
@@ -145,18 +145,19 @@
       <div v-if="currentStep === 'analyzing'" class="modal-overlay">
         <div class="modal-content">
           <div class="modal-header">
-            <h3>🔍 REID技术正在分析中...</h3>
+            <h3>🚀 启动多维分析引擎...</h3>
             <div class="analysis-progress">
               <div class="progress-bar">
                 <div class="progress-fill" :style="{ width: analysisProgress + '%' }"></div>
               </div>
-              <span class="progress-text">{{ analysisProgress }}%</span>
+              <span class="progress-text">{{ Math.floor(analysisProgress) }}%</span>
             </div>
           </div>
           
           <div class="modal-img-wrap">
-            <img :src="displayImage" class="modal-img" />
-            <div class="scan-line" :style="{ top: scanLineTop + 'px' }" v-if="currentStep === 'analyzing'"></div>
+            <img :src="displayImage" class="modal-img" :class="{ 'rottrans-active': isRotTransActive }" />
+            <div class="scan-line" :style="{ top: scanLineTop + 'px' }" v-if="currentStep === 'analyzing' && !isAdaFreqActive"></div>
+            <div class="adafreq-heatmap" v-if="isAdaFreqActive"></div>
             <div class="detection-points">
               <div v-for="point in detectionPoints" :key="point.id" 
                 class="detection-point" 
@@ -194,7 +195,7 @@
     <transition name="slide-fade">
       <div v-if="currentStep === 'result'" class="result-wrap">
         <div class="result-header">
-          <h2>🎉 个体识别完成！</h2>
+          <h2>🎉 成功生成动态数字生命档案</h2>
           <div class="result-summary">
             <div class="accuracy-badge">
               <span class="accuracy-label">REID识别准确率</span>
@@ -262,7 +263,7 @@
 
             <div class="behavior-card">
               <div class="card-title">
-                <span>📊 行为分析</span>
+                <span>📊 行为分析 (由 AMLP 驱动)</span>
               </div>
               <div class="behavior-stats">
                 <div class="stat-box">
@@ -289,6 +290,27 @@
               </div>
             </div>
           </div>
+
+          <!-- MLLM 分析报告 -->
+          <div class="mllm-analysis-card">
+            <div class="card-title">
+              <span>🧠 MLLM 深度分析报告</span>
+            </div>
+            <div class="mllm-content">
+              <div class="mllm-section">
+                <h4 class="mllm-section-title">轨迹分析与预测</h4>
+                <p class="mllm-text">根据最近72小时的活动数据，个体"{{ resultAnimal.name }}"的活动范围稳定在东北方向的15平方公里内，符合其物种习性。轨迹预测模型显示，未来24小时有 <strong>75%</strong> 的概率会向标记的「水源地A」移动。</p>
+              </div>
+              <div class="mllm-section">
+                <h4 class="mllm-section-title">健康与行为风险评估</h4>
+                <p class="mllm-text">视觉分析未发现明显外伤，毛色光泽度正常。但行为数据显示，其夜间活跃度相较于历史基线下降了 <strong>15%</strong>，可能为早期潜在疾病征兆或近期能量摄入不足。风险等级：<span class="risk-level low">低</span></p>
+              </div>
+              <div class="mllm-section">
+                <h4 class="mllm-section-title">多模态信息交叉验证</h4>
+                <p class="mllm-text">用户上传的文本描述「{{ additionalText || '无' }}」与图像分析结果（步态稳健、精神状态良好）交叉验证一致。综合判断，该个体目前状态稳定。</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="action-buttons">
@@ -296,11 +318,24 @@
             <span>🔄 重新REID识别</span>
           </button>
           <button class="export-btn primary" @click="exportResults">
-            <span>📥 导出个体档案</span>
+            <span>📥 导出个体档案 (由 RSFD 生成)</span>
           </button>
           <button class="share-btn secondary" @click="shareResults">
             <span>📤 分享结果</span>
           </button>
+        </div>
+
+        <!-- 技术总结卡片 -->
+        <div class="tech-summary-card">
+          <div class="card-title">
+            <span>⚙️ 本次分析调用技术模块</span>
+          </div>
+          <div class="tech-tags">
+            <span class="tech-tag">AdaFreq</span>
+            <span class="tech-tag">RotTrans</span>
+            <span class="tech-tag">AMLP</span>
+            <span class="tech-tag">RSFD</span>
+          </div>
         </div>
       </div>
     </transition>
@@ -377,11 +412,21 @@ const errorMessage = ref('')
 // 动画相关
 const scanLineTop = ref(0)
 const analysisProgress = ref(0)
-const statusMessages = ["🔍 初始化REID模型...", "🧬 提取个体独有生物特征...", "📡 分析图像与文本信息...", "🎯 与数据库中已知个体进行特征匹配...", "✅ 个体识别成功！"]
+const statusMessages = ref([
+  "模块1: 全天候多模态感知...",
+  "模块2: 启动跨场景识别引擎...",
+  "模块2: [AdaFreq] 正在进行频域特征提取...",
+  "模块2: [RotTrans] 正在进行旋转不变性校正...",
+  "模块3: [AMLP] 启动多维属性并行分析...",
+  "模块3: [RSFD] 生成专业级个体档案...",
+  "✅ 分析完成！正在生成数字生命档案..."
+])
 const currentStatusIndex = ref(0)
 const resultAccuracy = ref(0)
 const detectionPoints = ref([])
 const currentInsights = ref([])
+const isAdaFreqActive = ref(false)
+const isRotTransActive = ref(false)
 
 // 定时器
 let scanTimer = null
@@ -506,34 +551,55 @@ function initializeAnalysis() {
     if (scanLineTop.value >= 148) scanLineTop.value = 0
   }, 40)
 
-  // 进度条动画
+  // 连续进度条动画
+  const totalAnalysisDuration = (statusMessages.value.length - 1) * 2500 + 2000;
+  const progressInterval = 50; 
+  const progressIncrement = 100 / (totalAnalysisDuration / progressInterval);
+
   progressTimer = setInterval(() => {
     if (analysisProgress.value < 100) {
-      analysisProgress.value += Math.random() * 3 + 1
-      if (analysisProgress.value > 100) analysisProgress.value = 100
+      analysisProgress.value += progressIncrement;
+    } else {
+      analysisProgress.value = 100;
+      clearInterval(progressTimer);
     }
-  }, 100)
+  }, progressInterval);
 
   // 状态消息
-  statusTimer = setTimeout(showNextStatus, 1000)
+  showNextStatus()
   
   // AI 洞察
   updateInsights()
 }
 
 function showNextStatus() {
-  if (currentStatusIndex.value < statusMessages.length - 1) {
-    currentStatusIndex.value++
-    updateInsights()
-    statusTimer = setTimeout(showNextStatus, 2500)
+  const totalSteps = statusMessages.value.length;
+  
+  if (currentStatusIndex.value < totalSteps - 1) {
+    statusTimer = setTimeout(() => {
+      currentStatusIndex.value++;
+      updateInsights();
+      
+      // 触发特殊动画
+      if (statusMessages.value[currentStatusIndex.value].includes('AdaFreq')) {
+        isAdaFreqActive.value = true;
+        setTimeout(() => { isAdaFreqActive.value = false; }, 2000);
+      }
+      if (statusMessages.value[currentStatusIndex.value].includes('RotTrans')) {
+        isRotTransActive.value = true;
+        setTimeout(() => { isRotTransActive.value = false; }, 2000);
+      }
+      
+      showNextStatus(); // 递归调用
+    }, 2500)
   } else {
     // 完成识别
     setTimeout(() => {
       analysisProgress.value = 100
       resultAccuracy.value = Math.floor(Math.random() * 5) + 95 // 95-99%
       
-      setTimeout(() => {
-        currentStep.value = 'result'
+    setTimeout(() => {
+      currentStep.value = 'result'
         clearTimers()
       }, 1500)
     }, 2000)
@@ -542,10 +608,12 @@ function showNextStatus() {
 
 function updateInsights() {
   const insights = [
-    ['正在加载多模态REID神经网络...', '初始化红外图像预处理...'],
-    ['检测动物个体轮廓，分析独特标记', '提取毛发纹理、步态等生物特征'],
-    ['融合分析图像与文本描述信息', '提取高频生物特征向量'],
-    ['在个体数据库中进行向量化搜索', '计算与已知个体的相似度'],
+    ['加载多模态REID神经网络', '初始化红外图像预处理器'],
+    ['应用跨场景识别模型', '检测个体基本轮廓'],
+    ['分析动物身体高频纹理', '滤除背景及光照噪声'],
+    ['校正拍摄角度偏差', '确保关键特征的稳定性'],
+    ['并行分析健康状况、行为模式、年龄等', '构建多维度生物特征向量'],
+    ['对比通用AI，生成结构化、专业化描述', '构建完整的个体数字档案'],
     ['REID匹配成功！已确认个体身份']
   ]
   
@@ -661,7 +729,7 @@ onUnmounted(() => {
   width: 100vw;
   height: 100vh;
   background: url('/public/background.jpg') center center/cover no-repeat;
-  opacity: 0.15;
+  opacity: 0.2;
   z-index: 0;
   pointer-events: none;
 }
@@ -683,7 +751,7 @@ onUnmounted(() => {
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 12px;
-  background: linear-gradient(45deg, #34d399, #10b981);
+  background: linear-gradient(45deg, #58D68D, #2ECC71);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -723,7 +791,7 @@ onUnmounted(() => {
 }
 
 .step-item.active {
-  color: #A7F3D0;
+  color: #2ECC71;
 }
 
 .step-circle {
@@ -740,7 +808,7 @@ onUnmounted(() => {
 }
 
 .step-item.active .step-circle {
-  background: #A7F3D0;
+  background: #2ECC71;
   color: white;
   transform: scale(1.1);
 }
@@ -828,8 +896,8 @@ onUnmounted(() => {
 }
 
 .card-item.selected {
-  border-color: #A7F3D0;
-  box-shadow: 0 20px 60px rgba(110,231,183,0.3);
+  border-color: #2ECC71;
+  box-shadow: 0 20px 60px rgba(46, 204, 113, 0.3);
   transform: translateY(-8px) scale(1.02);
 }
 
@@ -864,8 +932,8 @@ onUnmounted(() => {
 }
 
 .confidence-badge {
-  background: rgba(110,231,183,0.9);
-  color: #212529;
+  background: rgba(46, 204, 113, 0.9);
+  color: white;
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 0.8rem;
@@ -880,7 +948,7 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px dashed #A7F3D0;
+  border: 2px dashed #2ECC71;
   box-sizing: border-box;
   padding: 10px;
   border-radius: 16px;
@@ -889,8 +957,8 @@ onUnmounted(() => {
 }
 
 .upload-card .card-img.upload-img-bg.drag-over {
-  border-color: #86EFAC;
-  background: linear-gradient(135deg, #A7F3D0 0%, #86EFAC 100%);
+  border-color: #58D68D;
+  background: linear-gradient(135deg, #58D68D 0%, #2ECC71 100%);
   transform: scale(1.02);
 }
 
@@ -902,7 +970,7 @@ onUnmounted(() => {
 }
 
 .upload-text {
-  color: #A7F3D0;
+  color: #2ECC71;
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -911,7 +979,7 @@ onUnmounted(() => {
   width: 32px;
   height: 32px;
   border: 3px solid #e9ecef;
-  border-top: 3px solid #A7F3D0;
+  border-top: 3px solid #2ECC71;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -974,7 +1042,7 @@ onUnmounted(() => {
   right: 12px;
   width: 36px;
   height: 36px;
-  background: #A7F3D0;
+  background: #2ECC71;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1061,20 +1129,20 @@ onUnmounted(() => {
 
 .multimodal-textarea:focus {
   outline: none;
-  border-color: #A7F3D0;
+  border-color: #2ECC71;
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.3);
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.3);
 }
 
 .start-btn {
-  background: linear-gradient(135deg, #A7F3D0 0%, #86EFAC 100%);
-  color: #212529;
+  background: linear-gradient(135deg, #58D68D 0%, #2ECC71 100%);
+  color: white;
   font-size: 1.2rem;
   font-weight: bold;
   border: none;
   border-radius: 50px;
   padding: 18px 48px;
-  box-shadow: 0 8px 32px rgba(110,231,183,0.4);
+  box-shadow: 0 8px 32px rgba(46, 204, 113, 0.4);
   cursor: pointer;
   transition: all 0.3s;
   display: flex;
@@ -1093,7 +1161,7 @@ onUnmounted(() => {
 
 .start-btn:hover:enabled {
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(110,231,183,0.5);
+  box-shadow: 0 12px 40px rgba(46, 204, 113, 0.5);
 }
 
 .btn-spinner {
@@ -1183,15 +1251,15 @@ onUnmounted(() => {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #A7F3D0, #86EFAC);
+  background: linear-gradient(90deg, #58D68D, #2ECC71);
   border-radius: 4px;
-  transition: width 0.3s ease;
+  transition: width 0.1s ease-out;
 }
 
 .progress-text {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #A7F3D0;
+  color: #2ECC71;
   min-width: 40px;
 }
 
@@ -1208,6 +1276,19 @@ onUnmounted(() => {
   border-radius: 20px;
   object-fit: cover;
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  transition: transform 0.5s ease;
+}
+
+.modal-img.rottrans-active {
+  animation: spin-back-forth 2s ease-in-out;
+}
+
+@keyframes spin-back-forth {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(15deg) scale(1.05); }
+  50% { transform: rotate(-10deg) scale(1.05); }
+  75% { transform: rotate(5deg) scale(1.05); }
+  100% { transform: rotate(0deg) scale(1); }
 }
 
 .scan-line {
@@ -1217,13 +1298,28 @@ onUnmounted(() => {
   height: 4px;
   background: linear-gradient(90deg, 
     transparent 0%, 
-    rgba(110,231,183,0.3) 20%, 
-    #A7F3D0 50%, 
-    rgba(110,231,183,0.3) 80%, 
+    rgba(46, 204, 113, 0.3) 20%, 
+    #2ECC71 50%, 
+    rgba(46, 204, 113, 0.3) 80%, 
     transparent 100%);
   border-radius: 2px;
-  box-shadow: 0 0 20px #A7F3D0;
+  box-shadow: 0 0 20px #2ECC71;
   transition: top 0.05s linear;
+}
+
+.adafreq-heatmap {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 20px;
+  background: radial-gradient(circle at 55% 50%, rgba(255, 0, 0, 0.7) 10%, rgba(255, 255, 0, 0.5) 35%, transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
 
 .detection-points {
@@ -1239,10 +1335,10 @@ onUnmounted(() => {
   position: absolute;
   width: 8px;
   height: 8px;
-  background: #A7F3D0;
+  background: #2ECC71;
   border-radius: 50%;
   animation: pulse 2s infinite;
-  box-shadow: 0 0 12px #A7F3D0;
+  box-shadow: 0 0 12px #2ECC71;
 }
 
 @keyframes pulse {
@@ -1270,7 +1366,7 @@ onUnmounted(() => {
 }
 
 .status-item.active {
-  color: #A7F3D0;
+  color: #2ECC71;
 }
 
 .status-item.completed {
@@ -1290,7 +1386,7 @@ onUnmounted(() => {
   width: 16px;
   height: 16px;
   border: 2px solid #e9ecef;
-  border-top: 2px solid #A7F3D0;
+  border-top: 2px solid #2ECC71;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -1312,7 +1408,7 @@ onUnmounted(() => {
   background: #f8f9fa;
   border-radius: 12px;
   padding: 16px;
-  border-left: 4px solid #A7F3D0;
+  border-left: 4px solid #2ECC71;
 }
 
 .insight-item {
@@ -1351,7 +1447,7 @@ onUnmounted(() => {
   font-size: 2rem;
   font-weight: 800;
   margin-bottom: 16px;
-  background: linear-gradient(45deg, #34d399, #10b981);
+  background: linear-gradient(45deg, #58D68D, #2ECC71);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -1380,7 +1476,7 @@ onUnmounted(() => {
 .accuracy-value {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #A7F3D0;
+  color: #2ECC71;
 }
 
 .result-content {
@@ -1519,8 +1615,8 @@ onUnmounted(() => {
 }
 
 .view-details-btn {
-  background: #A7F3D0;
-  color: #212529;
+  background: #eafaf1;
+  color: #2ECC71;
   border: none;
   border-radius: 12px;
   padding: 6px 12px;
@@ -1531,7 +1627,8 @@ onUnmounted(() => {
 }
 
 .view-details-btn:hover {
-  background: #86EFAC;
+  background: #2ECC71;
+  color: white;
   transform: translateY(-1px);
 }
 
@@ -1558,7 +1655,7 @@ onUnmounted(() => {
 .location-marker {
   width: 12px;
   height: 12px;
-  background: #A7F3D0;
+  background: #2ECC71;
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -1571,7 +1668,7 @@ onUnmounted(() => {
   position: absolute;
   width: 60%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #A7F3D0, transparent);
+  background: linear-gradient(90deg, transparent, #2ECC71, transparent);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -1614,7 +1711,7 @@ onUnmounted(() => {
 
 .stat-fill {
   height: 100%;
-  background: linear-gradient(90deg, #A7F3D0, #86EFAC);
+  background: linear-gradient(90deg, #58D68D, #2ECC71);
   border-radius: 4px;
   transition: width 1s ease;
 }
@@ -1622,9 +1719,33 @@ onUnmounted(() => {
 .stat-value {
   font-size: 0.9rem;
   font-weight: bold;
-  color: #A7F3D0;
+  color: #2ECC71;
   min-width: 40px;
   text-align: right;
+}
+
+.tech-summary-card {
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.tech-tag {
+  background: #e6f7eb;
+  color: #3e5247;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .action-buttons {
@@ -1651,26 +1772,31 @@ onUnmounted(() => {
 
 .back-btn.secondary, .share-btn.secondary {
   background: rgba(255,255,255,0.95);
-  color: #A7F3D0;
-  border: 2px solid #A7F3D0;
+  color: #2ECC71;
+  border: 2px solid #2ECC71;
 }
 
 .back-btn.secondary:hover, .share-btn.secondary:hover {
-  background: #A7F3D0;
+  background: #2ECC71;
   color: white;
   transform: translateY(-2px);
 }
 
 .export-btn.primary {
-  background: linear-gradient(135deg, #A7F3D0 0%, #86EFAC 100%);
-  color: #212529;
+  background: linear-gradient(135deg, #58D68D 0%, #2ECC71 100%);
+  color: white;
   border: none;
-  box-shadow: 0 4px 16px rgba(110,231,183,0.4);
+  box-shadow: 0 4px 16px rgba(46, 204, 113, 0.4);
+}
+
+.export-btn.primary span {
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .export-btn.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(110,231,183,0.5);
+  box-shadow: 0 8px 24px rgba(46, 204, 113, 0.5);
 }
 
 /* 错误通知 */
@@ -1846,4 +1972,56 @@ onUnmounted(() => {
     padding: 6px 12px;
   }
 }
+
+.mllm-analysis-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  border-left: 4px solid #8B5CF6; /* MLLM 紫色 */
+}
+
+.mllm-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mllm-section {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.mllm-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.mllm-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6D28D9;
+  margin: 0 0 8px 0;
+}
+
+.mllm-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #495057;
+  margin: 0;
+}
+
+.mllm-text strong {
+  color: #212529;
+}
+
+.risk-level {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: white;
+}
+.risk-level.low { background-color: #28a745; }
+.risk-level.medium { background-color: #ffc107; }
 </style>
