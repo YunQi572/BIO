@@ -8,6 +8,7 @@
         <div class="hero-buttons slide-up delay-2">
           <router-link to="/project-overview" class="btn btn-primary hover-lift">了解更多</router-link>
           <router-link to="/technique" class="btn btn-secondary hover-lift">探索技术</router-link>
+          <router-link to="/tech-demo" class="btn btn-secondary hover-lift">技术演示</router-link>
           <router-link to="/map" class="btn btn-secondary hover-lift">生态地图</router-link>
         </div>
       </div>
@@ -75,6 +76,16 @@
             <div class="card-content">
               <h3>核心技术</h3>
               <p>探索支持项目的前沿AI技术</p>
+            </div>
+          </router-link>
+
+          <router-link to="/tech-demo" class="card hover-lift-card">
+            <div class="card-image">
+              <img src="@/assets/Picture/核心技术/acbdffbfefbedHraplgZFcBCOqLjRqNK.jpeg" alt="技术演示" class="hover-zoom">
+            </div>
+            <div class="card-content">
+              <h3>技术演示</h3>
+              <p>查看我们各项核心技术的交互式演示</p>
             </div>
           </router-link>
 
