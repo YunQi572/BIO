@@ -2,8 +2,8 @@
   <div class="ai-root-light">
     <!-- 页面标题和描述-->
     <div v-if="currentStep === 'select'" class="page-header">
-      <h1 class="main-title">🔬 AI-REID 个体识别引擎</h1>
-      <p class="main-subtitle">运用先进的REID技术，结合红外成像与高频信息提取，精准识别野生动物个体</p>
+      <h1 class="main-title">🔬 AI-REID 多模态个体识别引擎</h1>
+      <p class="main-subtitle">结合图像与文本信息，运用先进的REID技术，精准识别并追踪每一个独特的野生动物个体。</p>
     </div>
 
     <!-- 步骤1：选择动物样本或上传图片-->
@@ -103,6 +103,20 @@
           </div>
         </div>
         
+        <!-- 新增：多模态文本输入 -->
+        <div class="multimodal-input-section">
+          <label for="multimodal-text" class="multimodal-label">
+            <span class="label-icon">✍️</span>
+            补充文本信息 (可选)
+          </label>
+          <textarea
+            id="multimodal-text"
+            v-model="additionalText"
+            class="multimodal-textarea"
+            placeholder="例如: 动物的行为、环境、发现时间等。详细的文本描述有助于提高REID准确率..."
+          ></textarea>
+        </div>
+        
         <div class="action-section">
           <button class="start-btn" :disabled="!canStart || isUploading" @click="startAnalysis">
             <span v-if="!isStarting">🚀 开始REID识别</span>
@@ -194,7 +208,7 @@
             <img :src="displayImage" class="info-img-light" />
             <div class="info-content-light">
               <div class="animal-header">
-                <h3 class="animal-name">{{ resultAnimal.species }}</h3>
+                <h3 class="animal-name">{{ resultAnimal.name }}</h3>
                 <div class="protection-status" :class="getProtectionLevel(resultAnimal.species)">
                   {{ getProtectionText(resultAnimal.species) }}
                 </div>
@@ -310,12 +324,12 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 // 响应式数据
 const samples = ref([
   { 
-    name: '东北虎', 
-    desc: '日间高清拍摄', 
+    name: '虎啸-001', 
+    desc: '左肩有独特斑纹', 
     species: '东北虎',
-    image: 'https://placehold.co/160x160/1a1a1a/ffffff?text=Tiger', 
+    text: '2023年4月拍摄于大兴安岭，晨间活动，精神状态良好。',
     cover: new URL('@/assets/Picture/AI识别/东北虎.jpg', import.meta.url).href, 
-    id: 'CN-TGR-003', 
+    id: 'CN-TGR-001', 
     age: '5岁', 
     health: '健康',
     habitat: '大兴安岭保护地',
@@ -323,10 +337,10 @@ const samples = ref([
     location: '中国东北'
   },
   { 
-    name: '雪豹', 
-    desc: '夜间红外图像', 
+    name: '雪山魅影', 
+    desc: '右耳有轻微缺口', 
     species: '雪豹',
-    image: 'https://placehold.co/160x160/2a2a2a/ffffff?text=Leopard', 
+    text: '夜间红外相机捕捉，海拔4500米区域，正在捕食。',
     cover: new URL('@/assets/Picture/AI识别/雪豹.jpg', import.meta.url).href, 
     id: 'CN-PNU-014', 
     age: '3岁', 
@@ -336,10 +350,10 @@ const samples = ref([
     location: '青海'
   },
   { 
-    name: '大熊猫', 
-    desc: '部分被遮掩', 
+    name: '团团', 
+    desc: '背部黑色条带较宽', 
     species: '大熊猫',
-    image: 'https://placehold.co/160x160/3a3a3a/ffffff?text=Panda', 
+    text: '卧龙保护区竹林中进食，看起来很满足。',
     cover: new URL('@/assets/Picture/AI识别/大熊猫.jpg', import.meta.url).href, 
     id: 'CN-AML-088', 
     age: '8岁', 
@@ -353,6 +367,7 @@ const samples = ref([
 const currentStep = ref('select') // 'select' | 'analyzing' | 'result'
 const selectedAnimalIndex = ref(null)
 const uploadedImage = ref(null)
+const additionalText = ref('')
 const fileInput = ref(null)
 const isUploading = ref(false)
 const isStarting = ref(false)
@@ -362,7 +377,7 @@ const errorMessage = ref('')
 // 动画相关
 const scanLineTop = ref(0)
 const analysisProgress = ref(0)
-const statusMessages = ["🔍 初始化REID模型...", "🧬 提取个体特征...", "📡 红外信息分析...", "🎯 高频特征匹配...", "✅ 个体识别成功！"]
+const statusMessages = ["🔍 初始化REID模型...", "🧬 提取个体独有生物特征...", "📡 分析图像与文本信息...", "🎯 与数据库中已知个体进行特征匹配...", "✅ 个体识别成功！"]
 const currentStatusIndex = ref(0)
 const resultAccuracy = ref(0)
 const detectionPoints = ref([])
@@ -393,6 +408,7 @@ const displayImage = computed(() => {
 function selectAnimal(idx) {
   selectedAnimalIndex.value = idx
   uploadedImage.value = null
+  additionalText.value = samples.value[idx].text || ''
 }
 
 function triggerUpload() {
@@ -421,6 +437,7 @@ async function onFileChange(e) {
     reader.onload = (ev) => {
       uploadedImage.value = ev.target.result
       selectedAnimalIndex.value = null
+      additionalText.value = ''
       isUploading.value = false
     }
     reader.onerror = () => {
@@ -454,6 +471,7 @@ function onDrop(e) {
 
 function clearUpload() {
   uploadedImage.value = null
+  additionalText.value = ''
 }
 
 function startAnalysis() {
@@ -524,11 +542,11 @@ function showNextStatus() {
 
 function updateInsights() {
   const insights = [
-    ['正在加载REID神经网络模型...', '初始化红外图像预处理算法...'],
-    ['检测到动物个体轮廓特征', '分析毛发纹理和独特标记'],
-    ['提取红外热成像信息', '分析高频生物特征'],
-    ['进行个体特征匹配', '对比个体数据库'],
-    ['REID匹配成功！个体身份确认']
+    ['正在加载多模态REID神经网络...', '初始化红外图像预处理...'],
+    ['检测动物个体轮廓，分析独特标记', '提取毛发纹理、步态等生物特征'],
+    ['融合分析图像与文本描述信息', '提取高频生物特征向量'],
+    ['在个体数据库中进行向量化搜索', '计算与已知个体的相似度'],
+    ['REID匹配成功！已确认个体身份']
   ]
   
   if (currentStatusIndex.value < insights.length) {
@@ -572,7 +590,7 @@ function shareResults() {
   // 模拟分享功能
   if (navigator.share) {
     navigator.share({
-      title: `AI识别结果: ${resultAnimal.value.species}`,
+      title: `AI识别结果: ${resultAnimal.value.name}`,
       text: `成功识别出${resultAnimal.value.species}，准确率${resultAccuracy.value}%`,
       url: window.location.href
     })
@@ -584,6 +602,7 @@ function shareResults() {
 function goBack() {
   selectedAnimalIndex.value = null
   uploadedImage.value = null
+  additionalText.value = ''
   currentStep.value = 'select'
   clearTimers()
 }
@@ -1000,6 +1019,51 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   gap: 30px;
+}
+
+.multimodal-input-section {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 40px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.multimodal-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.multimodal-textarea {
+  width: 100%;
+  min-height: 100px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: white;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.multimodal-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.multimodal-textarea:focus {
+  outline: none;
+  border-color: #A7F3D0;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.3);
 }
 
 .start-btn {
