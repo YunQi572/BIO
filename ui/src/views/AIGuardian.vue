@@ -108,7 +108,7 @@
           <div class="scenario-item reverse">
             <div class="scenario-content">
               <h3>海洋生态保护</h3>
-              <p>通过水下传感器网络和AI图像分析，我们持续监测珊瑚礁健康状况，识别海洋污染，追踪海洋生物迁徙模式。在大堡礁区域，我们的早期预警系统成功预测了多次珊瑚白化风险，使保护机构能够提前采取干预措施。</p>
+              <p>通过水下传感器网络和AI图像分析，我们持续监测珊瑚礁健康状况，识别海洋污染，追踪海洋生物迁移模式。在大堡礁区域，我们的早期预警系统成功预测了多次珊瑚白化风险，使保护机构能够提前采取干预措施。</p>
               <div class="scenario-stats">
                 <div class="scenario-stat">30天 提前预警</div>
                 <div class="scenario-stat">40% 减少珊瑚损失</div>
@@ -136,7 +136,7 @@
           <div class="scenario-item reverse">
             <div class="scenario-content">
               <h3>北极生态监测</h3>
-              <p>在北极地区，我们的AI系统通过卫星数据和现场传感器网络，监测冰盖变化、北极动物迁徙模式以及生态系统变化。系统能够实时跟踪北极熊、海豹等标志性物种的种群数量和健康状况，同时监测气候变化对生态系统的影响。</p>
+              <p>在北极地区，我们的AI系统通过卫星数据和现场传感器网络，监测冰盖变化、北极动物迁移模式以及生态系统变化。系统能够实时跟踪北极熊、海豹等标志性物种的种群数量和健康状况，同时监测气候变化对生态系统的影响。</p>
               <div class="scenario-stats">
                 <div class="scenario-stat">95% 监测精度</div>
                 <div class="scenario-stat">28% 保护区增长</div>

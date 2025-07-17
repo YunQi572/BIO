@@ -26,7 +26,7 @@
     
     <div v-if="analysisResult" class="analysis-result">
       <div class="result-section">
-        <h4>🔄 迁徙模式</h4>
+        <h4>🔄 迁移模式</h4>
         <div class="result-content" v-html="formatAnalysisText(analysisResult.migrationPattern)"></div>
       </div>
       
@@ -123,7 +123,7 @@ const formatAnalysisText = (text) => {
   formatted = formatted.replace(/\*(.*?)\*/g, '<em style="color: #1565c0; font-style: italic;">$1</em>');
   
   // 处理关键词高亮，使用淡蓝色背景
-  const keywords = ['迁徙', '栖息地', '行为', '保护', '觅食', '休息', '移动', '速度', '方向', '距离', '时间'];
+  const keywords = ['迁移', '栖息地', '行为', '保护', '觅食', '休息', '移动', '速度', '方向', '距离', '时间'];
   keywords.forEach(keyword => {
     const regex = new RegExp(`(${keyword})`, 'gi');
     formatted = formatted.replace(regex, '<span style="background: rgba(25, 118, 210, 0.1); padding: 2px 6px; border-radius: 4px; color: #1976d2; font-weight: 500;">$1</span>');

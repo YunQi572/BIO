@@ -14,38 +14,166 @@
       </div>
     </section>
 
-    <!-- 简介部分 -->
+    <!-- 项目简介部分 -->
     <section class="intro-section">
       <div class="container">
         <div class="section-header fade-in-up">
           <h2>项目简介</h2>
           <div class="subtitle">智能科技助力生物多样性保护</div>
         </div>
-        <div class="intro-content">
-          <div class="intro-text fade-in-up delay-1">
-            <p>增强型全球生物多样性AI守护者是一个结合人工智能与生态保护的创新项目，旨在通过先进技术手段监测、分析和保护全球生物多样性。</p>
-            <p>我们的系统利用机器学习、计算机视觉和物联网技术，构建了一个全面的生态监测和保护网络，为濒危物种和生态系统提供有力支持。</p>
-            <div class="feature-highlights">
-              <div class="feature float-animation">
-                <div class="feature-icon">🌍</div>
-                <div class="feature-text">全球覆盖</div>
-              </div>
-              <div class="feature float-animation delay-1">
-                <div class="feature-icon">🔍</div>
-                <div class="feature-text">实时监测</div>
-              </div>
-              <div class="feature float-animation delay-2">
-                <div class="feature-icon">🤖</div>
-                <div class="feature-text">AI分析</div>
-              </div>
-              <div class="feature float-animation delay-3">
-                <div class="feature-icon">🔄</div>
-                <div class="feature-text">可持续发展</div>
+        <div class="intro-text fade-in-up delay-1">
+          <div class="background-box">
+            <h3><span class="section-icon">🌍</span> 项目背景</h3>
+            <p>随着全球气候变化加剧和人类活动范围扩大，地球生物多样性面临空前挑战。据联合国生物多样性公约组织数据显示，全球物种灭绝速率已达自然水平的100-1000倍，超过100万个物种濒临灭绝。传统的生物多样性监测方法存在覆盖范围有限、数据收集不连续、人力成本高昂等问题，难以应对全球性的生态危机。</p>
+            <p>在此背景下，"增强型全球生物多样性AI守护者"项目应运而生，旨在利用人工智能技术突破传统监测技术的局限，构建全天候、高精度、低成本的生态监测和保护网络，为全球生物多样性保护提供强有力的技术支持和决策依据。</p>
+          </div>
+          
+          <div class="mission-box">
+            <h3><span class="section-icon">🚀</span> 项目前景</h3>
+            <p>增强型全球生物多样性AI守护者是一个结合人工智能与生态保护的创新项目，旨在通过先进技术手段监测、分析和保护全球生物多样性。面对生物多样性保护领域的关键挑战，我们开发了一系列创新解决方案，构建了一个全面的生态监测和保护网络，致力于实现以下目标：</p>
+            <ul class="mission-list">
+              <li><span class="item-icon">🌐</span>建立全球范围内的AI生物多样性监测网络</li>
+              <li><span class="item-icon">🔍</span>提供高精度物种识别和行为分析技术</li>
+              <li><span class="item-icon">🔄</span>实现全天候、多模态的生态环境监测</li>
+              <li><span class="item-icon">🤝</span>打造开放共享的全球生态数据协作平台</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 四大模块：动机-挑战-创新方法 -->
+    <section class="challenges-section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <h2><span class="section-icon">💡</span> 关键挑战与解决方案</h2>
+          <div class="subtitle">前沿AI技术破解生物多样性保护难题</div>
+        </div>
+
+        <!-- 模块1 -->
+        <div class="challenge-module fade-in-up">
+          <div class="challenge-content">
+            <div class="challenge-icon">🔍</div>
+            <div class="challenge-text">
+              <h3>精准识别 · 高效监测</h3>
+              <div class="challenge-grid">
+                <div class="challenge-item">
+                  <h4><span class="mini-icon">💭</span> 动机</h4>
+                  <p>个体易份标注成本高，大规模生态监测面临精确识别难题</p>
+                </div>
+                <div class="challenge-item challenge-highlight">
+                  <h4><span class="mini-icon">⚠️</span> 挑战</h4>
+                  <p>通用物种身份识别难度大，复杂自然环境下准确率低，难以大规模应用</p>
+                </div>
+                <div class="challenge-item">
+                  <h4><span class="mini-icon">✨</span> 创新方法</h4>
+                  <p>高频自适应与感知辅助通用动物身份识别算法，实现低成本、高精度的生物个体识别</p>
+                </div>
               </div>
             </div>
           </div>
-          <div class="intro-image fade-in-up delay-2">
-            <img src="@/assets/Picture/项目概览/9a8fe4be-ce73-4418-91e5-a14efc07ab5a.jpeg" alt="项目简介" class="hover-scale">
+        </div>
+
+        <!-- 模块2 -->
+        <div class="challenge-module fade-in-up">
+          <div class="challenge-content">
+            <div class="challenge-icon">🔦</div>
+            <div class="challenge-text">
+              <h3>全天候 · 多模态感知</h3>
+              <div class="challenge-grid">
+                <div class="challenge-item">
+                  <h4><span class="mini-icon">💭</span> 动机</h4>
+                  <p>野生动物活动不分昼夜，单一监测模式难以全面捕捉生态信息</p>
+                </div>
+                <div class="challenge-item challenge-highlight">
+                  <h4><span class="mini-icon">⚠️</span> 挑战</h4>
+                  <p>通过跨模态信息实现全天候动物身份持续识别与监控难，数据整合困难</p>
+                </div>
+                <div class="challenge-item">
+                  <h4><span class="mini-icon">✨</span> 创新方法</h4>
+                  <p>个体级多模态动物识别大模型，融合视觉、声音、热成像等多源数据，实现24小时不间断监测</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 模块3 -->
+        <div class="challenge-module fade-in-up">
+          <div class="challenge-content">
+            <div class="challenge-icon">🌙</div>
+            <div class="challenge-text">
+              <h3>极端环境 · 稳定识别</h3>
+              <div class="challenge-grid">
+                <div class="challenge-item">
+                  <h4><span class="mini-icon">💭</span> 动机</h4>
+                  <p>生物多样性监测往往需要在恶劣自然条件下进行，传统技术难以适应</p>
+                </div>
+                <div class="challenge-item challenge-highlight">
+                  <h4><span class="mini-icon">⚠️</span> 挑战</h4>
+                  <p>复杂极端场景，如弱光、低清晰度、极端视角等，常规识别方法难以有效处理</p>
+                </div>
+                <div class="challenge-item">
+                  <h4><span class="mini-icon">✨</span> 创新方法</h4>
+                  <p>面向弱光与极端视角的NightReid及旋转不变算法，突破传统视觉技术局限，确保识别稳定性</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 模块4 -->
+        <div class="challenge-module fade-in-up">
+          <div class="challenge-content">
+            <div class="challenge-icon">🚨</div>
+            <div class="challenge-text">
+              <h3>实时分析 · 专业预警</h3>
+              <div class="challenge-grid">
+                <div class="challenge-item">
+                  <h4><span class="mini-icon">💭</span> 动机</h4>
+                  <p>生态保护需要快速响应，传统人工分析无法满足及时性需求</p>
+                </div>
+                <div class="challenge-item challenge-highlight">
+                  <h4><span class="mini-icon">⚠️</span> 挑战</h4>
+                  <p>动态信息难及时专业分析，海量数据下如何实现主动预警并挖掘价值</p>
+                </div>
+                <div class="challenge-item">
+                  <h4><span class="mini-icon">✨</span> 创新方法</h4>
+                  <p>基于微调MLLM的泛化技术实现专家级预警系统，自动分析行为异常、健康状况，提供决策支持</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 创新平台部分 -->
+    <section class="platform-section fade-in-up">
+      <div class="container">
+        <div class="section-header">
+          <h2><span class="section-icon">🌐</span> 生物多样性智能守护与生态智慧平台</h2>
+          <div class="subtitle">集成前沿技术，打造全球生态保护智能网络</div>
+        </div>
+        <div class="platform-content">
+          <p>通过整合上述创新技术，我们构建了一个全方位的生物多样性保护平台，实现从监测、分析到保护的完整闭环。该平台连接全球研究机构、保护组织和志愿者，形成协同保护网络，为全球生物多样性保护提供强大的技术支撑。</p>
+          <div class="feature-highlights">
+            <div class="feature float-animation">
+              <div class="feature-icon">🌍</div>
+              <div class="feature-text">全球覆盖</div>
+            </div>
+            <div class="feature float-animation delay-1">
+              <div class="feature-icon">🔍</div>
+              <div class="feature-text">智能监测</div>
+            </div>
+            <div class="feature float-animation delay-2">
+              <div class="feature-icon">🤖</div>
+              <div class="feature-text">专业分析</div>
+            </div>
+            <div class="feature float-animation delay-3">
+              <div class="feature-icon">🔄</div>
+              <div class="feature-text">协同保护</div>
+            </div>
           </div>
         </div>
       </div>
@@ -55,7 +183,7 @@
     <section class="cards-section">
       <div class="container">
         <div class="section-header fade-in-up">
-          <h2>探索更多</h2>
+          <h2><span class="section-icon">🔎</span> 探索更多</h2>
           <div class="subtitle">了解我们的技术与项目</div>
         </div>
         <div class="cards-grid">
@@ -454,6 +582,177 @@ section {
   color: #666;
 }
 
+/* 新增挑战模块样式 */
+.challenges-section {
+  background-color: #f5f7fa;
+  padding: 80px 0;
+}
+
+.challenge-module {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  margin-bottom: 30px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.challenge-module:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.challenge-content {
+  display: flex;
+  padding: 30px;
+}
+
+.challenge-icon {
+  font-size: 3rem;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.challenge-text {
+  flex: 1;
+}
+
+.challenge-text h3 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #42b983;
+}
+
+.challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.challenge-item {
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.challenge-highlight {
+  background-color: #eefaf4;
+  border-left: 3px solid #42b983;
+}
+
+.challenge-item h4 {
+  color: #42b983;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.challenge-item p {
+  color: #555;
+  line-height: 1.5;
+}
+
+/* 平台部分样式 */
+.platform-section {
+  background-color: #fff;
+  padding: 60px 0;
+}
+
+.platform-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.platform-content p {
+  margin-bottom: 30px;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* 项目背景和使命样式 */
+.background-box, .mission-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.background-box:hover, .mission-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.background-box h3, .mission-box h3 {
+  color: #42b983;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
+  font-size: 1.4rem;
+}
+
+.mission-list {
+  margin-top: 15px;
+  padding-left: 20px;
+}
+
+.mission-list li {
+  margin-bottom: 12px;
+  position: relative;
+  padding-left: 40px;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+}
+
+.mission-list li:before {
+  display: none;
+}
+
+.item-icon {
+  position: absolute;
+  left: 0;
+  font-size: 1.5rem;
+  margin-right: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}
+
+.section-icon {
+  margin-right: 10px;
+  font-size: 1.3rem;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+.intro-text p {
+  line-height: 1.7;
+  margin-bottom: 15px;
+  color: #4a4a4a;
+}
+
+/* 图标动画效果 */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .hero-content h1 {
@@ -476,6 +775,14 @@ section {
   .feature {
     width: 45%;
   }
+  
+  .background-box, .mission-box {
+    padding: 20px 15px;
+  }
+  
+  .mission-list li {
+    padding-left: 12px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -486,5 +793,26 @@ section {
   .hero-buttons {
     flex-direction: column;
   }
+}
+
+@media (max-width: 992px) {
+  .challenge-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .challenge-content {
+    flex-direction: column;
+  }
+  
+  .challenge-icon {
+    margin-bottom: 15px;
+    margin-right: 0;
+  }
+}
+
+.mini-icon {
+  margin-right: 5px;
+  font-size: 1rem;
 }
 </style>

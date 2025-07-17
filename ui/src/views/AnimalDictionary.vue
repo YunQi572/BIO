@@ -250,20 +250,20 @@
                   
                   <!-- 地图控制按钮已移除，现在自动适应轨迹范围 -->
                   
-                  <div class="map-legend">
-                    <div class="legend-item">
-                      <img src="/pos.png" alt="定位点" class="legend-icon" />
-                      <span>定位点</span>
-                    </div>
-                    <div class="legend-item">
-                      <div class="legend-line"></div>
-                      <span>移动路径</span>
-                    </div>
-                    <div class="legend-item legend-tip">
-                      <span class="tip-icon">🖱️</span>
-                      <span>滚轮缩放 · 拖拽移动</span>
-                    </div>
-                  </div>
+                                <div class="map-legend">
+                <div class="legend-item">
+                  <img src="/pos.png" alt="定位点" class="legend-icon" />
+                  <span>定位点</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-line"></div>
+                  <span>移动路径</span>
+                </div>
+                <div class="legend-item legend-tip">
+                  <span class="tip-icon">✋</span>
+                  <span>拖拽移动地图</span>
+                </div>
+              </div>
                 </div>
               </div>
             </div>
@@ -328,104 +328,10 @@ const animalMap = ref(null)
 const mapError = ref('')
 const mapLoaded = ref(false)
 let AMap = null
-// 鼠标拖拽相关变量
-let isDragging = false
-let lastMousePosition = null
-let dragThrottleTimer = null
-const dragThrottleDelay = 10 // 毫秒
 
-// 地图控件
-let mapZoomControls = null
-
-// 滚轮事件处理函数（用于正确移除事件监听器）
-const handleWheel = (e) => {
-  // 允许事件冒泡，确保页面可以正常滚动
-  e.stopPropagation();
-};
-
-// 鼠标按下事件处理
-const handleMouseDown = (e) => {
-  if (!animalMap.value) return
-  
-  // 只响应鼠标左键
-  if (e.button !== 0) return
-  
-  // 开始拖拽
-  isDragging = true
-  lastMousePosition = { x: e.clientX, y: e.clientY }
-  
-  // 改变鼠标样式
-  if (animalMapContainer.value) {
-    animalMapContainer.value.style.cursor = 'grabbing'
-  }
-  
-  // 阻止默认行为
-  e.preventDefault()
-}
-
-// 鼠标移动事件处理
-const handleMouseMove = (e) => {
-  if (!animalMap.value || !isDragging || !lastMousePosition) return
-  
-  // 使用节流控制，减少事件处理频率
-  if (dragThrottleTimer) return
-  
-  dragThrottleTimer = setTimeout(() => {
-    // 计算鼠标移动距离
-    const deltaX = e.clientX - lastMousePosition.x
-    const deltaY = e.clientY - lastMousePosition.y
-    
-    // 更新鼠标位置
-    lastMousePosition = { x: e.clientX, y: e.clientY }
-    
-    // 根据鼠标移动方向和距离平移地图
-    animalMap.value.panBy(deltaX, deltaY)
-    
-    // 清除节流计时器
-    dragThrottleTimer = null
-  }, dragThrottleDelay)
-  
-  // 阻止默认行为
-  e.preventDefault()
-}
-
-// 鼠标释放事件处理
-const handleMouseUp = (e) => {
-  // 结束拖拽
-  isDragging = false
-  lastMousePosition = null
-  
-  // 恢复鼠标样式
-  if (animalMapContainer.value) {
-    animalMapContainer.value.style.cursor = 'grab'
-  }
-  
-  // 清理节流定时器
-  if (dragThrottleTimer) {
-    clearTimeout(dragThrottleTimer)
-    dragThrottleTimer = null
-  }
-}
-
-// 鼠标离开地图容器事件处理
-const handleMouseLeave = () => {
-  // 如果在拖拽过程中鼠标离开容器，结束拖拽状态
-  if (isDragging) {
-    isDragging = false
-    lastMousePosition = null
-    
-    // 恢复鼠标样式
-    if (animalMapContainer.value) {
-      animalMapContainer.value.style.cursor = 'grab'
-    }
-    
-    // 清理节流定时器
-    if (dragThrottleTimer) {
-      clearTimeout(dragThrottleTimer)
-      dragThrottleTimer = null
-    }
-  }
-}
+// 移除鼠标拖拽相关变量
+// 移除地图控件相关变量
+// 移除handleWheel函数
 
 // 计算属性
 const availableSpecies = computed(() => {
@@ -583,52 +489,27 @@ async function initAnimalMap() {
       console.log('计算出的最佳地图视野:', { center: mapCenter, zoom: mapZoom })
     }
     
-    // 创建新地图
+    // 创建地图实例 - 使用最简单的配置确保基本功能正常
     animalMap.value = new AMap.Map(animalMapContainer.value, {
-      resizeEnable: true,
-      zoom: mapZoom,
       center: mapCenter,
-      mapStyle: 'amap://styles/normal', // 使用标准地图样式
-      features: ['bg', 'road', 'building'], // 显示背景、道路、建筑
-      viewMode: '2D', // 2D视图
-      mouseWheel: false, // 完全禁用鼠标滚轮缩放
-      scrollWheel: false, // 确保滚轮事件不会影响地图
-      doubleClickZoom: true, // 启用双击缩放
-      dragEnable: false, // 禁用默认的拖拽移动，使用我们自定义的处理
-      zoomEnable: true, // 启用缩放控制
-      rotateEnable: false, // 禁用旋转（2D模式下不需要）
-      pitchEnable: false, // 禁用俯仰角调整（2D模式下不需要）
-      keyboardEnable: true, // 启用键盘控制
-      jogEnable: true, // 启用惯性拖拽
-      animateEnable: true // 启用动画效果
+      zoom: mapZoom,
+      dragEnable: true,     // 明确启用拖拽
+      keyboardEnable: false, // 禁用键盘操作避免冲突
+      scrollWheel: false,    // 禁用滚轮缩放
+      doubleClickZoom: true  // 允许双击缩放
     })
     
-    console.log('地图创建成功')
     mapLoaded.value = true
+    console.log('地图创建成功')
     
-    // 添加自定义缩放控件
-    addCustomZoomControls()
-    
-    // 添加自定义拖拽事件监听器
-    if (animalMapContainer.value) {
-      // 阻止滚轮事件，防止页面滚动被阻止
-      animalMapContainer.value.addEventListener('wheel', handleWheel, { passive: true });
-      
-      animalMapContainer.value.addEventListener('mousedown', handleMouseDown)
-      document.addEventListener('mousemove', handleMouseMove)
-      document.addEventListener('mouseup', handleMouseUp)
-      animalMapContainer.value.addEventListener('mouseleave', handleMouseLeave)
-      
-      // 设置鼠标样式为可拖拽
-      animalMapContainer.value.style.cursor = 'grab'
-      
-      console.log('已添加自定义拖拽事件')
-    }
+    // 向地图容器添加自定义控制按钮
+    addCustomMapControls()
     
     // 等待地图完全加载后再显示轨迹
-    setTimeout(() => {
+    animalMap.value.on('complete', function() {
+      console.log('地图加载完成事件触发')
       displayAnimalTrackingOnMap()
-    }, 500)
+    })
     
   } catch (error) {
     console.error('初始化地图失败:', error)
@@ -636,114 +517,121 @@ async function initAnimalMap() {
   }
 }
 
-// 添加自定义缩放控件
-function addCustomZoomControls() {
-  if (!animalMap.value || !animalMapContainer.value) return
-  
+// 添加自定义地图控制按钮
+function addCustomMapControls() {
   try {
-    // 创建自定义缩放控件容器
-    const zoomControlDiv = document.createElement('div')
-    zoomControlDiv.className = 'custom-zoom-controls'
-    zoomControlDiv.style.position = 'absolute'
-    zoomControlDiv.style.right = '10px'
-    zoomControlDiv.style.top = '10px'
-    zoomControlDiv.style.padding = '5px'
-    zoomControlDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.6)'
-    zoomControlDiv.style.borderRadius = '8px'
-    zoomControlDiv.style.display = 'flex'
-    zoomControlDiv.style.flexDirection = 'column'
-    zoomControlDiv.style.gap = '5px'
-    zoomControlDiv.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)'
-    zoomControlDiv.style.backdropFilter = 'blur(5px)'
-    zoomControlDiv.style.zIndex = '10'
-    zoomControlDiv.style.border = '1px solid rgba(255, 255, 255, 0.2)'
+    // 创建自定义控制容器
+    const controlContainer = document.createElement('div')
+    controlContainer.className = 'custom-map-controls'
+    controlContainer.style.cssText = `
+      position: absolute;
+      z-index: 10;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    `
     
-    // 放大按钮
-    const zoomInButton = document.createElement('button')
-    zoomInButton.innerHTML = '+'
-    zoomInButton.style.width = '30px'
-    zoomInButton.style.height = '30px'
-    zoomInButton.style.fontSize = '18px'
-    zoomInButton.style.fontWeight = 'bold'
-    zoomInButton.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
-    zoomInButton.style.color = 'white'
-    zoomInButton.style.border = 'none'
-    zoomInButton.style.borderRadius = '4px'
-    zoomInButton.style.cursor = 'pointer'
-    zoomInButton.style.display = 'flex'
-    zoomInButton.style.alignItems = 'center'
-    zoomInButton.style.justifyContent = 'center'
-    zoomInButton.style.transition = 'all 0.2s'
+    // 创建放大按钮
+    const zoomInBtn = createMapButton('+', '放大地图')
+    zoomInBtn.onclick = function(e) {
+      e.stopPropagation() // 阻止事件冒泡
+      if (animalMap.value) {
+        const zoom = animalMap.value.getZoom()
+        console.log('当前缩放级别:', zoom)
+        animalMap.value.setZoom(zoom + 1)
+        console.log('放大地图: 新缩放级别', zoom + 1)
+      }
+      return false
+    }
     
-    // 缩小按钮
-    const zoomOutButton = document.createElement('button')
-    zoomOutButton.innerHTML = '-'
-    zoomOutButton.style.width = '30px'
-    zoomOutButton.style.height = '30px'
-    zoomOutButton.style.fontSize = '18px'
-    zoomOutButton.style.fontWeight = 'bold'
-    zoomOutButton.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
-    zoomOutButton.style.color = 'white'
-    zoomOutButton.style.border = 'none'
-    zoomOutButton.style.borderRadius = '4px'
-    zoomOutButton.style.cursor = 'pointer'
-    zoomOutButton.style.display = 'flex'
-    zoomOutButton.style.alignItems = 'center'
-    zoomOutButton.style.justifyContent = 'center'
-    zoomOutButton.style.transition = 'all 0.2s'
+    // 创建缩小按钮
+    const zoomOutBtn = createMapButton('-', '缩小地图')
+    zoomOutBtn.onclick = function(e) {
+      e.stopPropagation() // 阻止事件冒泡
+      if (animalMap.value) {
+        const zoom = animalMap.value.getZoom()
+        console.log('当前缩放级别:', zoom)
+        if (zoom > 1) {
+          animalMap.value.setZoom(zoom - 1)
+          console.log('缩小地图: 新缩放级别', zoom - 1)
+        }
+      }
+      return false
+    }
     
-    // 悬停效果
-    zoomInButton.addEventListener('mouseover', () => {
-      zoomInButton.style.backgroundColor = 'rgba(255, 255, 255, 0.3)'
-    })
-    zoomInButton.addEventListener('mouseout', () => {
-      zoomInButton.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
-    })
-    zoomOutButton.addEventListener('mouseover', () => {
-      zoomOutButton.style.backgroundColor = 'rgba(255, 255, 255, 0.3)'
-    })
-    zoomOutButton.addEventListener('mouseout', () => {
-      zoomOutButton.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
-    })
+    // 创建重置视图按钮
+    const resetBtn = createMapButton('↺', '重置视图')
+    resetBtn.onclick = function(e) {
+      e.stopPropagation() // 阻止事件冒泡
+      if (animalMap.value && animalTrackings.value.length > 0) {
+        const { center, zoom } = calculateOptimalMapView(animalTrackings.value)
+        animalMap.value.setZoomAndCenter(zoom, center)
+        console.log('重置视图: 中心=', center, '缩放=', zoom)
+      }
+      return false
+    }
     
-    // 点击事件
-    zoomInButton.addEventListener('click', () => {
-      const currentZoom = animalMap.value.getZoom()
-      animalMap.value.setZoom(currentZoom + 1)
-    })
-    zoomOutButton.addEventListener('click', () => {
-      const currentZoom = animalMap.value.getZoom()
-      animalMap.value.setZoom(currentZoom - 1)
-    })
+    // 将按钮添加到控制容器
+    controlContainer.appendChild(zoomInBtn)
+    controlContainer.appendChild(zoomOutBtn)
+    controlContainer.appendChild(resetBtn)
     
-    // 将按钮添加到容器
-    zoomControlDiv.appendChild(zoomInButton)
-    zoomControlDiv.appendChild(zoomOutButton)
+    // 将控制容器添加到地图容器
+    animalMapContainer.value.appendChild(controlContainer)
     
-    // 将控件添加到地图
-    animalMapContainer.value.appendChild(zoomControlDiv)
+    // 存储引用以便之后清理
+    mapControlsContainer = controlContainer
     
-    // 保存控件引用，以便后续清理
-    mapZoomControls = zoomControlDiv
-    
-    console.log('添加缩放控件成功')
+    console.log('地图控制按钮添加成功')
   } catch (error) {
-    console.error('添加缩放控件失败:', error)
+    console.error('添加地图控制按钮失败:', error)
   }
 }
 
-// 清理缩放控件
-function removeCustomZoomControls() {
-  try {
-    if (mapZoomControls && mapZoomControls.parentNode) {
-      mapZoomControls.parentNode.removeChild(mapZoomControls)
-      mapZoomControls = null
-      console.log('移除缩放控件成功')
-    }
-  } catch (error) {
-    console.error('移除缩放控件失败:', error)
+// 辅助函数: 创建地图按钮
+function createMapButton(text, title) {
+  const btn = document.createElement('button')
+  btn.innerHTML = text
+  btn.title = title
+  btn.type = 'button'
+  btn.style.cssText = `
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    padding: 0;
+    margin: 0;
+  `
+  
+  // 添加悬停效果
+  btn.onmouseover = function() {
+    btn.style.backgroundColor = 'rgba(255, 255, 255, 0.3)'
   }
+  btn.onmouseout = function() {
+    btn.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
+  }
+  
+  return btn
 }
+
+// 存储地图控制容器的引用
+let mapControlsContainer = null
 
 // 计算最佳地图视野
 function calculateOptimalMapView(trackings) {
@@ -888,7 +776,6 @@ function displayAnimalTrackingOnMap() {
     })
     
     console.log('处理后的有效轨迹点数量:', validPoints.length)
-    console.log('有效轨迹点:', validPoints)
     
     if (validPoints.length === 0) {
       mapError.value = '没有有效的轨迹数据'
@@ -896,12 +783,46 @@ function displayAnimalTrackingOnMap() {
       return
     }
     
+    // 确保拖拽功能已启用
+    try {
+      // 强制启用地图拖拽
+      animalMap.value.setStatus({
+        dragEnable: true,      // 启用鼠标拖拽
+        keyboardEnable: false, // 禁用键盘平移以避免冲突
+        doubleClickZoom: true, // 启用双击缩放
+        zoomEnable: true       // 启用缩放功能
+      })
+      
+      // 修改地图CSS确保指针样式正确
+      if (animalMapContainer.value) {
+        animalMapContainer.value.style.cursor = 'grab'
+        
+        // 在用户按下鼠标时更改鼠标样式
+        animalMapContainer.value.addEventListener('mousedown', function() {
+          this.style.cursor = 'grabbing'
+        })
+        
+        // 在用户释放鼠标时还原鼠标样式
+        animalMapContainer.value.addEventListener('mouseup', function() {
+          this.style.cursor = 'grab'
+        })
+        
+        // 在鼠标离开地图区域时还原鼠标样式
+        animalMapContainer.value.addEventListener('mouseleave', function() {
+          this.style.cursor = 'grab'
+        })
+      }
+      
+      console.log('地图拖拽功能已启用')
+    } catch (error) {
+      console.error('启用地图拖拽功能失败:', error)
+    }
+    
     // 先绘制轨迹线（按时间顺序连接），确保线条在标记点之下
     if (validPoints.length > 1) {
       const path = validPoints.map(p => p.position)
       
       console.log('绘制轨迹线，路径点数量:', path.length)
-      console.log('路径坐标:', path)
       
       const polyline = new AMap.Polyline({
         path: path,
@@ -954,123 +875,18 @@ function displayAnimalTrackingOnMap() {
     // 延迟设置地图视野，确保所有图层都已完全渲染
     setTimeout(() => {
       try {
-        // 设置地图视野以包含所有点，添加适当边距
+        // 设置地图视野以包含所有点
         const bounds = new AMap.Bounds()
         validPoints.forEach(point => {
           bounds.extend(point.position)
         })
         
-        // 优化边距计算，确保大跨度轨迹完整显示
-        const containerRect = animalMapContainer.value?.getBoundingClientRect()
-        let padding = [40, 40, 80, 40] // 默认边距 [上, 右, 下, 左]
-        
-        if (containerRect && validPoints.length > 0) {
-          // 计算轨迹的地理跨度
-          const lngs = validPoints.map(p => p.position[0])
-          const lats = validPoints.map(p => p.position[1])
-          const lngRange = Math.max(...lngs) - Math.min(...lngs)
-          const latRange = Math.max(...lats) - Math.min(...lats)
-          const maxRange = Math.max(lngRange, latRange)
-          
-          console.log('轨迹地理跨度:', { lngRange, latRange, maxRange })
-          
-          // 根据容器大小和地理跨度动态调整边距
-          const containerWidth = containerRect.width
-          const containerHeight = containerRect.height
-          
-          // 基础边距：容器尺寸的一定比例
-          let basePadding = Math.min(containerWidth, containerHeight) * 0.08
-          
-          // 对于大跨度数据，减少边距以留更多空间
-          if (maxRange > 1) {
-            basePadding = Math.max(20, basePadding * 0.5) // 省级跨度，最小边距
-          } else if (maxRange > 0.1) {
-            basePadding = Math.max(25, basePadding * 0.7) // 市级跨度，较小边距
-          } else if (maxRange > 0.01) {
-            basePadding = Math.max(30, basePadding * 0.8) // 区级跨度，中等边距
-          } else {
-            basePadding = Math.max(35, basePadding) // 小跨度，正常边距
-          }
-          
-          padding = [
-            basePadding, // 顶部
-            basePadding, // 右侧
-            basePadding + 40, // 底部（为图例预留额外空间）
-            basePadding // 左侧
-          ]
-          
-          // 移动端进一步优化
-          const isMobile = containerWidth < 768
-          if (isMobile) {
-            padding = padding.map((p, index) => {
-              if (index === 2) return Math.min(p, 70) // 底部最大70px
-              return Math.min(p, 40) // 其他边最大40px
-            })
-          }
-        }
-        
-        console.log('设置地图边距:', padding)
-        console.log('地图边界:', bounds)
-        
-        // 设置地图视野，确保大跨度数据也能完整显示
-        try {
-          // 使用setBounds方法，immediate参数设为true确保立即生效
-          animalMap.value.setBounds(bounds, true, padding)
-          
-          // 额外检查：如果是超大跨度，可能需要调整缩放级别
-          const southWest = bounds.getSouthWest()
-          const northEast = bounds.getNorthEast()
-          const lngSpan = northEast.lng - southWest.lng
-          const latSpan = northEast.lat - southWest.lat
-          const maxSpan = Math.max(lngSpan, latSpan)
-          
-          console.log('边界跨度检查:', { lngSpan, latSpan, maxSpan })
-          
-          // 对于超大跨度（跨国家级别），确保缩放级别不会太大
-          if (maxSpan > 10) {
-            const center = bounds.getCenter()
-            animalMap.value.setZoomAndCenter(3, [center.lng, center.lat])
-            console.log('超大跨度数据，设置为国家级视野')
-          } else if (maxSpan > 5) {
-            const center = bounds.getCenter()
-            animalMap.value.setZoomAndCenter(4, [center.lng, center.lat])
-            console.log('大跨度数据，设置为大区域视野')
-          }
-          
-        } catch (boundsError) {
-          console.error('设置地图边界失败，尝试备用方案:', boundsError)
-          
-          // 备用方案：计算中心点和适当的缩放级别
-          const centerLng = (Math.max(...validPoints.map(p => p.position[0])) + Math.min(...validPoints.map(p => p.position[0]))) / 2
-          const centerLat = (Math.max(...validPoints.map(p => p.position[1])) + Math.min(...validPoints.map(p => p.position[1]))) / 2
-          const lngRange = Math.max(...validPoints.map(p => p.position[0])) - Math.min(...validPoints.map(p => p.position[0]))
-          const latRange = Math.max(...validPoints.map(p => p.position[1])) - Math.min(...validPoints.map(p => p.position[1]))
-          const maxRange = Math.max(lngRange, latRange)
-          
-          let zoom = 10
-          if (maxRange > 10) zoom = 3
-          else if (maxRange > 5) zoom = 4
-          else if (maxRange > 1) zoom = 6
-          else if (maxRange > 0.5) zoom = 8
-          else if (maxRange > 0.1) zoom = 10
-          else if (maxRange > 0.05) zoom = 12
-          else zoom = 14
-          
-          animalMap.value.setZoomAndCenter(zoom, [centerLng, centerLat])
-          console.log('使用备用方案设置地图视野:', { center: [centerLng, centerLat], zoom })
-        }
-        
-        // 强制刷新地图
-        setTimeout(() => {
-          animalMap.value.getSize()
-          animalMap.value.resize()
-          console.log('地图视野设置完成并已刷新')
-        }, 300)
-        
+        animalMap.value.setBounds(bounds, true, [40, 40, 40, 40])
+        console.log('地图视野已设置为包含所有轨迹点')
       } catch (error) {
         console.error('设置地图视野失败:', error)
       }
-    }, 500) // 延迟500ms确保所有元素都已渲染完成
+    }, 300)
     
   } catch (error) {
     console.error('显示轨迹失败:', error)
@@ -1130,33 +946,26 @@ function closeAnimalDetails() {
   animalTrackings.value = []
   mapError.value = ''
   
-  // 清理拖拽事件监听器
-  if (animalMapContainer.value) {
-    // 清理滚轮事件监听器
-    animalMapContainer.value.removeEventListener('wheel', handleWheel, { passive: true });
-    
-    animalMapContainer.value.removeEventListener('mousedown', handleMouseDown)
-    animalMapContainer.value.removeEventListener('mouseleave', handleMouseLeave)
-  }
-  
-  // 清理全局事件监听器
-  document.removeEventListener('mousemove', handleMouseMove)
-  document.removeEventListener('mouseup', handleMouseUp)
-  
-  // 移除缩放控件
-  removeCustomZoomControls()
-  
-  // 清理节流计时器
-  
-  if (dragThrottleTimer) {
-    clearTimeout(dragThrottleTimer)
-    dragThrottleTimer = null
-  }
+  // 清理自定义控件
+  removeCustomMapControls()
   
   // 销毁地图
   if (animalMap.value) {
     animalMap.value.destroy()
     animalMap.value = null
+  }
+}
+
+// 清理自定义地图控件
+function removeCustomMapControls() {
+  try {
+    if (mapControlsContainer && mapControlsContainer.parentNode) {
+      mapControlsContainer.parentNode.removeChild(mapControlsContainer)
+      mapControlsContainer = null
+      console.log('已移除地图控制按钮')
+    }
+  } catch (error) {
+    console.error('移除地图控制按钮失败:', error)
   }
 }
 
@@ -1240,28 +1049,8 @@ onMounted(async () => {
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
   
-  // 清理拖拽事件监听器
-  if (animalMapContainer.value) {
-    // 清理滚轮事件监听器
-    animalMapContainer.value.removeEventListener('wheel', handleWheel, { passive: true });
-    
-    animalMapContainer.value.removeEventListener('mousedown', handleMouseDown)
-    animalMapContainer.value.removeEventListener('mouseleave', handleMouseLeave)
-  }
-  
-  // 清理全局事件监听器
-  document.removeEventListener('mousemove', handleMouseMove)
-  document.removeEventListener('mouseup', handleMouseUp)
-  
-  // 移除缩放控件
-  removeCustomZoomControls()
-  
-  // 清理节流计时器
-  
-  if (dragThrottleTimer) {
-    clearTimeout(dragThrottleTimer)
-    dragThrottleTimer = null
-  }
+  // 清理自定义控件
+  removeCustomMapControls()
   
   // 销毁地图
   if (animalMap.value) {

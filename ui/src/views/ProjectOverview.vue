@@ -38,23 +38,39 @@
 
       <section class="guardian-section fade-in-up">
         <div class="section-header">
-          <h2>系统概述</h2>
+          <h2><span class="section-icon">🛰️</span> 系统概述</h2>
           <div class="section-line"></div>
         </div>
         <div class="section-content">
           <div class="text-content">
-            <p>增强型全球生物多样性AI守护者是一个综合性平台，通过先进的人工智能技术监测、分析和保护全球生物多样性。该系统结合了机器学习、计算机视觉和大数据分析技术，为生态系统保护提供了全面的解决方案。</p>
-            <p>我们的系统不仅能够识别和追踪濒危物种，还能分析生态系统健康状况，预测潜在威胁，并为保护行动提供科学依据。通过全球部署的监测网络，我们实现了对关键生态系统的实时监控和保护。</p>
+            <div class="overview-box">
+              <h3><span class="mini-icon">🌐</span> 全方位生态监测网络</h3>
+              <p>增强型全球生物多样性AI守护者是一个综合性平台，通过先进的人工智能技术监测、分析和保护全球生物多样性。该系统结合了机器学习、计算机视觉和大数据分析技术，突破传统监测方法的局限，构建全天候、高精度、低成本的生态监测和保护网络。</p>
+            </div>
+            
+            <div class="overview-box">
+              <h3><span class="mini-icon">💡</span> 关键技术突破</h3>
+              <p>我们的系统基于四大核心技术突破：高频自适应与感知辅助识别算法、个体级多模态动物识别大模型、面向弱光与极端视角的NightReid算法以及基于微调MLLM的专家级预警系统。这些技术使系统能够在复杂环境下实现精准识别、全天候监控和智能分析。</p>
+            </div>
+            
+            <div class="overview-box">
+              <h3><span class="mini-icon">🔄</span> 完整保护闭环</h3>
+              <p>我们的系统不仅能够识别和追踪濒危物种，还能分析生态系统健康状况，预测潜在威胁，并为保护行动提供科学依据。通过全球部署的监测网络，我们实现了从监测、分析到保护的完整闭环，为全球生物多样性保护提供强大的技术支撑。</p>
+            </div>
+            
             <div class="stats-row">
               <div class="stat-item hover-lift">
+                <div class="stat-icon">🌿</div>
                 <div class="stat-number">5000+</div>
                 <div class="stat-text">物种监测</div>
               </div>
               <div class="stat-item hover-lift">
+                <div class="stat-icon">⚡</div>
                 <div class="stat-number">85%</div>
                 <div class="stat-text">预警准确率</div>
               </div>
               <div class="stat-item hover-lift">
+                <div class="stat-icon">🔄</div>
                 <div class="stat-number">24/7</div>
                 <div class="stat-text">实时监控</div>
               </div>
@@ -62,45 +78,9 @@
           </div>
           <div class="image-gallery">
             <img src="@/assets/Picture/增强型全球生物多样性AI守护者/620e10d2-917a-4f47-b757-7bf18518d4af.jpeg" alt="系统概述" class="hover-scale">
-          </div>
-        </div>
-      </section>
-      
-      <section class="guardian-section fade-in-up">
-        <div class="section-header">
-          <h2>关键功能</h2>
-          <div class="section-line"></div>
-        </div>
-        <div class="features-grid">
-          <div class="feature-card hover-lift-card">
-            <img src="@/assets/Picture/增强型全球生物多样性AI守护者/305d17c2-3eb1-4593-8d27-1e85bb2c6ca2.jpeg" alt="物种识别" class="hover-zoom">
-            <div class="feature-content">
-              <h3>物种识别与追踪</h3>
-              <p>利用深度学习算法自动识别和分类动植物物种，实现对濒危物种的精准监测和保护。</p>
-            </div>
-          </div>
-          
-          <div class="feature-card hover-lift-card">
-            <img src="@/assets/Picture/增强型全球生物多样性AI守护者/4369a2bd-e4be-46a4-bb8b-29c9413a23f4.jpeg" alt="环境监测" class="hover-zoom">
-            <div class="feature-content">
-              <h3>生态环境监测</h3>
-              <p>实时监控环境参数变化，评估生态系统健康状况，及时发现环境风险。</p>
-            </div>
-          </div>
-          
-          <div class="feature-card hover-lift-card">
-            <img src="@/assets/Picture/增强型全球生物多样性AI守护者/f7a9043e-7f2c-4a2f-8e87-785bf1944db4.jpeg" alt="数据分析" class="hover-zoom">
-            <div class="feature-content">
-              <h3>数据分析与预测</h3>
-              <p>基于海量生态数据进行多维分析，预测生物多样性变化趋势，为保护决策提供支持。</p>
-            </div>
-          </div>
-          
-          <div class="feature-card hover-lift-card">
-            <img src="@/assets/Picture/增强型全球生物多样性AI守护者/e42925a9-a2c9-4c35-a4b8-d7b79c6d22e1.jpeg" alt="协作平台" class="hover-zoom">
-            <div class="feature-content">
-              <h3>全球协作平台</h3>
-              <p>连接世界各地的科研机构、保护组织和志愿者，实现知识共享和协同保护。</p>
+            <div class="image-caption">
+              <span class="caption-icon">🔍</span>
+              <span>AI生物多样性监测平台，集成多模态识别与环境感知技术</span>
             </div>
           </div>
         </div>
@@ -108,114 +88,100 @@
       
       <section class="guardian-section fade-in-up">
         <div class="section-header">
-          <h2>应用场景</h2>
+          <h2>应用领域</h2>
           <div class="section-line"></div>
         </div>
         <div class="scenarios">
           <div class="scenario-item slide-in-left">
             <div class="scenario-image">
-              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/生成热带雨林保护图片.png" alt="热带雨林保护" class="hover-scale">
+              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/生成热带雨林保护图片.png" alt="生态保护与自然保护区管理" class="hover-scale">
             </div>
             <div class="scenario-content">
-              <h3>热带雨林保护</h3>
-              <p>在亚马逊雨林部署的AI监测系统，能够自动识别非法砍伐活动，追踪濒危物种分布，评估森林健康状况。通过与当地保护区合作，我们已成功减少了32%的非法入侵活动，并发现了5个此前未记录的物种种群。</p>
+              <h3>生态保护与自然保护区管理</h3>
+              <p>利用AI个体识别技术实时监测野生动物行为和栖息地变化，为保护区提供精准数据分析与决策支持。多模态数据融合处理来自传感器、无人机和红外成像的信息，提高生态监控精度，通过实时预警系统及时发现潜在威胁，保障生态系统长期稳定。</p>
               <div class="scenario-stats">
-                <div class="scenario-stat hover-glow">32% 减少非法活动</div>
-                <div class="scenario-stat hover-glow">5 新物种种群发现</div>
+                <div class="scenario-stat hover-glow">24/7 全天候监控</div>
+                <div class="scenario-stat hover-glow">95% 识别准确率</div>
               </div>
             </div>
           </div>
           
           <div class="scenario-item slide-in-right">
             <div class="scenario-content">
-              <h3>海洋生态保护</h3>
-              <p>通过水下传感器网络和AI图像分析，我们持续监测珊瑚礁健康状况，识别海洋污染，追踪海洋生物迁徙模式。在大堡礁区域，我们的早期预警系统成功预测了多次珊瑚白化风险，使保护机构能够提前采取干预措施。</p>
+              <h3>智慧生态旅游</h3>
+              <p>为游客提供保护区内野生动物和栖息地实时信息，鼓励参与生态监测和物种识别。平台集成智能导览、生态教育内容及个性化推荐，提升游客互动体验和环保意识，推动生态旅游智能化、绿色化发展。</p>
               <div class="scenario-stats">
-                <div class="scenario-stat hover-glow">30天 提前预警</div>
-                <div class="scenario-stat hover-glow">40% 减少珊瑚损失</div>
+                <div class="scenario-stat hover-glow">提升40% 游客参与度</div>
+                <div class="scenario-stat hover-glow">30% 教育效果提升</div>
               </div>
             </div>
             <div class="scenario-image">
-              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/海洋保护图片.png" alt="海洋生态保护" class="hover-scale">
+              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/海洋保护图片.png" alt="智慧生态旅游" class="hover-scale">
             </div>
           </div>
           
           <div class="scenario-item slide-in-left">
             <div class="scenario-image">
-              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/草原生态保护图片.png" alt="草原生态系统" class="hover-scale">
+              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/草原生态保护图片.png" alt="科研与教育" class="hover-scale">
             </div>
             <div class="scenario-content">
-              <h3>草原生态系统</h3>
-              <p>结合卫星遥感和地面传感器网络，我们对全球主要草原生态系统进行监测，评估草原退化情况，分析生物多样性变化，指导生态恢复工作。在非洲大草原项目中，我们的系统帮助确定了最佳恢复区域，显著提高了恢复效率。</p>
+              <h3>科研与教育</h3>
+              <p>为科研人员提供精准、全面的生态数据采集与分析工具，支持物种行为研究和栖息地恢复效果评估。教育模块面向学校和环保组织提供互动式学习内容，普及环保知识，培养未来生态保护人才。</p>
               <div class="scenario-stats">
-                <div class="scenario-stat hover-glow">200万公顷 监测覆盖</div>
-                <div class="scenario-stat hover-glow">3倍 恢复效率提升</div>
+                <div class="scenario-stat hover-glow">支持300+ 研究项目</div>
+                <div class="scenario-stat hover-glow">提供50TB+ 生态数据</div>
               </div>
             </div>
           </div>
 
           <div class="scenario-item slide-in-right">
             <div class="scenario-content">
-              <h3>北极生态监测</h3>
-              <p>在北极地区，我们的AI系统通过卫星数据和现场传感器网络，监测冰盖变化、北极动物迁徙模式以及生态系统变化。系统能够实时跟踪北极熊、海豹等标志性物种的种群数量和健康状况，同时监测气候变化对生态系统的影响。</p>
+              <h3>公共安全与灾害预警</h3>
+              <p>通过监测野生动物行为和栖息地变化，预判生态灾害风险。当系统检测到物种迁移异常或环境突变时，及时发出预警，为管理部门提供决策支持，提前识别威胁并快速响应，有效降低灾害发生风险。</p>
               <div class="scenario-stats">
-                <div class="scenario-stat hover-glow">95% 监测精度</div>
-                <div class="scenario-stat hover-glow">28% 保护区增长</div>
+                <div class="scenario-stat hover-glow">72小时提前预警</div>
+                <div class="scenario-stat hover-glow">减少40% 灾害损失</div>
               </div>
             </div>
             <div class="scenario-image">
-              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/北极生态图片.png" alt="北极生态监测" class="hover-scale">
-            </div>
-          </div>
-
-          <div class="scenario-item slide-in-left">
-            <div class="scenario-image">
-              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/高山生态保护图片.png" alt="高山生态系统" class="hover-scale">
-            </div>
-            <div class="scenario-content">
-              <h3>高山生态系统</h3>
-              <p>我们的高山监测系统在喜马拉雅山脉、阿尔卑斯山和安第斯山脉等高海拔地区运行，追踪冰川变化、高山植被分布和濒危高山物种。通过机器学习模型分析环境变化趋势，为高山生态系统的保护和管理提供科学依据。</p>
-              <div class="scenario-stats">
-                <div class="scenario-stat hover-glow">12+ 高山保护区</div>
-                <div class="scenario-stat hover-glow">45% 预警提升率</div>
-              </div>
+              <img src="@/assets/Picture/增强型全球生物多样性AI守护者/北极生态图片.png" alt="公共安全与灾害预警" class="hover-scale">
             </div>
           </div>
         </div>
       </section>
       
-      <section class="guardian-section impact-section fade-in-up">
-        <div class="section-header">
-          <h2>全球影响</h2>
-          <div class="section-line"></div>
-        </div>
-        <div class="impact-stats">
-          <div class="stat-item hover-lift-strong counter-animation" data-target="100">
-            <div class="stat-number">100+</div>
-            <div class="stat-label">国家和地区覆盖</div>
-          </div>
-          <div class="stat-item hover-lift-strong counter-animation" data-target="10000">
-            <div class="stat-number">10,000+</div>
-            <div class="stat-label">监测点部署</div>
-          </div>
-          <div class="stat-item hover-lift-strong counter-animation" data-target="500">
-            <div class="stat-number">500+</div>
-            <div class="stat-label">保护项目支持</div>
-          </div>
-          <div class="stat-item hover-lift-strong counter-animation" data-target="200">
-            <div class="stat-number">200+</div>
-            <div class="stat-label">濒危物种保护</div>
-          </div>
-        </div>
-        <div class="impact-map">
-          <img src="@/assets/Picture/增强型全球生物多样性AI守护者/photofcbtSiptsAtbLXOakQilnzwwVMy.webp" alt="全球影响" class="hover-scale">
-        </div>
-        
-        <div class="action-buttons">
-          <router-link to="/project-overview" class="btn btn-outline hover-lift">了解项目背景</router-link>
-          <router-link to="/technique" class="btn btn-primary hover-lift">探索核心技术</router-link>
-        </div>
-      </section>
+<!--      <section class="guardian-section impact-section fade-in-up">-->
+<!--        <div class="section-header">-->
+<!--          <h2>全球影响</h2>-->
+<!--          <div class="section-line"></div>-->
+<!--        </div>-->
+<!--        <div class="impact-stats">-->
+<!--          <div class="stat-item hover-lift-strong counter-animation" data-target="100">-->
+<!--            <div class="stat-number">100+</div>-->
+<!--            <div class="stat-label">国家和地区覆盖</div>-->
+<!--          </div>-->
+<!--          <div class="stat-item hover-lift-strong counter-animation" data-target="10000">-->
+<!--            <div class="stat-number">10,000+</div>-->
+<!--            <div class="stat-label">监测点部署</div>-->
+<!--          </div>-->
+<!--          <div class="stat-item hover-lift-strong counter-animation" data-target="500">-->
+<!--            <div class="stat-number">500+</div>-->
+<!--            <div class="stat-label">保护项目支持</div>-->
+<!--          </div>-->
+<!--          <div class="stat-item hover-lift-strong counter-animation" data-target="200">-->
+<!--            <div class="stat-number">200+</div>-->
+<!--            <div class="stat-label">濒危物种保护</div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="impact-map">-->
+<!--          <img src="@/assets/Picture/增强型全球生物多样性AI守护者/photofcbtSiptsAtbLXOakQilnzwwVMy.webp" alt="全球影响" class="hover-scale">-->
+<!--        </div>-->
+<!--        -->
+<!--        <div class="action-buttons">-->
+<!--          <router-link to="/project-overview" class="btn btn-outline hover-lift">了解项目背景</router-link>-->
+<!--          <router-link to="/technique" class="btn btn-primary hover-lift">探索核心技术</router-link>-->
+<!--        </div>-->
+<!--      </section>-->
     </div>
   </div>
 </template>
@@ -825,6 +791,75 @@ export default {
   .scenario-stats {
     flex-direction: column;
     gap: 10px;
+  }
+}
+
+.overview-box {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.overview-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.overview-box h3 {
+  color: #3a7b6a;
+  margin-bottom: 12px;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+}
+
+.section-icon {
+  margin-right: 10px;
+  font-size: 1.3rem;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+.mini-icon {
+  margin-right: 8px;
+  font-size: 1.1rem;
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.image-caption {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #4a4a4a;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.caption-icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+/* 图标动画效果 */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style> 

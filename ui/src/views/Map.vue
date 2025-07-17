@@ -706,7 +706,7 @@ const fetchAllRoutesData = async () => {
     
     // 转换为数组格式
     const routes = Object.values(animalRoutes).filter(route => route.points.length >= 2);
-    console.log(`获取到${routes.length}条动物迁徙路线`);
+    console.log(`获取到${routes.length}条动物迁移路线`);
     
     allRoutesData.value = routes;
     
@@ -875,7 +875,7 @@ const displayAllRoutes = () => {
       map.value.setBounds(bounds, false, [80, 80, 80, 80]);
     }
     
-    console.log(`显示了${allRoutesData.value.length}条迁徙路线`);
+    console.log(`显示了${allRoutesData.value.length}条迁移路线`);
   } catch (error) {
     console.error('显示所有路线时出错:', error);
     errorMessage.value = `显示所有路线失败: ${error.message}`;
@@ -898,7 +898,7 @@ const createLegendControl = () => {
   // 创建图例标题
   const title = document.createElement('div');
   title.className = 'legend-title';
-  title.textContent = '动物迁徙路线';
+  title.textContent = '动物迁移路线';
   legend.appendChild(title);
   
   // 限制显示的最大数量
@@ -1008,7 +1008,7 @@ onBeforeUnmount(() => {
               class="all-routes-button" 
               :class="{ active: showAllRoutes }"
             >
-              {{ showAllRoutes ? '返回单条路线' : '显示所有迁徙路线' }}
+              {{ showAllRoutes ? '返回单条路线' : '显示所有迁移路线' }}
             </button>
           </div>
         </div>
@@ -1059,7 +1059,7 @@ onBeforeUnmount(() => {
           
           <div ref="mapContainer" class="map-container">
             <div class="eco-tips" v-if="trackingData.length > 0">
-              追踪珍稀野生动物的迁徙路线对于生态保护和栖息地保护至关重要。
+              追踪珍稀野生动物的迁移路线对于生态保护和栖息地保护至关重要。
             </div>
             <div class="eco-badge">生物多样性保护项目</div>
           </div>
@@ -1238,7 +1238,7 @@ select:focus {
 }
 
 .map-container::before {
-  content: '🌿 珍稀动物迁徙保护追踪';
+  content: '🌿 珍稀动物迁移保护追踪';
   position: absolute;
   top: 10px;
   left: 10px;
