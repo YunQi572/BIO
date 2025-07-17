@@ -1,10 +1,10 @@
 <template>
   <div class="technique">
     <div class="page-banner">
-      <div class="banner-content fade-in">
-        <h1 class="slide-up">AI赋能的生物多样性守护</h1>
-        <p class="slide-up delay-1">探索我们的核心技术，革新野生动物保护模式。</p>
-        <div class="banner-features slide-up delay-2">
+      <div class="banner-content">
+        <h1>AI赋能的生物多样性守护</h1>
+        <p>探索我们的核心技术，革新野生动物保护模式。</p>
+        <div class="banner-features">
           <div class="banner-feature-card">
             <h4>
               <span class="icon">
@@ -19,9 +19,9 @@
               <span class="icon">
                 <svg t="1750857761515" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11064" style="width: 1.2em; height: 1.2em; vertical-align: middle; position: relative; top: -0.1em;"><path d="M512 192c156.448 0 296.021333 98.730667 418.410667 291.605333a52.938667 52.938667 0 0 1 0 56.789334C808.021333 733.269333 668.448 832 512 832c-156.448 0-296.021333-98.730667-418.410667-291.605333a52.938667 52.938667 0 0 1 0-56.789334C215.978667 290.730667 355.552 192 512 192z m0 128c-106.037333 0-192 85.962667-192 192s85.962667 192 192 192 192-85.962667 192-192-85.962667-192-192-192z m0 320c70.688 0 128-57.312 128-128s-57.312-128-128-128-128 57.312-128 128 57.312 128 128 128z" fill="white" p-id="11065"></path></svg>
               </span>
-              夜间增强
+              复杂场景应对
             </h4>
-            <p>夜间增强技术，让黑暗中的野生动物无所遁形。</p>
+            <p>弱光图像增强与旋转不变技术，让黑暗中与无人机下的野生动物无所遁形。</p>
           </div>
           <div class="banner-feature-card">
             <h4>
@@ -39,33 +39,69 @@
     </div>
 
     <div class="container">
-      <section class="tech-intro fade-in-up">
+      <section class="tech-intro">
         <div class="tech-intro-content">
           <div class="tech-intro-text">
             <h2>技术概览</h2>
-            <p>增强型全球生物多样性AI守护者系统基于先进的人工智能、大数据分析和物联网技术，构建了一套完整的生态系统监测与保护解决方案。我们的技术框架包含多个互联互通的子系统，实现从数据采集、处理分析到决策支持的全流程智能化。</p>
+            <p>增强型全球生物多样性AI守护者系统，融合了人工智能、跨模态感知、大数据分析与自动化监测等前沿技术，打造面向未来的生态保护新范式。系统通过多源数据采集（图像、声音、红外、文本等），实现对野生动物及其栖息地的全方位智能感知。核心AI模块具备复杂环境下的个体识别、行为分析、健康评估与动态档案生成能力，显著提升了物种监测的精度与效率。
+              平台支持云端与边缘协同部署，自动化处理海量生态数据，实时预警异常事件，为科研、保护区管理和政策制定提供科学决策依据。通过持续自学习与模型进化，系统能够不断适应新物种、新场景，助力全球生物多样性保护迈向智能化、可持续的新阶段。</p>
             <div class="tech-highlights">
               <div class="tech-highlight-item">
-                <div class="highlight-number">95%+</div>
-                <div class="highlight-text">物种识别准确率</div>
+                <div class="highlight-number">90%+</div>
+                <div class="highlight-text">个体识别准确率</div>
               </div>
               <div class="tech-highlight-item">
                 <div class="highlight-number">TB级</div>
                 <div class="highlight-text">数据处理能力</div>
               </div>
               <div class="tech-highlight-item">
-                <div class="highlight-number">24/7</div>
-                <div class="highlight-text">实时监测</div>
+                <div class="highlight-number">6种模态</div>
+                <div class="highlight-text">多模态识别</div>
               </div>
             </div>
           </div>
           <div class="tech-intro-image">
-            <img src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="技术概览" class="hover-scale">
+            <img src="/技术概览.jpg" alt="技术概览">
           </div>
         </div>
       </section>
 
-      <section class="ai-identification-section fade-in-up">
+      <!-- 轮播区块移动到这里 -->
+      <section class="tech-section tech-carousel-section">
+        <div class="section-header">
+          <h2>核心AI技术模块演示</h2>
+          <div class="section-line"></div>
+          <div class="carousel-tip">点击卡片可查看该技术演示</div>
+        </div>
+        <div class="tech-carousel-wrapper">
+          <button class="carousel-arrow left" @click="prevModule">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 16L8 10L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <transition name="fade">
+            <div class="carousel-module-card album-style" @click="showDetail = true" key="carousel-{{carouselIndex}}">
+              <div class="album-image-wrapper">
+                <img v-if="carouselIndex===0" src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="夜间增强" />
+                <img v-else-if="carouselIndex===1" src="@/assets/Picture/AI识别/东北虎.jpg" alt="个体识别" />
+                <img v-else-if="carouselIndex===2" src="@/assets/Picture/AI识别/大熊猫.jpg" alt="智慧分析" />
+                <img v-else src="@/assets/Picture/AI识别/雪豹.jpg" alt="模型进化" />
+              </div>
+              <div class="carousel-module-title">{{ modules[carouselIndex].title }}</div>
+              <div class="carousel-module-desc">{{ modules[carouselIndex].desc }}</div>
+              <div class="module-icon">
+                <!-- 对勾svg已删除 -->
+              </div>
+            </div>
+          </transition>
+          <button class="carousel-arrow right" @click="nextModule">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l5 6-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="carousel-indicators">
+          <span v-for="(m, idx) in modules" :key="idx" :class="['indicator-dot', {active: idx === carouselIndex}]" @click="carouselIndex = idx"></span>
+        </div>
+      </section>
+
+      <section class="ai-identification-section">
         <div class="ai-identification-wrapper">
           <div class="ai-identification-left">
             <div class="ai-identification-label">个体识别技术</div>
@@ -81,15 +117,15 @@
               <li>
                 <span class="ai-identification-list-icon icon-img"></span>
                 <div>
-                  <span class="ai-identification-list-title">图像识别</span>
-                  <span class="ai-identification-list-desc">基于图像的个体识别，适用于可见光条件下的动物识别。</span>
+                  <span class="ai-identification-list-title">多模态识别</span>
+                  <span class="ai-identification-list-desc">基于多模态的个体识别，适用于视频、草图、RGB、红外、声音和文本模态的识别。</span>
                 </div>
               </li>
               <li>
                 <span class="ai-identification-list-icon icon-thermal"></span>
                 <div>
-                  <span class="ai-identification-list-title">热成像识别</span>
-                  <span class="ai-identification-list-desc">利用热成像技术，在夜间或复杂环境下进行个体识别。</span>
+                  <span class="ai-identification-list-title">数据处理</span>
+                  <span class="ai-identification-list-desc">利用多种前沿AI技术，更好的处理弱光或复杂环境下的个体识别数据。</span>
                 </div>
               </li>
               <li>
@@ -106,133 +142,18 @@
             </div>
           </div>
           <div class="ai-identification-right">
-            <img src="@/assets/Picture/核心技术/acbdffbfefbedHraplgZFcBCOqLjRqNK.jpeg" alt="AI识别系统" class="hover-scale">
+            <img src="@/assets/Picture/核心技术/acbdffbfefbedHraplgZFcBCOqLjRqNK.jpeg" alt="AI识别系统">
           </div>
         </div>
       </section>
 
-      <section class="night-vision-section fade-in-up">
-        <div class="night-vision-label">夜视能力，守护黑暗中的生命</div>
-        <h2 class="night-vision-title">夜间增强技术</h2>
-        <div class="night-vision-desc">
-          夜间增强技术利用先进的图像处理算法，显著提升夜间图像的清晰度和亮度，使研究人员能够清晰观察夜行动物的行为。
-          该技术在保护区巡护、反盗猎行动和夜间生态研究中发挥着重要作用，为夜间野生动物保护提供技术保障。
-        </div>
-        <div class="night-vision-detail">
-          通过与AI算法结合，夜间增强技术能够自动识别和追踪夜行动物，提升监测效率和准确性。
-        </div>
-        <button class="night-vision-btn hover-lift">了解更多</button>
-      </section>
-
-      <div class="night-vision-img-wrapper fade-in-up">
-        <img class="night-vision-img hover-scale" src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="夜间增强技术相关图片">
-      </div>
-
-      <!-- 跨模态识别技术区块 -->
-      <section class="cross-modal-section fade-in-up">
-        <div class="cross-modal-label">探索</div>
-        <h2 class="cross-modal-title">跨模态识别技术</h2>
-        <div class="cross-modal-desc">
-          跨模态识别技术整合多种数据来源，如图像、声音、气味等，实现对野生动物的全面感知。<br>
-          <br>
-          该技术能够有效应对单一数据源的局限性，提升识别的准确性和可靠性。<br>
-          跨模态识别技术为研究动物行为、种群结构和生态环境提供了新的视角。
-        </div>
-        <ul class="cross-modal-list">
-          <li>
-            <span class="cross-modal-icon">✔️</span>
-            <div>
-              <span class="cross-modal-list-title">多源数据融合</span>
-              <span class="cross-modal-list-desc">整合图像、声音等多种数据，实现更全面的动物识别。</span>
-            </div>
-          </li>
-          <li>
-            <span class="cross-modal-icon">✔️</span>
-            <div>
-              <span class="cross-modal-list-title">提升识别精度</span>
-              <span class="cross-modal-list-desc">有效应对单一数据源的局限性，提升识别的准确性。</span>
-            </div>
-          </li>
-          <li>
-            <span class="cross-modal-icon">✔️</span>
-            <div>
-              <span class="cross-modal-list-title">行为分析</span>
-              <span class="cross-modal-list-desc">为动物行为研究提供更丰富的数据支持。</span>
-            </div>
-          </li>
-        </ul>
-        <div class="cross-modal-footer">
-          让我们一起利用科技的力量，守护地球的生物多样性。<br>
-          AI技术，为野生动物保护带来新的希望。
-        </div>
-        <div class="cross-modal-quote">
-          <div class="cross-modal-quote-title">科技是守护自然的强大力量。</div>
-          <div class="cross-modal-quote-user">
-            <img class="cross-modal-quote-avatar" src="https://ui-avatars.com/api/?name=Jane+Goodall&background=eee&color=222" alt="Jane Goodall">
-            <div>
-              <div class="cross-modal-quote-name">Jane Goodall</div>
-              <div class="cross-modal-quote-desc">著名动物行为学家</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="tech-section fade-in-up">
-        <div class="section-header">
-          <h2>生态系统监测网络</h2>
-          <div class="section-line"></div>
-        </div>
-        
-        <div class="tech-content reversed">
-          <div class="tech-details">
-            <p>我们建立了覆盖全球关键生态系统的实时监测网络，结合多种技术手段，实现对生态环境的全方位监测：</p>
-            <ul class="tech-features">
-              <li>
-                <div class="feature-icon">🛰️</div>
-                <div class="feature-info">
-                  <h4>卫星遥感技术</h4>
-                  <p>通过高分辨率卫星影像，实现对大区域生态系统变化的持续监测</p>
-                </div>
-              </li>
-              <li>
-                <div class="feature-icon">📡</div>
-                <div class="feature-info">
-                  <h4>地面物联网传感器</h4>
-                  <p>部署低功耗、长寿命传感器网络，收集微环境数据和生物活动信息</p>
-                </div>
-              </li>
-              <li>
-                <div class="feature-icon">🚁</div>
-                <div class="feature-info">
-                  <h4>无人机巡查系统</h4>
-                  <p>自主飞行无人机提供中等尺度的精细观测，弥补卫星和地面监测的盲区</p>
-                </div>
-              </li>
-              <li>
-                <div class="feature-icon">🌊</div>
-                <div class="feature-info">
-                  <h4>水下监测设备</h4>
-                  <p>专用水下传感器和自主潜水器，监控海洋和淡水生态系统</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="tech-image">
-            <img src="@/assets/Picture/核心技术/accacaaaccaadRsRYgXZrXMkYyJwBpVc.jpeg" alt="监测网络" class="hover-scale">
-          </div>
-        </div>
-      </section>
-
-      <section class="tech-section fade-in-up">
+      <section class="tech-section">
         <div class="section-header">
           <h2>大数据分析平台</h2>
           <div class="section-line"></div>
         </div>
         
-        <div class="tech-content">
-          <div class="tech-image">
-            <img src="@/assets/Picture/核心技术/czaUZknhMkKjPfSGAjdUQwfUMkSIJRVt.webp" alt="大数据分析" class="hover-scale">
-          </div>
+        <div class="tech-content reversed">
           <div class="tech-details">
             <p>我们的大数据分析平台采用分布式云架构，能够实时处理和分析来自全球监测网络的海量数据：</p>
             <ul class="tech-features">
@@ -240,21 +161,21 @@
                 <div class="feature-icon">⚡</div>
                 <div class="feature-info">
                   <h4>实时数据处理</h4>
-                  <p>支持PB级数据存储和分析，每秒可处理数百万条记录</p>
+                  <p>支持TB级数据存储和分析，每秒可处理数万条记录</p>
                 </div>
               </li>
               <li>
                 <div class="feature-icon">🔄</div>
                 <div class="feature-info">
                   <h4>多维度数据融合</h4>
-                  <p>整合物种、环境、气候等多源异构数据，构建全面生态模型</p>
+                  <p>整合图像、视频、文本等多源异构数据，构建全面野生动物个体识别模型</p>
                 </div>
               </li>
               <li>
                 <div class="feature-icon">📈</div>
                 <div class="feature-info">
-                  <h4>趋势预测模型</h4>
-                  <p>利用时间序列分析和机器学习算法，预测生态系统变化趋势</p>
+                  <h4>个体档案存储</h4>
+                  <p>个体档案存储，记录个体特征及足迹地图，为保护行动提供科学依据</p>
                 </div>
               </li>
               <li>
@@ -266,45 +187,14 @@
               </li>
             </ul>
           </div>
-        </div>
-      </section>
-
-      <section class="tech-innovations fade-in-up">
-        <div class="section-header">
-          <h2>技术创新点</h2>
-          <div class="section-line"></div>
-        </div>
-        
-        <div class="innovations-grid">
-          <div class="innovation-card hover-lift-card">
-            <div class="innovation-icon">💻</div>
-            <h3>边缘计算</h3>
-            <p>将AI计算能力部署到监测设备端，减少数据传输，提高响应速度，实现在偏远地区的离线分析能力</p>
-          </div>
-          
-          <div class="innovation-card hover-lift-card">
-            <div class="innovation-icon">🔗</div>
-            <h3>跨物种关联分析</h3>
-            <p>通过图数据库技术建立物种间关系网络，分析生态系统平衡，预测关键物种消失的连锁反应</p>
-          </div>
-          
-          <div class="innovation-card hover-lift-card">
-            <div class="innovation-icon">🧠</div>
-            <h3>自适应学习</h3>
-            <p>系统能够从新数据中持续学习，不断提高识别准确率和适应能力，减少人工干预</p>
-          </div>
-          
-          <div class="innovation-card hover-lift-card">
-            <div class="innovation-icon">🔋</div>
-            <h3>低功耗监测</h3>
-            <p>创新低功耗硬件设计和智能唤醒机制，实现监测设备在野外环境下长达5年的独立工作</p>
+          <div class="tech-image">
+            <img src="@/assets/Picture/核心技术/czaUZknhMkKjPfSGAjdUQwfUMkSIJRVt.webp" alt="大数据分析">
           </div>
         </div>
-        
       </section>
     </div>
 
-    <section class="tech-application-steps fade-in-up">
+    <section class="tech-application-steps">
       <div class="section-header">
         <h2>技术应用步骤</h2>
         <p>简单几步，即可开始使用我们的核心技术，助力野生动物保护。</p>
@@ -352,44 +242,44 @@
       </div>
     </section>
 
-    <section class="core-features-section fade-in-up">
+    <section class="core-features-section">
       <div class="features-grid-container">
-        <div class="feature-item hover-lift">
+        <div class="feature-item">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>
           </div>
           <h4>精准识别</h4>
           <p>个体识别技术，精准锁定保护对象。</p>
         </div>
-        <div class="feature-item hover-lift">
+        <div class="feature-item">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8zm-2.8-5.2a1 1 0 011.4-1.4 5 5 0 00-1.4-1.4z" /></svg>
           </div>
-          <h4>夜间增强</h4>
+          <h4>弱光增强</h4>
           <p>夜视能力，无惧黑暗挑战。</p>
         </div>
-        <div class="feature-item hover-lift">
+        <div class="feature-item">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 11h8V3H3v8zm0 10h8v-8H3v8zM13 3v8h8V3h-8zm8 18v-8h-8v8h8z"/></svg>
           </div>
           <h4>跨模态融合</h4>
           <p>多源数据，全面感知。</p>
         </div>
-        <div class="feature-item hover-lift">
+        <div class="feature-item">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
           </div>
           <h4>云端部署</h4>
           <p>无需服务器，轻松使用。</p>
         </div>
-        <div class="feature-item hover-lift">
+        <div class="feature-item">
           <div class="feature-icon">
              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </div>
           <h4>安全可靠</h4>
           <p>数据安全，隐私保护。</p>
         </div>
-        <div class="feature-item hover-lift">
+        <div class="feature-item">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </div>
@@ -399,166 +289,294 @@
       </div>
     </section>
   </div>
+
+  <transition name="fade">
+    <div v-if="showDetail" class="module-detail-modal" @click.self="showDetail = false">
+      <div class="module-detail-card" style="background: #f8f9fa; max-width: 900px;">
+        <button class="close-btn" @click="showDetail = false">×</button>
+        <div class="tech-page">
+          <div class="tech-modules">
+            <!-- 模块一：夜间图像增强 -->
+            <div v-if="carouselIndex === 0" class="tech-card fade-in-up">
+              <div class="tech-card-content">
+                <div class="tech-card-header">
+                  <span class="tech-module-number">模块一</span>
+                  <h2>全天候多模态感知：弱光图像增强</h2>
+                  <p class="tech-p">我们攻克了"夜间盲区"这一行业痛点。通过原创的EDA（增强、去噪、对齐）预处理框架，即使是光线昏暗、充满噪声的弱光图像，也能被转化为高质量、特征丰富的标准化数据，为后续的精准识别奠定坚实基础。</p>
+                </div>
+                <div class="interactive-demo-container">
+                  <div class="slider-container">
+                    <div class="slider-image before-image">
+                      <img src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="Before Enhancement">
+                      <span class="slider-label">原始弱光图像</span>
+                    </div>
+                    <div class="slider-image after-image" :style="{ clipPath: `inset(0 0 0 ${sliderPosition}% )` }">
+                      <img src="@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg" alt="After Enhancement">
+                      <span class="slider-label after">NightReID 技术增强</span>
+                    </div>
+                    <div class="slider-handle" :style="{ left: `${sliderPosition}%` }">
+                      <div class="handle-line"></div>
+                      <div class="handle-arrows">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </div>
+                      <div class="handle-line"></div>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      v-model="sliderPosition"
+                      class="slider-input"
+                      aria-label="图像增强对比滑块"
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 模块二：个体识别引擎 -->
+            <div v-else-if="carouselIndex === 1" class="tech-card fade-in-up">
+              <div class="tech-card-content">
+                <div class="tech-card-header">
+                  <span class="tech-module-number">模块二</span>
+                  <h2>跨场景高鲁棒性个体识别引擎</h2>
+                  <p class="tech-p">通过自适应高频感知（AdaFreq）与旋转不变性（RotTrans）技术，构建了既能跨物种通用识别，又能抵抗无人机等剧烈视角旋转的强大识别引擎。</p>
+                </div>
+                <div class="demo-grid">
+                  <div class="sub-demo">
+                    <h3 class="sub-demo-title">自适应高频感知 (AdaFreq)</h3>
+                    <p class="sub-demo-p">AI能够智能忽略背景噪声，聚焦于动物身体轮廓、毛发纹理等可跨物种的通用高频特征。</p>
+                    <div class="adafreq-demo">
+                      <div class="image-container" :class="{ 'heatmap-active': showHeatmap }">
+                        <img src="@/assets/Picture/AI识别/东北虎.jpg" alt="AdaFreq Demo">
+                      </div>
+                      <button @click="showHeatmap = !showHeatmap" class="demo-button">
+                        {{ showHeatmap ? '隐藏' : '显示' }} AI 注意力
+                      </button>
+                    </div>
+                  </div>
+                  <div class="sub-demo">
+                    <h3 class="sub-demo-title">旋转不变性 (RotTrans)</h3>
+                    <p class="sub-demo-p">无论来自无人机等设备的拍摄角度如何剧烈变化，模型都能保持极高的识别稳定性和准确率。</p>
+                    <div class="rottrans-demo">
+                      <div class="image-container">
+                        <img src="@/assets/Picture/AI识别/雪豹.jpg" alt="RotTrans Demo" :style="{ transform: `rotate(${rotationAngle}deg)` }">
+                      </div>
+                      <div class="rottrans-controls">
+                        <input type="range" min="-180" max="180" v-model="rotationAngle" class="rotation-slider">
+                        <div class="rotation-readout">{{ rotationAngle }}°</div>
+                      </div>
+                      <div class="result-card">
+                        <div><strong>个体ID:</strong> 雪山魅影</div>
+                        <div><strong>置信度:</strong> <span class="confidence">98.7%</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 模块三：多维智慧分析与档案生成 -->
+            <div v-else-if="carouselIndex === 2" class="tech-card fade-in-up">
+              <div class="tech-card-content">
+                <div class="tech-card-header">
+                  <span class="tech-module-number">模块三</span>
+                  <h2>多维智慧分析与档案生成</h2>
+                  <p class="tech-p">利用多维属性精确认知（AMLP）与专业级档案文本生成（RSFD）技术，实现从"识别"到"理解"的智慧跨越，自动生成内容丰富的动态数字生命档案。</p>
+                </div>
+                <div class="analysis-demo-container">
+                  <button @click="startAnalysisAnimation" :disabled="isAnalyzing" class="demo-button start-analysis-btn">
+                    {{ analysisStep === 0 ? '启动智慧分析' : (isAnalyzing ? '分析中...' : '重新分析') }}
+                  </button>
+                  <div class="analysis-demo-flow">
+                    <div class="flow-item" :class="{ active: analysisStep >= 1 }">
+                      <div class="flow-icon">🖼️</div>
+                      <div class="flow-label">输入图像</div>
+                    </div>
+                    <div class="flow-arrow" :class="{ active: analysisStep >= 2 }">→</div>
+                    <div class="flow-item" :class="{ active: analysisStep >= 2 }">
+                      <div class="flow-icon">🧠</div>
+                      <div class="flow-label">识别引擎</div>
+                      <div class="flow-sub-label" :class="{ visible: analysisStep >= 2 }">ID: 虎啸-001</div>
+                    </div>
+                    <div class="flow-arrow" :class="{ active: analysisStep >= 3 }">→</div>
+                    <div class="flow-item amlp-process" :class="{ active: analysisStep >= 3 }">
+                      <div class="flow-icon">🔬</div>
+                      <div class="flow-label">AMLP 并行分析</div>
+                      <div class="amlp-attributes">
+                        <span :class="{ visible: analysisStep >= 4 }">健康状况</span>
+                        <span :class="{ visible: analysisStep >= 5 }">行为模式</span>
+                        <span :class="{ visible: analysisStep >= 6 }">年龄预估</span>
+                      </div>
+                    </div>
+                    <div class="flow-arrow" :class="{ active: analysisStep >= 7 }">→</div>
+                    <div class="flow-item rsfd-process" :class="{ active: analysisStep >= 7 }">
+                      <div class="flow-icon">✍️</div>
+                      <div class="flow-label">RSFD 档案生成</div>
+                      <div class="rsfd-comparison" :class="{ visible: analysisStep >= 8 }">
+                        <div class="text-box">
+                          <h4>通用AI描述</h4>
+                          <p>"一只老虎在走路。"</p>
+                        </div>
+                        <div class="text-box professional">
+                          <h4>经由RSFD技术生成</h4>
+                          <p>"个体'虎啸-001'正在标记其领地，步态稳健，显示出健康的生理状态。"</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 模块四：模型进化系统 -->
+            <div v-else class="tech-card fade-in-up">
+              <div class="tech-card-content">
+                <div class="tech-card-header">
+                  <span class="tech-module-number">模块四</span>
+                  <h2>自主学习与模型进化系统</h2>
+                  <p class="tech-p">基于无监督学习（PAT）与可持续进化（LoRASculpt）框架，构建能够自我进化的"活"AI大脑。</p>
+                </div>
+                <div class="evolution-demo-grid evolution-demo-grid-two">
+                  <div class="evolution-item">
+                    <div class="evolution-icon">🔄</div>
+                    <h3>无监督学习 (PAT)</h3>
+                    <p>从海量无标签数据中自主学习，持续提升模型基础能力，并智能关注细粒度细节。</p>
+                  </div>
+                  <div class="evolution-item">
+                    <div class="evolution-icon">➕</div>
+                    <h3>可持续进化 (LoRASculpt)</h3>
+                    <p>在引入新物种知识时，和谐地融入新能力，有效避免"灾难性遗忘"旧知识。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
 </template>
 
-<script>
-export default {
-  name: 'Technique',
-  components: {
-  },
-  mounted() {
-    this.initAnimations();
-  },
-  methods: {
-    initAnimations() {
-      // 观察元素进入视窗
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      });
+<script setup>
+import { ref, defineComponent, markRaw } from 'vue'
 
-      // 观察所有动画元素
-      document.querySelectorAll('.fade-in-up, .slide-in-left, .slide-in-right, .float-animation').forEach(el => {
-        observer.observe(el);
-      });
-    }
+const Module1 = markRaw(defineComponent({
+  name: 'Module1',
+  template: `
+    <div class='module-detail-content'>
+      <h2>全天候多模态感知：弱光图像增强</h2>
+      <p>我们攻克了"夜间盲区"这一行业痛点。通过原创的EDA（增强、去噪、对齐）预处理框架，即使是光线昏暗、充满噪声的弱光图像，也能被转化为高质量、特征丰富的标准化数据，为后续的精准识别奠定坚实基础。</p>
+      <img style='width:100%;max-width:500px;border-radius:8px;margin:20px 0;' src='@/assets/Picture/核心技术/7094d48f-df6f-4b19-aedf-72b46c76d4ad.jpeg' alt='夜间增强示例'>
+      <ul><li>弱光图像增强</li><li>去噪与对齐</li><li>标准化数据输出</li></ul>
+    </div>
+  `
+}))
+const Module2 = markRaw(defineComponent({
+  name: 'Module2',
+  template: `
+    <div class='module-detail-content'>
+      <h2>跨场景高鲁棒性个体识别引擎</h2>
+      <p>通过自适应高频感知（AdaFreq）与旋转不变性（RotTrans）技术，构建了既能跨物种通用识别，又能抵抗无人机等剧烈视角旋转的强大识别引擎。</p>
+      <ul><li>自适应高频感知（AdaFreq）：智能忽略背景噪声，聚焦于动物身体轮廓、毛发纹理等可跨物种的通用高频特征。</li><li>旋转不变性（RotTrans）：无论拍摄角度如何变化，模型都能保持极高的识别稳定性和准确率。</li></ul>
+      <img style='width:100%;max-width:400px;border-radius:8px;margin:20px 0;' src='@/assets/Picture/AI识别/东北虎.jpg' alt='AdaFreq Demo'>
+      <img style='width:100%;max-width:400px;border-radius:8px;margin:20px 0;' src='@/assets/Picture/AI识别/雪豹.jpg' alt='RotTrans Demo'>
+    </div>
+  `
+}))
+const Module3 = markRaw(defineComponent({
+  name: 'Module3',
+  template: `
+    <div class='module-detail-content'>
+      <h2>多维智慧分析与档案生成</h2>
+      <p>利用多维属性精确认知（AMLP）与专业级档案文本生成（RSFD）技术，实现从"识别"到"理解"的智慧跨越，自动生成内容丰富的动态数字生命档案。</p>
+      <ul><li>AMLP：健康状况、行为模式、年龄等多维属性分析</li><li>RSFD：自动生成专业级动物档案文本</li></ul>
+      <div style='background:#f8f9fa;padding:16px;border-radius:8px;margin:20px 0;'>
+        <b>AI通用描述：</b>"一只老虎在走路。"<br>
+        <b>RSFD生成：</b>"个体'虎啸-001'正在标记其领地，步态稳健，显示出健康的生理状态。"
+      </div>
+    </div>
+  `
+}))
+const Module4 = markRaw(defineComponent({
+  name: 'Module4',
+  template: `
+    <div class='module-detail-content'>
+      <h2>自主学习与模型进化系统</h2>
+      <p>基于无监督学习（PAT）与可持续进化（LoRASculpt）框架，构建能够自我进化的"活"AI大脑。</p>
+      <ul><li>PAT：无监督学习，持续提升模型能力</li><li>LoRASculpt：新物种知识融入，避免灾难性遗忘</li><li>FedICU：联邦协同进化，数据隐私安全</li></ul>
+    </div>
+  `
+}))
+
+const modules = [
+  {
+    number: '模块一',
+    title: '全天候多模态感知：弱光图像增强',
+    desc: '攻克"夜间盲区"，通过EDA预处理框架提升弱光图像质量，为精准识别打下基础。',
+    component: Module1
+  },
+  {
+    number: '模块二',
+    title: '跨场景高鲁棒性个体识别引擎',
+    desc: '自适应高频感知与旋转不变性，跨物种、跨场景精准识别。',
+    component: Module2
+  },
+  {
+    number: '模块三',
+    title: '多维智慧分析与档案生成',
+    desc: 'AMLP多维分析+RSFD档案生成，实现从"识别"到"理解"的跨越。',
+    component: Module3
+  },
+  {
+    number: '模块四',
+    title: '自主学习与模型进化系统',
+    desc: 'PAT无监督学习、LoRASculpt进化、AI持续成长。',
+    component: Module4
+  }
+]
+const carouselIndex = ref(0)
+const showDetail = ref(false)
+const prevModule = () => { 
+  if (carouselIndex.value > 0) {
+    carouselIndex.value--;
+  } else {
+    carouselIndex.value = modules.length - 1;
   }
 }
+const nextModule = () => { 
+  if (carouselIndex.value < modules.length - 1) {
+    carouselIndex.value++;
+  } else {
+    carouselIndex.value = 0;
+  }
+}
+
+// 交互变量与TechnologyDemo一致
+const sliderPosition = ref(50);
+const showHeatmap = ref(false);
+const rotationAngle = ref(0);
+const analysisStep = ref(0);
+const isAnalyzing = ref(false);
+let analysisTimer = null;
+const startAnalysisAnimation = () => {
+  if (isAnalyzing.value) return;
+  isAnalyzing.value = true;
+  analysisStep.value = 0;
+  const steps = 8;
+  let currentStep = 1;
+  analysisTimer = setInterval(() => {
+    analysisStep.value = currentStep;
+    currentStep++;
+    if (currentStep > steps) {
+      clearInterval(analysisTimer);
+      isAnalyzing.value = false;
+    }
+  }, 800);
+};
 </script>
 
 <style scoped>
 .technique {
   width: 100%;
-}
-
-/* 动画关键帧 */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-3px);
-  }
-}
-
-/* 动画类 */
-.fade-in {
-  animation: fadeIn 0.8s ease-out;
-}
-
-.slide-up {
-  opacity: 0;
-  animation: slideUp 0.8s ease-out forwards;
-}
-
-.slide-up.delay-1 {
-  animation-delay: 0.2s;
-}
-
-.slide-up.delay-2 {
-  animation-delay: 0.4s;
-}
-
-.fade-in-up {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s ease-out;
-}
-
-.fade-in-up.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.slide-in-left {
-  opacity: 0;
-  transform: translateX(-30px);
-  transition: all 0.6s ease-out;
-}
-
-.slide-in-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.slide-in-right {
-  opacity: 0;
-  transform: translateX(30px);
-  transition: all 0.6s ease-out;
-}
-
-.slide-in-right.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.float-animation {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease-out;
-  animation: float 3s ease-in-out infinite;
-  animation-play-state: paused;
-}
-
-.float-animation.visible {
-  opacity: 1;
-  transform: translateY(0);
-  animation-play-state: running;
-}
-
-/* 悬停效果 */
-.hover-lift {
-  transition: all 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-.hover-lift-card {
-  transition: all 0.3s ease;
-}
-
-.hover-lift-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-}
-
-.hover-scale {
-  transition: transform 0.3s ease;
-}
-
-.hover-scale:hover {
-  transform: scale(1.05);
 }
 
 .page-banner {
@@ -668,6 +686,8 @@ export default {
 
 .tech-intro-image img {
   width: 100%;
+  max-height: 520px;
+  object-fit: cover;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
@@ -776,44 +796,6 @@ export default {
   margin: 0;
   color: #555;
   line-height: 1.5;
-}
-
-/* 创新点部分 */
-.tech-innovations {
-  margin-bottom: 60px;
-}
-
-.innovations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  gap: 30px;
-  margin-bottom: 50px;
-}
-
-.innovation-card {
-  background-color: #f8f9fa;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
-}
-
-
-
-.innovation-icon {
-  font-size: 2.2rem;
-  margin-bottom: 15px;
-  color: #42b983;
-}
-
-.innovation-card h3 {
-  margin-bottom: 15px;
-  color: #2c3e50;
-}
-
-.innovation-card p {
-  color: #555;
-  line-height: 1.6;
 }
 
 /* 按钮部分 */
@@ -980,7 +962,10 @@ export default {
   transition: all 0.3s ease;
 }
 
-
+.feature-item:hover .feature-icon {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(66, 185, 131, 0.2);
+}
 
 .feature-icon svg {
   width: 32px;
@@ -1198,73 +1183,16 @@ export default {
   font-size: 16px;
 }
 
-.night-vision-section {
-  text-align: left;
-  margin-bottom: 100px;
-}
-.night-vision-label {
-  color: #3cb371;
-  font-size: 1.3rem;
-  font-weight: bold;
-  margin-bottom: 18px;
-}
-.night-vision-title {
-  font-size: 2.8rem;
-  font-weight: 900;
-  color: #222f3e;
-  margin-bottom: 30px;
-  letter-spacing: 1px;
-}
-.night-vision-desc {
-  font-size: 18px;
-  color: #374151;
-  margin-bottom: 18px;
-  line-height: 2;
-}
-.night-vision-detail {
-  font-size: 1.1rem;
-  color: #374151;
-  margin-bottom: 38px;
-  line-height: 2;
-}
-.night-vision-btn {
-  background: #3cb371;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 28px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.night-vision-btn:hover {
-  background: #2e8b57;
-}
-
-.night-vision-img-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin: 40px 0 60px 0;
-  position: relative;
-}
-.night-vision-img {
-  width: 1200px;
-  max-width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-  display: block;
-  /* 渐变遮罩 fade out 效果，仅底部，30%以下全透明 */
-  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 75%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 70%, transparent 75%, transparent 100%);
-}
-
 .cross-modal-section {
   margin-bottom: 100px;
   text-align: left;
   position: relative;
-  left: 200px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .cross-modal-label {
   color: #3cb371;
@@ -1358,5 +1286,619 @@ export default {
 .cross-modal-quote-desc {
   color: #888;
   font-size: 0.95rem;
+}
+
+.tech-carousel-section {
+  margin-bottom: 100px;
+  text-align: center;
+  position: relative;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tech-carousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+.carousel-arrow {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #42b983;
+  cursor: pointer;
+  margin: 0 10px;
+}
+.carousel-arrow:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+.carousel-module-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  text-align: center;
+}
+.carousel-module-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #42b983;
+  margin-bottom: 10px;
+}
+.carousel-module-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+.carousel-module-desc {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+.carousel-detail-btn {
+  background: #42b983;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.carousel-detail-btn:hover {
+  background: #3aa876;
+}
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 5px;
+  cursor: pointer;
+}
+.indicator-dot.active {
+  background-color: #42b983;
+}
+.module-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.module-detail-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 80%;
+  max-height: 80%;
+  overflow: auto;
+}
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #42b983;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* 追加 TechnologyDemo.vue 的相关样式到 style 末尾： */
+.tech-page {
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  width: 100%;
+}
+.tech-modules {
+  padding: 0;
+}
+.tech-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.tech-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+.tech-card-content {
+  padding: 40px;
+}
+.tech-card-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.tech-module-number {
+  display: inline-block;
+  background-color: #e6f7eb;
+  color: #42b983;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+.tech-card-header h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.tech-p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #555;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.interactive-demo-container {
+  width: 100%;
+  margin-top: 20px;
+}
+.slider-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: ew-resize;
+}
+.slider-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.slider-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.before-image {
+  z-index: 1;
+}
+.before-image img {
+  filter: brightness(0.4) contrast(0.8) sepia(0.2);
+}
+.after-image {
+  z-index: 2;
+}
+.slider-label {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.slider-label.after {
+  left: auto;
+  right: 15px;
+}
+.slider-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: translateX(-50%);
+  z-index: 3;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.handle-arrows {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #42b983;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.handle-arrows svg {
+  width: 16px;
+  height: 16px;
+}
+.slider-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  z-index: 4;
+}
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 30px;
+}
+.sub-demo {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+}
+.sub-demo-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #3e5247;
+}
+.sub-demo-p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #555;
+  min-height: 60px;
+}
+.image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+.demo-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #42b983;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.demo-button:hover {
+  background-color: #3aa876;
+}
+.image-container.heatmap-active::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 55% 50%, rgba(255, 0, 0, 0.6) 10%, rgba(255, 255, 0, 0.4) 35%, transparent 60%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.rottrans-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.rotation-slider {
+  flex-grow: 1;
+}
+.rotation-readout {
+  font-weight: 600;
+  color: #42b983;
+  min-width: 45px;
+  text-align: right;
+}
+.result-card {
+  background-color: #e6f7eb;
+  border-left: 4px solid #42b983;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.confidence {
+  font-weight: bold;
+  color: #2c3e50;
+}
+.analysis-demo-container {
+  margin-top: 20px;
+}
+.start-analysis-btn {
+  display: block;
+  margin: 0 auto 30px auto;
+  width: auto;
+  padding: 12px 25px;
+}
+.start-analysis-btn:disabled {
+  background-color: #a5d6b9;
+  cursor: not-allowed;
+}
+.analysis-demo-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 8px;
+  margin-top: 20px;
+  gap: 20px;
+  overflow-x: auto;
+  transition: all 0.5s ease;
+}
+.flow-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 120px;
+  padding: 15px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  transition: all 0.4s ease-in-out;
+}
+.flow-item.active {
+  border-color: #42b983;
+  background-color: #e6f7eb;
+}
+.flow-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+.flow-item.active .flow-icon {
+  transform: scale(1.1);
+}
+.flow-label {
+  font-weight: 600;
+  color: #3e5247;
+}
+.flow-sub-label {
+  font-size: 0.8rem;
+  color: #42b983;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.flow-sub-label.visible {
+  opacity: 1;
+}
+.flow-arrow {
+  font-size: 2rem;
+  color: #d0d0d0;
+  transition: color 0.4s ease;
+}
+.flow-arrow.active {
+  color: #42b983;
+}
+.amlp-process .amlp-attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  width: 120px;
+}
+.amlp-process .amlp-attributes span {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.4s ease;
+}
+.amlp-process .amlp-attributes span.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.rsfd-process .rsfd-comparison {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 15px;
+  margin-top: 10px;
+  width: 250px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.5s ease;
+}
+@media (min-width: 520px) {
+  .rsfd-process .rsfd-comparison {
+    flex-direction: row;
+    width: auto;
+  }
+}
+.rsfd-process .rsfd-comparison.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.text-box {
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+@media (min-width: 520px) {
+  .text-box {
+    width: 200px;
+  }
+}
+.text-box h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: #555;
+}
+.text-box p {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin: 0;
+  color: #555;
+}
+.text-box.professional {
+  border-color: #42b983;
+}
+.text-box.professional h4 {
+  color: #42b983;
+}
+.evolution-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 20px;
+  text-align: center;
+}
+.evolution-item {
+  background-color: #f8f9fa;
+  padding: 25px;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.evolution-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+.evolution-icon {
+  font-size: 2.5rem;
+  color: #42b983;
+  margin-bottom: 15px;
+}
+.evolution-item h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #3e5247;
+}
+.evolution-item p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.album-style {
+  background: 
+    linear-gradient(rgba(234,250,241,0.75), rgba(234,250,241,0.75)),
+    url('../../public/card.jpg') center center/cover no-repeat,
+    url('https://www.transparenttextures.com/patterns/leaf.png');
+  background-size: cover, cover, 220px 220px;
+  border-radius: 32px;
+  box-shadow: 0 6px 32px rgba(66,185,131,0.10);
+  min-width: 600px;
+  max-width: 820px;
+  margin: 0 40px;
+  padding: 64px 54px 44px 54px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.album-style:hover {
+  box-shadow: 0 16px 48px rgba(66,185,131,0.18);
+  transform: translateY(-12px) scale(1.04);
+}
+.album-image-wrapper {
+  width: 220px;
+  height: 140px;
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 38px;
+  box-shadow: 0 4px 24px rgba(66,185,131,0.13);
+  background: #f6fff9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.album-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.carousel-module-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #2c3e50;
+  text-align: center;
+}
+.carousel-module-desc {
+  font-size: 1.18rem;
+  color: #3e5247;
+  margin-bottom: 22px;
+  text-align: center;
+  line-height: 1.7;
+}
+.module-icon svg {
+  width: 54px !important;
+  height: 54px !important;
+}
+@media (max-width: 700px) {
+  .album-style {
+    min-width: 92vw;
+    max-width: 98vw;
+    padding: 18px 4px 12px 4px;
+    border-radius: 18px;
+    margin: 0 6px;
+  }
+  .album-image-wrapper {
+    width: 80px;
+    height: 54px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+  .carousel-module-title {
+    font-size: 1.1rem;
+  }
+  .carousel-module-desc {
+    font-size: 0.95rem;
+  }
+  .module-icon svg {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}
+
+.carousel-tip {
+  color: #42b983;
+  font-size: 1.08rem;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.evolution-demo-grid-two {
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
 }
 </style>
