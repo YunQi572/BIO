@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import axios from 'axios';
+import TrajectoryAnalysis from '../components/TrajectoryAnalysis.vue';
 
 const mapContainer = ref(null);
 const map = ref(null);
@@ -1017,6 +1018,9 @@ onBeforeUnmount(() => {
             <span class="animal-icon">{{ getAnimalIcon(selectedSpecies) }}</span>
             {{ selectedSpecies }} (ID: {{ selectedAnimalId }}) 的追踪数据
           </h3>
+          
+
+          
           <div class="info-table-container">
             <table>
               <thead>
@@ -1040,23 +1044,34 @@ onBeforeUnmount(() => {
 
       <!-- 右侧地图区域 -->
       <div class="map-area">
-        <div class="error-message" v-if="errorMessage">
-          <p>❌ {{ errorMessage }}</p>
-        </div>
+        <div class="map-container-wrapper">
+          <div class="error-message" v-if="errorMessage">
+            <p>❌ {{ errorMessage }}</p>
+          </div>
 
-        <div class="api-key-reminder" v-if="!isApiKeySet">
-          <p>⚠️ 请在ui/vue.config.js文件中更新高德地图API密钥后再使用地图。</p>
-        </div>
+          <div class="api-key-reminder" v-if="!isApiKeySet">
+            <p>⚠️ 请在ui/vue.config.js文件中更新高德地图API密钥后再使用地图。</p>
+          </div>
 
-        <div class="loading" v-if="loadingData">
-          <span class="loading-icon">🔄</span> 数据加载中...
+          <div class="loading" v-if="loadingData">
+            <span class="loading-icon">🔄</span> 数据加载中...
+          </div>
+          
+          <div ref="mapContainer" class="map-container">
+            <div class="eco-tips" v-if="trackingData.length > 0">
+              追踪珍稀野生动物的迁徙路线对于生态保护和栖息地保护至关重要。
+            </div>
+            <div class="eco-badge">生物多样性保护项目</div>
+          </div>
         </div>
         
-        <div ref="mapContainer" class="map-container">
-          <div class="eco-tips" v-if="trackingData.length > 0">
-            追踪珍稀野生动物的迁徙路线对于生态保护和栖息地保护至关重要。
-          </div>
-          <div class="eco-badge">生物多样性保护项目</div>
+        <!-- 将轨迹分析组件移到这里，作为底部面板 -->
+        <div class="analysis-panel" v-if="trackingData.length > 0 && !showAllRoutes">
+          <TrajectoryAnalysis 
+            :trackingData="trackingData" 
+            :selectedSpecies="selectedSpecies" 
+            :selectedAnimalId="selectedAnimalId" 
+          />
         </div>
       </div>
     </div>
@@ -1148,6 +1163,13 @@ onBeforeUnmount(() => {
   padding: 15px;
 }
 
+.map-container-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .controls {
   display: flex;
   flex-direction: column;
@@ -1198,11 +1220,21 @@ select:focus {
 .map-container {
   flex: 1;
   min-height: 400px;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   position: relative;
   border: 1px solid #e6eaf0;
+}
+
+.analysis-panel {
+  height: 400px;
+  margin-top: 15px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
 }
 
 .map-container::before {
