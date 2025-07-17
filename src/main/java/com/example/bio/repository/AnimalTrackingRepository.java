@@ -12,4 +12,7 @@ public interface AnimalTrackingRepository extends JpaRepository<AnimalTracking, 
 
     List<AnimalTracking> findBySpeciesAndSpeciesIdAndAnimalIdOrderByTimestampAsc(String species, String speciesId,
             String animalId);
+
+    // 新增方法：直接根据animal_id查询轨迹数据
+    List<AnimalTracking> findByAnimalIdOrderByTimestampAsc(String animalId);
 }

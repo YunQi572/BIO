@@ -50,4 +50,10 @@ public class AnimalTrackingController {
         System.out.println("测试输出: " + at);
         return ResponseEntity.ok(at);
     }
+
+    @PostMapping("")
+    public ResponseEntity<AnimalTracking> saveTracking(@RequestBody AnimalTracking tracking) {
+        AnimalTracking saved = animalTrackingRepository.save(tracking);
+        return ResponseEntity.ok(saved);
+    }
 }
