@@ -112,7 +112,7 @@ onMounted(() => {
       <h1>生态监测数据中心</h1>
       <button class="map-button" @click="navigateToMap">
         <span class="map-icon">🗺️</span>
-        查看迁徙地图
+        查看迁移地图
       </button>
     </div>
     
@@ -173,7 +173,7 @@ onMounted(() => {
     
     <div class="recent-data" v-if="!loading && !error">
       <h2>
-        {{ selectedSpecies ? `${selectedSpecies} 迁徙数据` : '最近迁徙数据' }}
+        {{ selectedSpecies ? `${selectedSpecies} 迁移数据` : '最近迁移数据' }}
         <span class="data-count">(共 {{ totalRecords }} 条记录)</span>
       </h2>
       <div class="table-container">

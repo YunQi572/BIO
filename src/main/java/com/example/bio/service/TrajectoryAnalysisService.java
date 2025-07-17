@@ -70,7 +70,7 @@ public class TrajectoryAnalysisService {
         
         // 构建提示信息
         StringBuilder prompt = new StringBuilder();
-        prompt.append("作为资深野生动物行为学和生态学专家，请基于以下动物迁徙轨迹数据进行深入的科学分析。\n\n");
+        prompt.append("作为资深野生动物行为学和生态学专家，请基于以下动物迁移轨迹数据进行深入的科学分析。\n\n");
         
         prompt.append("专业要求：\n");
         prompt.append("- 使用专业的动物行为学和生态学术语\n");
@@ -96,11 +96,11 @@ public class TrajectoryAnalysisService {
         
         prompt.append("\n请按以下结构进行详细的科学分析：\n\n");
         
-        prompt.append("迁徙模式分析：\n");
+        prompt.append("迁移模式分析：\n");
         prompt.append("请从以下维度进行深入分析：\n");
         prompt.append("- 空间移动模式：详细分析移动轨迹的几何特征、方向性和路径选择策略\n");
         prompt.append("- 时空动态特征：分析移动速度变化、停留时间分布和活动节律\n");
-        prompt.append("- 移动行为类型：判断是否为觅食移动、领域巡查、迁徙行为或其他特定行为模式\n");
+        prompt.append("- 移动行为类型：判断是否为觅食移动、领域巡查、迁移行为或其他特定行为模式\n");
         prompt.append("- 环境适应性：分析移动模式与地形、植被、水源等环境因子的关系\n");
         prompt.append("请提供至少150字的详细分析。\n\n");
         
@@ -173,7 +173,7 @@ public class TrajectoryAnalysisService {
         logger.debug("AI返回的原始文本: {}", text);
         
         // 默认值
-        response.setMigrationPattern("未能提取迁徙模式分析");
+        response.setMigrationPattern("未能提取迁移模式分析");
         response.setHabitatPreference("未能提取栖息地偏好");
         response.setBehavioralTraits("未能提取行为特征");
         response.setConservationSuggestions("未能提取保护建议");
@@ -192,7 +192,7 @@ public class TrajectoryAnalysisService {
         Map<String, Integer> titlePositions = new HashMap<>();
         
         // 查找各个标题的位置
-        String[] titles = {"迁徙模式", "栖息地偏好", "行为特征", "保护建议"};
+        String[] titles = {"迁移模式", "栖息地偏好", "行为特征", "保护建议"};
         for (String title : titles) {
             Pattern titlePattern = Pattern.compile("(?:" + title + ")(?:分析)?[:：]?", Pattern.CASE_INSENSITIVE);
             Matcher titleMatcher = titlePattern.matcher(cleanedText);
@@ -204,9 +204,9 @@ public class TrajectoryAnalysisService {
         
         // 如果找到了标题，按位置提取内容
         if (!titlePositions.isEmpty()) {
-            // 提取迁徙模式分析
-            if (titlePositions.containsKey("迁徙模式")) {
-                int start = titlePositions.get("迁徙模式");
+            // 提取迁移模式分析
+            if (titlePositions.containsKey("迁移模式")) {
+                int start = titlePositions.get("迁移模式");
                 int end = cleanedText.length();
                 
                 // 找到下一个标题的位置作为结束点
@@ -232,7 +232,7 @@ public class TrajectoryAnalysisService {
                 content = content.replaceAll("(?:栖息地偏好|行为特征|保护建议)(?:分析)?[:：]?.*$", "").trim();
                 if (!content.isEmpty()) {
                     response.setMigrationPattern(content);
-                    logger.debug("提取迁徙模式分析: {}", content.substring(0, Math.min(content.length(), 100)) + "...");
+                    logger.debug("提取迁移模式分析: {}", content.substring(0, Math.min(content.length(), 100)) + "...");
                 }
             }
             
