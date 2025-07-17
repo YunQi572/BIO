@@ -30,33 +30,69 @@
         <div class="card-center-flex">
           <div class="card-list">
             <div v-for="(item, idx) in samples" :key="item.id" class="card-item"
-              :class="{selected: selectedAnimalIndex === idx && !uploadedImage, 'card-fade-in': true}"
+              :class="{
+                selected: selectedAnimalIndex === idx && !uploadedImage, 
+                'card-fade-in': true,
+                'custom-upload-card': item.isCustomUpload,
+                'uploading': item.isCustomUpload && customUpload.isUploading
+              }"
               :style="{ animationDelay: `${idx * 0.1}s` }"
               @click="selectAnimal(idx)">
-              <div class="card-img" :style="{ backgroundImage: `url('${item.cover}')` }">
+              
+              <!-- 普通动物卡片 -->
+              <div v-if="!item.isCustomUpload" class="card-img" :style="{ backgroundImage: `url('${item.cover}')` }">
                 <div class="card-overlay">
                   <div class="species-tag">{{ item.species }}</div>
-                  <div class="confidence-badge">99%</div>
+                  <!-- 删除99%标签 -->
                 </div>
               </div>
+              
+              <!-- 自定义上传卡片 -->
+              <div v-else class="card-img custom-upload-area">
+                <!-- 如果已上传图片 -->
+                <div v-if="customUpload.image" class="uploaded-preview" 
+                     :style="{ backgroundImage: `url('${customUpload.image.data}')` }">
+                  <div class="card-overlay">
+                    <div class="species-tag">{{ customUpload.mockData.species }}</div>
+                    <!-- 删除99%标签 -->
+                  </div>
+                </div>
+                
+                <!-- 上传区域 -->
+                <div v-else class="upload-placeholder">
+                  <div v-if="customUpload.isUploading" class="upload-loading">
+                    <div class="loading-spinner"></div>
+                    <span>上传中...</span>
+                  </div>
+                  <div v-else class="upload-prompt">
+                    <!-- 删除相机图标，改为简洁文字 -->
+                    <span class="upload-text">点击上传</span>
+                    <span class="upload-hint">支持 JPG/PNG</span>
+                  </div>
+                </div>
+              </div>
+              
               <div class="card-info">
-                <div class="card-name">{{ item.name }}</div>
-                <div class="card-desc">{{ item.desc }}</div>
+                <div class="card-name">
+                  {{ item.isCustomUpload && customUpload.image ? customUpload.mockData.name : item.name }}
+                </div>
+                <div class="card-desc">
+                  {{ item.isCustomUpload && customUpload.image ? customUpload.mockData.desc : item.desc }}
+                </div>
                 <div class="card-stats">
                   <span class="stat-item">
-                    <i class="icon-location">📍</i>
-                    {{ item.location || '栖息地监测中' }}
+                    <!-- 删除位置图标 -->
+                    {{ item.isCustomUpload && customUpload.image ? customUpload.mockData.location : (item.location || '栖息地监测中') }}
                   </span>
                 </div>
               </div>
+              
               <div v-if="selectedAnimalIndex === idx && !uploadedImage" class="selected-indicator">
                 <svg class="checkmark" viewBox="0 0 24 24" width="24" height="24">
                   <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="white"/>
                 </svg>
               </div>
             </div>
-            
-
           </div>
         </div>
         
@@ -211,29 +247,29 @@
               
               <div class="info-grid">
                 <div class="info-row-light">
-                  <span class="info-label">🆔 个体ID:</span>
+                  <span class="info-label">个体ID:</span>
                   <span class="info-value-light">{{ resultAnimal.id }}</span>
                 </div>
                 <div class="info-row-light">
-                  <span class="info-label">🐾 物种:</span>
+                  <span class="info-label">物种:</span>
                   <span class="info-value-light">{{ resultAnimal.species }}</span>
                 </div>
                 <div class="info-row-light">
-                  <span class="info-label">📅 预估年龄:</span>
+                  <span class="info-label">预估年龄:</span>
                   <span class="info-value-light">{{ resultAnimal.age }}</span>
                 </div>
                 <div class="info-row-light">
-                  <span class="info-label">❤️ 健康状况:</span>
+                  <span class="info-label">健康状况:</span>
                   <span class="health-pill" :class="getHealthClass(resultAnimal.health)">
                     {{ resultAnimal.health }}
                   </span>
                 </div>
                 <div class="info-row-light">
-                  <span class="info-label">📍 栖息地:</span>
+                  <span class="info-label">栖息地:</span>
                   <span class="info-value-light">{{ resultAnimal.habitat || '未知区域' }}</span>
                 </div>
                 <div class="info-row-light">
-                  <span class="info-label">⚖️ 体重估算:</span>
+                  <span class="info-label">体重估算:</span>
                   <span class="info-value-light">{{ resultAnimal.weight || '65-85kg' }}</span>
                 </div>
               </div>
@@ -354,7 +390,7 @@ import axios from 'axios'
 // 响应式数据
 const samples = ref([
   { 
-    name: '虎啸-001', 
+    name: '东北虎-001', 
     desc: '左肩有独特斑纹', 
     species: '东北虎',
     text: '2023年4月拍摄于大兴安岭，晨间活动，精神状态良好。',
@@ -367,7 +403,7 @@ const samples = ref([
     location: '中国东北'
   },
   { 
-    name: '雪山魅影', 
+    name: '雪豹-014', 
     desc: '右耳有轻微缺口', 
     species: '雪豹',
     text: '夜间红外相机捕捉，海拔4500米区域，正在捕食。',
@@ -380,7 +416,7 @@ const samples = ref([
     location: '青海'
   },
   { 
-    name: '团团', 
+    name: '大熊猫-088', 
     desc: '背部黑色条带较宽', 
     species: '大熊猫',
     text: '卧龙保护区竹林中进食，看起来很满足。',
@@ -391,6 +427,21 @@ const samples = ref([
     habitat: '四川卧龙保护地',
     weight: '80-120kg',
     location: '四川'
+  },
+  // 添加自定义上传选项
+  {
+    name: '自定义上传',
+    desc: '上传您的动物图片',
+    species: '自定义',
+    text: '点击上传您拍摄的动物图片进行AI识别',
+    cover: '', // 将通过CSS显示上传图标
+    id: 'CUSTOM-UPLOAD',
+    age: '',
+    health: '',
+    habitat: '',
+    weight: '',
+    location: '',
+    isCustomUpload: true // 标识这是自定义上传选项
   }
 ])
 
@@ -480,13 +531,11 @@ const fileTypeConfigs = {
 const scanLineTop = ref(0)
 const analysisProgress = ref(0)
 const statusMessages = ref([
-  "模块1: 全天候多模态感知...",
-  "模块2: 启动跨场景识别引擎...",
-  "模块2: [AdaFreq] 正在进行频域特征提取...",
-  "模块2: [RotTrans] 正在进行旋转不变性校正...",
-  "模块3: [AMLP] 启动多维属性并行分析...",
-  "模块3: [RSFD] 生成专业级个体档案...",
-  "✅ 分析完成！正在生成数字生命档案..."
+  "接收多模态输入，智能解析数据...",
+  "深度特征提取，融合多源信息...",
+  "RotTrans等核心算法提升识别鲁棒性...",
+  "AI智能比对数据库个体...",
+  "识别完成，生成数字档案与相似推荐..."
 ])
 const currentStatusIndex = ref(0)
 const resultAccuracy = ref(0)
@@ -503,7 +552,15 @@ let progressTimer = null
 // 计算属性
 const resultAnimal = computed(() => {
   if (selectedAnimalIndex.value !== null) {
-    return samples.value[selectedAnimalIndex.value]
+    const selected = samples.value[selectedAnimalIndex.value]
+    // 如果是自定义上传且有上传的图片，返回模拟数据
+    if (selected.isCustomUpload && customUpload.value.image) {
+      return {
+        ...customUpload.value.mockData,
+        cover: customUpload.value.image.data
+      }
+    }
+    return selected
   }
   return samples.value[0]
 })
@@ -518,7 +575,16 @@ const displayImage = computed(() => {
   if (uploadedFiles.value.rgb) return uploadedFiles.value.rgb.data
   if (uploadedFiles.value.sketch) return uploadedFiles.value.sketch.data
   if (uploadedFiles.value.infrared) return uploadedFiles.value.infrared.data
-  if (selectedAnimalIndex.value !== null) return samples.value[selectedAnimalIndex.value].cover
+  
+  // 如果选择了自定义上传且有图片
+  if (selectedAnimalIndex.value !== null) {
+    const selected = samples.value[selectedAnimalIndex.value]
+    if (selected.isCustomUpload && customUpload.value.image) {
+      return customUpload.value.image.data
+    }
+    return selected.cover
+  }
+  
   return ''
 })
 
@@ -555,9 +621,18 @@ function getFileTypeName(fileType) {
 
 // 方法
 function selectAnimal(idx) {
+  const selected = samples.value[idx]
+  
+  // 如果点击的是自定义上传选项
+  if (selected.isCustomUpload) {
+    triggerCustomImageUpload()
+    return
+  }
+  
   selectedAnimalIndex.value = idx
-  // 清空所有上传的文件
+  // 清空所有上传的文件和自定义上传
   clearAllFiles()
+  clearCustomUpload()
   additionalText.value = samples.value[idx].text || ''
 }
 
@@ -666,6 +741,7 @@ function clearAllFiles() {
   Object.keys(uploadedFiles.value).forEach(fileType => {
     clearFile(fileType)
   })
+  clearCustomUpload()
 }
 
 function startAnalysis() {
@@ -700,20 +776,9 @@ function initializeAnalysis() {
     if (scanLineTop.value >= 148) scanLineTop.value = 0
   }, 40)
 
-  // 连续进度条动画
-  const totalAnalysisDuration = (statusMessages.value.length - 1) * 2500 + 2000;
-  const progressInterval = 50; 
-  const progressIncrement = 100 / (totalAnalysisDuration / progressInterval);
-
-  progressTimer = setInterval(() => {
-    if (analysisProgress.value < 100) {
-      analysisProgress.value += progressIncrement;
-    } else {
-      analysisProgress.value = 100;
-      clearInterval(progressTimer);
-    }
-  }, progressInterval);
-
+  // 真实的分阶段进度条动画
+  startRealisticProgress()
+  
   // 状态消息
   showNextStatus()
   
@@ -721,10 +786,88 @@ function initializeAnalysis() {
   updateInsights()
 }
 
+// 新增：真实的分阶段进度动画
+function startRealisticProgress() {
+  // 定义每个阶段的进度范围和持续时间（模拟真实AI处理过程）
+  const progressStages = [
+    { start: 0, end: 15, duration: 800, speed: 'fast' },      // 快速启动
+    { start: 15, end: 35, duration: 1200, speed: 'normal' },  // 数据加载
+    { start: 35, end: 45, duration: 2000, speed: 'slow' },    // 特征提取（较慢）
+    { start: 45, end: 75, duration: 1800, speed: 'variable' }, // 算法处理（变速）
+    { start: 75, end: 90, duration: 1000, speed: 'normal' },  // 数据库比对
+    { start: 90, end: 100, duration: 600, speed: 'fast' }     // 结果生成
+  ]
+  
+  let currentStageIndex = 0
+  
+  function animateStage() {
+    if (currentStageIndex >= progressStages.length) return
+    
+    const stage = progressStages[currentStageIndex]
+    const startTime = Date.now()
+    const startProgress = stage.start
+    const endProgress = stage.end
+    const duration = stage.duration
+    
+    function updateProgress() {
+      const elapsed = Date.now() - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      
+      let easedProgress
+      
+      // 根据阶段特性应用不同的缓动函数
+      switch (stage.speed) {
+        case 'fast':
+          // 快速线性
+          easedProgress = progress
+          break
+        case 'slow':
+          // 慢速，模拟复杂计算
+          easedProgress = 1 - Math.cos(progress * Math.PI / 2)
+          break
+        case 'variable':
+          // 变速，模拟算法处理的不确定性
+          const noise = Math.sin(elapsed * 0.01) * 0.1
+          easedProgress = progress + noise * (1 - progress)
+          easedProgress = Math.max(0, Math.min(1, easedProgress))
+          break
+        default:
+          // 正常缓动
+          easedProgress = progress < 0.5 
+            ? 2 * progress * progress 
+            : 1 - Math.pow(-2 * progress + 2, 2) / 2
+      }
+      
+      analysisProgress.value = startProgress + (endProgress - startProgress) * easedProgress
+      
+      if (progress < 1) {
+        requestAnimationFrame(updateProgress)
+      } else {
+        currentStageIndex++
+        // 在某些阶段之间添加短暂停顿，模拟真实处理
+        if (currentStageIndex === 2 || currentStageIndex === 4) {
+          setTimeout(() => animateStage(), 200)
+        } else {
+          animateStage()
+        }
+      }
+    }
+    
+    updateProgress()
+  }
+  
+  animateStage()
+}
+
 function showNextStatus() {
   const totalSteps = statusMessages.value.length;
   
+  // 每个步骤的真实持续时间（不再是固定2.5秒）
+  const stepDurations = [1000, 1500, 2200, 1800, 1200] // 毫秒
+  
   if (currentStatusIndex.value < totalSteps - 1) {
+    const currentDuration = stepDurations[currentStatusIndex.value] || 2000
+    
     statusTimer = setTimeout(() => {
       currentStatusIndex.value++;
       updateInsights();
@@ -740,7 +883,7 @@ function showNextStatus() {
       }
       
       showNextStatus(); // 递归调用
-    }, 2500)
+    }, currentDuration)
   } else {
     // 完成识别
     setTimeout(() => {
@@ -750,11 +893,11 @@ function showNextStatus() {
       // 保存识别记录到数据库
       saveIdentificationRecord()
       
-    setTimeout(() => {
-      currentStep.value = 'result'
+      setTimeout(() => {
+        currentStep.value = 'result'
         clearTimers()
       }, 1500)
-    }, 2000)
+    }, 1000)
   }
 }
 
@@ -931,6 +1074,120 @@ onMounted(() => {
 onUnmounted(() => {
   clearTimers()
 })
+
+// 在 <script setup> 中添加自定义上传相关状态
+const customUpload = ref({
+  image: null,
+  isUploading: false,
+  mockData: {
+    name: '未知个体-???',
+    desc: '待AI识别确认',
+    species: '待识别',
+    text: '通过自定义图片上传，等待AI分析...',
+    id: 'CUSTOM-UNK-001',
+    age: '未知',
+    health: '待评估',
+    habitat: '未知区域',
+    weight: '待测量',
+    location: '上传位置'
+  }
+})
+
+// 添加自定义上传的文件输入引用
+const customImageInput = ref(null)
+
+// 新增：触发自定义图片上传
+function triggerCustomImageUpload() {
+  if (customImageInput.value) {
+    customImageInput.value.value = ''
+    customImageInput.value.click()
+  }
+}
+
+// 新增：处理自定义图片上传
+async function onCustomImageChange(e) {
+  const file = e.target.files[0]
+  if (!file) return
+
+  // 验证文件类型
+  if (!file.type.startsWith('image/')) {
+    showError('请选择图片文件')
+    return
+  }
+
+  // 验证文件大小
+  if (file.size > 10 * 1024 * 1024) {
+    showError('图片文件大小不能超过10MB')
+    return
+  }
+
+  customUpload.value.isUploading = true
+
+  try {
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      customUpload.value.image = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        data: ev.target.result
+      }
+      
+      // 选中自定义上传选项
+      selectedAnimalIndex.value = samples.value.length - 1
+      
+      // 清空其他上传文件
+      clearAllFiles()
+      
+      // 生成随机的模拟数据
+      generateMockDataForCustomUpload(file.name)
+      
+      customUpload.value.isUploading = false
+    }
+    
+    reader.onerror = () => {
+      showError('图片读取失败，请重试')
+      customUpload.value.isUploading = false
+    }
+    
+    reader.readAsDataURL(file)
+  } catch (error) {
+    showError('图片处理失败')
+    customUpload.value.isUploading = false
+  }
+}
+
+// 新增：为自定义上传生成模拟数据
+function generateMockDataForCustomUpload(fileName) {
+  const randomSpecies = ['金丝猴', '藏羚羊', '华南虎', '白鱀豚', '扬子鳄', '朱鹮', '丹顶鹤']
+  const randomLocations = ['云南', '西藏', '新疆', '内蒙古', '黑龙江', '四川', '青海']
+  const randomHealth = ['健康', '亚健康', '需关注']
+  
+  const species = randomSpecies[Math.floor(Math.random() * randomSpecies.length)]
+  const location = randomLocations[Math.floor(Math.random() * randomLocations.length)]
+  const health = randomHealth[Math.floor(Math.random() * randomHealth.length)]
+  const confidence = Math.floor(Math.random() * 10) + 90 // 90-99%
+  
+  customUpload.value.mockData = {
+    name: `${species}-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
+    desc: '通过AI识别的特征描述',
+    species: species,
+    text: `自定义上传图片：${fileName}，AI正在分析中...`,
+    id: `CUSTOM-${species.substring(0, 3).toUpperCase()}-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
+    age: `${Math.floor(Math.random() * 15) + 1}岁`,
+    health: health,
+    habitat: `${location}保护区`,
+    weight: `${Math.floor(Math.random() * 200) + 20}-${Math.floor(Math.random() * 300) + 100}kg`,
+    location: location,
+    confidence: confidence
+  }
+}
+
+// 新增：清空自定义上传
+function clearCustomUpload() {
+  customUpload.value.image = null
+  customUpload.value.isUploading = false
+}
 </script>
 
 <style scoped>
@@ -2416,4 +2673,302 @@ onUnmounted(() => {
 }
 .risk-level.low { background-color: #28a745; }
 .risk-level.medium { background-color: #ffc107; }
+
+/* 步骤图标动画 */
+.step-icon {
+  display: inline-block;
+  font-size: 16px;
+  animation: pulse 1.5s infinite;
+}
+
+.step-icon.multimodal {
+  animation: bounce 1s infinite;
+}
+
+.step-icon.feature {
+  animation: sparkle 1.5s infinite;
+}
+
+.step-icon.rottrans {
+  animation: rotate 2s infinite linear;
+}
+
+.step-icon.comparison {
+  animation: blink 1s infinite;
+}
+
+.step-icon.result {
+  animation: scale 1.2s infinite;
+}
+
+/* 步骤特定动画 */
+.step-animations {
+  margin-top: 15px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.multimodal-animation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-icons {
+  display: flex;
+  gap: 5px;
+}
+
+.input-icon {
+  display: inline-block;
+  font-size: 20px;
+  animation: slideInLeft 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.flow-arrow {
+  font-size: 18px;
+  animation: pulse 1s infinite;
+  color: #4CAF50;
+}
+
+.engine-icon {
+  font-size: 24px;
+  animation: glow 1.5s infinite alternate;
+}
+
+.feature-animation {
+  position: relative;
+  width: 100px;
+  height: 30px;
+}
+
+.feature-points {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, #4CAF50 50%, transparent 100%);
+  animation: scan 1.5s infinite;
+}
+
+.comparison-animation {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.database-icon, .ai-icon {
+  font-size: 24px;
+  animation: bounce 1s infinite;
+}
+
+.comparison-lines {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, #4CAF50, #2196F3);
+  animation: flow 1s infinite;
+}
+
+.result-animation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-popup {
+  font-size: 24px;
+  animation: popIn 0.8s ease-out;
+}
+
+.similar-items {
+  display: flex;
+  gap: 5px;
+}
+
+.similar-item {
+  font-size: 16px;
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.similar-item:nth-child(1) { animation-delay: 0.2s; }
+.similar-item:nth-child(2) { animation-delay: 0.4s; }
+.similar-item:nth-child(3) { animation-delay: 0.6s; }
+
+/* 动画关键帧 */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px #4CAF50;
+  }
+  to {
+    text-shadow: 0 0 15px #4CAF50, 0 0 25px #4CAF50;
+  }
+}
+
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+@keyframes scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* 自定义上传卡片样式 */
+.custom-upload-card {
+  border: 2px dashed #ddd;
+  transition: all 0.3s ease;
+}
+
+.custom-upload-card:hover {
+  border-color: #4CAF50;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
+}
+
+.custom-upload-card.uploading {
+  border-color: #2196F3;
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.05), rgba(33, 150, 243, 0.02));
+}
+
+.custom-upload-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fafafa, #f5f5f5);
+  cursor: pointer;
+}
+
+.uploaded-preview {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  position: relative;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+}
+
+.upload-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #2196F3;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #e3f2fd;
+  border-top: 3px solid #2196F3;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.upload-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-text {
+  font-weight: 600;
+  font-size: 16px;
+  color: #4CAF50;
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: #999;
+}
+
+/* 删除图标相关样式 */
+.card-stats .stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* 移除图标样式 */
+.icon-location {
+  display: none;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 自定义上传卡片选中状态 */
+.custom-upload-card.selected {
+  border-color: #4CAF50;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
+}
 </style>
