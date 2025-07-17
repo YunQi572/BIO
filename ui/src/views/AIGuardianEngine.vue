@@ -26,7 +26,7 @@
           </div>
         </div>
 
-        <div class="subtitle">请选择一个动物样本或上传图片进行REID个体识别</div>
+        <div class="subtitle">请选择一个动物样本或上传多媒体文件进行REID个体识别（可选择多种文件类型，至少上传一个）</div>
         <div class="card-center-flex">
           <div class="card-list">
             <div v-for="(item, idx) in samples" :key="item.id" class="card-item"
@@ -56,54 +56,48 @@
               </div>
             </div>
             
-            <!-- 上传卡片 -->
-            <div class="card-item upload-card card-fade-in" 
-              :class="{selected: uploadedImage, uploading: isUploading}"
-              :style="{ animationDelay: `${samples.length * 0.1}s` }"
-              @click="triggerUpload"
-              @dragover.prevent="onDragOver"
-              @dragleave.prevent="onDragLeave"
-              @drop.prevent="onDrop">
-              <div class="card-img upload-img-bg" :class="{ 'drag-over': isDragOver }">
-                <div v-if="!uploadedImage && !isUploading" class="upload-content">
-                  <svg class="upload-plus" viewBox="0 0 64 64" width="48" height="48">
-                    <line x1="32" y1="14" x2="32" y2="50" stroke="#2ECC71" stroke-width="4" stroke-linecap="round"/>
-                    <line x1="14" y1="32" x2="50" y2="32" stroke="#2ECC71" stroke-width="4" stroke-linecap="round"/>
-                  </svg>
-                  <div class="upload-text">点击或拖拽上传</div>
-                </div>
-                <div v-if="isUploading" class="uploading-content">
-                  <div class="upload-spinner"></div>
-                  <div class="upload-text">处理中...</div>
-                </div>
-                <img v-if="uploadedImage && !isUploading" :src="uploadedImage" class="upload-preview-img" />
-                <input id="file-upload" ref="fileInput" type="file" accept="image/*" @change="onFileChange" style="display:none;" />
-              </div>
-              <div class="card-info">
-                <div class="card-name">上传图片</div>
-                <div class="card-desc">支持 JPG/PNG，最大 10MB</div>
-                <div class="card-stats">
-                  <span class="stat-item">
-                    <i class="icon-ai">🧠</i>
-                    REID实时分析
-                  </span>
-                </div>
-              </div>
-              <button v-if="uploadedImage" class="clear-upload-btn" @click.stop="clearUpload">
-                <svg viewBox="0 0 24 24" width="16" height="16">
-                  <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"/>
-                </svg>
-              </button>
-              <div v-if="uploadedImage" class="selected-indicator">
-                <svg class="checkmark" viewBox="0 0 24 24" width="24" height="24">
-                  <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="white"/>
-                </svg>
-              </div>
-            </div>
+
           </div>
         </div>
         
-        <!-- 新增：多模态文本输入 -->
+        <!-- 多模态文件上传按钮组 -->
+        <div class="upload-buttons-section">
+          <h3 class="upload-buttons-title">📁 多模态文件上传（可选）</h3>
+          <div class="upload-buttons-grid">
+            <button 
+              v-for="(config, fileType) in fileTypeConfigs" 
+              :key="fileType"
+              class="upload-type-btn"
+              :class="{
+                selected: uploadedFiles[fileType],
+                uploading: uploadingStates[fileType]
+              }"
+              @click="triggerUploadByType(fileType)"
+              :disabled="uploadingStates[fileType]"
+            >
+              <span class="btn-icon">{{ getFileTypeIcon(fileType) }}</span>
+              <span class="btn-text">{{ getFileTypeName(fileType) }}</span>
+              <span v-if="uploadedFiles[fileType]" class="btn-file-name">{{ uploadedFiles[fileType].name }}</span>
+              <div v-if="uploadingStates[fileType]" class="btn-spinner"></div>
+              <button 
+                v-if="uploadedFiles[fileType] && !uploadingStates[fileType]" 
+                class="btn-clear" 
+                @click.stop="clearFile(fileType)"
+                title="删除文件"
+              >×</button>
+            </button>
+          </div>
+
+          <!-- 隐藏的文件输入 -->
+          <input ref="videoInput" type="file" accept="video/*" @change="e => onFileChange(e, 'video')" style="display:none;" />
+          <input ref="sketchInput" type="file" accept="image/*" @change="e => onFileChange(e, 'sketch')" style="display:none;" />
+          <input ref="rgbInput" type="file" accept="image/*" @change="e => onFileChange(e, 'rgb')" style="display:none;" />
+          <input ref="infraredInput" type="file" accept="image/*" @change="e => onFileChange(e, 'infrared')" style="display:none;" />
+          <input ref="audioInput" type="file" accept="audio/*" @change="e => onFileChange(e, 'audio')" style="display:none;" />
+          <input ref="textInput" type="file" accept=".txt,.doc,.docx,.pdf" @change="e => onFileChange(e, 'text')" style="display:none;" />
+        </div>
+
+        <!-- 多模态文本输入 -->
         <div class="multimodal-input-section">
           <label for="multimodal-text" class="multimodal-label">
             <span class="label-icon">✍️</span>
@@ -118,7 +112,7 @@
         </div>
         
         <div class="action-section">
-          <button class="start-btn" :disabled="!canStart || isUploading" @click="startAnalysis">
+          <button class="start-btn" :disabled="!canStart || Object.values(uploadingStates).some(state => state)" @click="startAnalysis">
             <span v-if="!isStarting">🚀 启动分析引擎</span>
             <span v-else>
               <div class="btn-spinner"></div>
@@ -355,6 +349,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import axios from 'axios'
 
 // 响应式数据
 const samples = ref([
@@ -401,13 +396,85 @@ const samples = ref([
 
 const currentStep = ref('select') // 'select' | 'analyzing' | 'result'
 const selectedAnimalIndex = ref(null)
-const uploadedImage = ref(null)
 const additionalText = ref('')
-const fileInput = ref(null)
-const isUploading = ref(false)
 const isStarting = ref(false)
-const isDragOver = ref(false)
 const errorMessage = ref('')
+
+// 多文件上传相关状态
+const uploadedFiles = ref({
+  video: null,
+  sketch: null,
+  rgb: null,
+  infrared: null,
+  audio: null,
+  text: null
+})
+
+const uploadingStates = ref({
+  video: false,
+  sketch: false,
+  rgb: false,
+  infrared: false,
+  audio: false,
+  text: false
+})
+
+const dragStates = ref({
+  video: false,
+  sketch: false,
+  rgb: false,
+  infrared: false,
+  audio: false,
+  text: false
+})
+
+// refs for file inputs
+const videoInput = ref(null)
+const sketchInput = ref(null)
+const rgbInput = ref(null)
+const infraredInput = ref(null)
+const audioInput = ref(null)
+const textInput = ref(null)
+
+// 文件类型配置
+const fileTypeConfigs = {
+  video: {
+    accept: ['video/mp4', 'video/avi', 'video/mov', 'video/quicktime'],
+    maxSize: 50 * 1024 * 1024, // 50MB
+    errorSizeMsg: '视频文件大小不能超过50MB',
+    errorTypeMsg: '仅支持MP4/AVI/MOV格式的视频文件'
+  },
+  sketch: {
+    accept: ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'],
+    maxSize: 10 * 1024 * 1024, // 10MB
+    errorSizeMsg: '草图文件大小不能超过10MB',
+    errorTypeMsg: '仅支持JPG/PNG/SVG格式的图片文件'
+  },
+  rgb: {
+    accept: ['image/jpeg', 'image/png', 'image/jpg'],
+    maxSize: 10 * 1024 * 1024, // 10MB
+    errorSizeMsg: 'RGB图片文件大小不能超过10MB',
+    errorTypeMsg: '仅支持JPG/PNG格式的图片文件'
+  },
+  infrared: {
+    accept: ['image/jpeg', 'image/png', 'image/jpg'],
+    maxSize: 10 * 1024 * 1024, // 10MB
+    errorSizeMsg: '红外图片文件大小不能超过10MB',
+    errorTypeMsg: '仅支持JPG/PNG格式的图片文件'
+  },
+  audio: {
+    accept: ['audio/mp3', 'audio/wav', 'audio/m4a', 'audio/mpeg'],
+    maxSize: 20 * 1024 * 1024, // 20MB
+    errorSizeMsg: '音频文件大小不能超过20MB',
+    errorTypeMsg: '仅支持MP3/WAV/M4A格式的音频文件'
+  },
+  text: {
+    accept: ['text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf'],
+    maxSize: 5 * 1024 * 1024, // 5MB
+    errorSizeMsg: '文本文件大小不能超过5MB',
+    errorTypeMsg: '仅支持TXT/DOC/DOCX/PDF格式的文本文件'
+  }
+}
 
 // 动画相关
 const scanLineTop = ref(0)
@@ -441,82 +508,164 @@ const resultAnimal = computed(() => {
   return samples.value[0]
 })
 
-const canStart = computed(() => selectedAnimalIndex.value !== null || uploadedImage.value)
+const canStart = computed(() => {
+  // 可以选择动物样本，或者至少上传一个文件
+  return selectedAnimalIndex.value !== null || hasUploadedFiles()
+})
 
 const displayImage = computed(() => {
-  if (uploadedImage.value) return uploadedImage.value
+  // 优先显示图片类型的文件
+  if (uploadedFiles.value.rgb) return uploadedFiles.value.rgb.data
+  if (uploadedFiles.value.sketch) return uploadedFiles.value.sketch.data
+  if (uploadedFiles.value.infrared) return uploadedFiles.value.infrared.data
   if (selectedAnimalIndex.value !== null) return samples.value[selectedAnimalIndex.value].cover
   return ''
 })
 
+// 辅助函数：检查是否有上传的文件
+function hasUploadedFiles() {
+  return Object.values(uploadedFiles.value).some(file => file !== null)
+}
+
+// 获取文件类型图标
+function getFileTypeIcon(fileType) {
+  const icons = {
+    video: '🎥',
+    sketch: '✏️',
+    rgb: '🌈',
+    infrared: '🔦',
+    audio: '🔊',
+    text: '📄'
+  }
+  return icons[fileType] || '📁'
+}
+
+// 获取文件类型名称
+function getFileTypeName(fileType) {
+  const names = {
+    video: '视频',
+    sketch: '草图',
+    rgb: 'RGB图片',
+    infrared: '红外图片',
+    audio: '声音',
+    text: '文本'
+  }
+  return names[fileType] || fileType
+}
+
 // 方法
 function selectAnimal(idx) {
   selectedAnimalIndex.value = idx
-  uploadedImage.value = null
+  // 清空所有上传的文件
+  clearAllFiles()
   additionalText.value = samples.value[idx].text || ''
 }
 
-function triggerUpload() {
-  if (fileInput.value) fileInput.value.value = '';
-  fileInput.value && fileInput.value.click()
+function triggerUploadByType(fileType) {
+  const inputRef = getInputRefByType(fileType)
+  if (inputRef && inputRef.value) {
+    inputRef.value.value = ''
+    inputRef.value.click()
+  }
 }
 
-async function onFileChange(e) {
+function getInputRefByType(fileType) {
+  const inputRefs = {
+    video: videoInput,
+    sketch: sketchInput,
+    rgb: rgbInput,
+    infrared: infraredInput,
+    audio: audioInput,
+    text: textInput
+  }
+  return inputRefs[fileType]
+}
+
+async function onFileChange(e, fileType) {
   const file = e.target.files[0]
   if (!file) return
 
-  if (file.size > 10 * 1024 * 1024) {
-    showError('文件大小超过10MB限制')
+  const config = fileTypeConfigs[fileType]
+  if (!config) return
+
+  // 验证文件大小
+  if (file.size > config.maxSize) {
+    showError(config.errorSizeMsg)
     return
   }
 
-  if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
-    showError('仅支持JPG/PNG格式图片')
+  // 验证文件类型
+  if (!config.accept.includes(file.type)) {
+    showError(config.errorTypeMsg)
     return
   }
 
-  isUploading.value = true
+  uploadingStates.value[fileType] = true
   
   try {
-    const reader = new FileReader()
-    reader.onload = (ev) => {
-      uploadedImage.value = ev.target.result
+    if (['sketch', 'rgb', 'infrared'].includes(fileType)) {
+      // 图片类型文件需要读取为Data URL
+      const reader = new FileReader()
+      reader.onload = (ev) => {
+        uploadedFiles.value[fileType] = {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          data: ev.target.result
+        }
+        selectedAnimalIndex.value = null
+        uploadingStates.value[fileType] = false
+      }
+      reader.onerror = () => {
+        showError(`${fileType}文件读取失败，请重试`)
+        uploadingStates.value[fileType] = false
+      }
+      reader.readAsDataURL(file)
+    } else {
+      // 其他类型文件只存储文件信息
+      uploadedFiles.value[fileType] = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        file: file
+      }
       selectedAnimalIndex.value = null
-      additionalText.value = ''
-      isUploading.value = false
+      uploadingStates.value[fileType] = false
     }
-    reader.onerror = () => {
-      showError('图片读取失败，请重试')
-      isUploading.value = false
-    }
-    reader.readAsDataURL(file)
   } catch (error) {
-    showError('图片处理失败')
-    isUploading.value = false
+    showError(`${fileType}文件处理失败`)
+    uploadingStates.value[fileType] = false
   }
 }
 
-function onDragOver(e) {
-  isDragOver.value = true
+function onDragOver(e, fileType) {
+  dragStates.value[fileType] = true
 }
 
-function onDragLeave(e) {
-  isDragOver.value = false
+function onDragLeave(e, fileType) {
+  dragStates.value[fileType] = false
 }
 
-function onDrop(e) {
-  isDragOver.value = false
+function onDrop(e, fileType) {
+  dragStates.value[fileType] = false
   const files = e.dataTransfer.files
   if (files.length > 0) {
     const file = files[0]
     const event = { target: { files: [file] } }
-    onFileChange(event)
+    onFileChange(event, fileType)
   }
 }
 
-function clearUpload() {
-  uploadedImage.value = null
-  additionalText.value = ''
+function clearFile(fileType) {
+  uploadedFiles.value[fileType] = null
+  uploadingStates.value[fileType] = false
+  dragStates.value[fileType] = false
+}
+
+function clearAllFiles() {
+  Object.keys(uploadedFiles.value).forEach(fileType => {
+    clearFile(fileType)
+  })
 }
 
 function startAnalysis() {
@@ -597,6 +746,9 @@ function showNextStatus() {
     setTimeout(() => {
       analysisProgress.value = 100
       resultAccuracy.value = Math.floor(Math.random() * 5) + 95 // 95-99%
+      
+      // 保存识别记录到数据库
+      saveIdentificationRecord()
       
     setTimeout(() => {
       currentStep.value = 'result'
@@ -690,6 +842,81 @@ function showError(message, type = 'error') {
 
 function clearError() {
   errorMessage.value = ''
+}
+
+// 保存识别记录到数据库
+async function saveIdentificationRecord() {
+  try {
+    const animal = resultAnimal.value
+    
+    // 创建或更新动物信息
+    const animalData = {
+      speciesId: animal.id.split('-')[1] || 'UNKNOWN',
+      speciesName: animal.species,
+      animalId: animal.id,
+      animalName: animal.name,
+      age: animal.age,
+      gender: '未知', // 可以根据需要扩展
+      healthStatus: animal.health,
+      isSick: animal.health === '需关注',
+      isWarning: animal.health === '亚健康' || animal.health === '需关注',
+      weight: animal.weight,
+      habitat: animal.habitat,
+      description: animal.desc || '通过AI-REID识别确认',
+      firstDiscovered: new Date().toISOString(),
+      lastSeen: new Date().toISOString()
+    }
+    
+    // 保存动物信息
+    await axios.post('/api/animals', animalData)
+    
+    // 保存轨迹记录（模拟当前位置）
+    const trackingData = {
+      species: animal.species,
+      speciesId: animalData.speciesId,
+      animalId: animal.id,
+      timestamp: new Date().toISOString(),
+      location: animal.location || animal.habitat || '识别地点',
+      latitude: generateRandomLatitude(animal.location || animal.habitat),
+      longitude: generateRandomLongitude(animal.location || animal.habitat)
+    }
+    
+    // 保存轨迹数据
+    await axios.post('/tracking', trackingData)
+    
+    console.log('识别记录已保存:', { animalData, trackingData })
+    
+  } catch (error) {
+    console.error('保存识别记录失败:', error)
+    // 静默处理错误，不影响用户体验
+  }
+}
+
+// 根据地点生成模拟经纬度
+function generateRandomLatitude(location) {
+  const locationCoords = {
+    '大兴安岭保护地': 48.2 + Math.random() * 0.5,
+    '中国东北': 48.0 + Math.random() * 0.8,
+    '青海': 36.0 + Math.random() * 2.0,
+    '青藏高原': 35.0 + Math.random() * 3.0,
+    '四川卧龙保护地': 30.8 + Math.random() * 0.4,
+    '四川': 30.5 + Math.random() * 1.0
+  }
+  
+  return locationCoords[location] || (30.0 + Math.random() * 20.0)
+}
+
+function generateRandomLongitude(location) {
+  const locationCoords = {
+    '大兴安岭保护地': 127.0 + Math.random() * 2.0,
+    '中国东北': 126.0 + Math.random() * 3.0,
+    '青海': 96.0 + Math.random() * 6.0,
+    '青藏高原': 95.0 + Math.random() * 8.0,
+    '四川卧龙保护地': 103.0 + Math.random() * 1.0,
+    '四川': 102.0 + Math.random() * 3.0
+  }
+  
+  return locationCoords[location] || (100.0 + Math.random() * 20.0)
 }
 
 // 生命周期
@@ -1132,6 +1359,170 @@ onUnmounted(() => {
   border-color: #2ECC71;
   background: rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.3);
+}
+
+/* 多模态文件上传按钮组样式 */
+.upload-buttons-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding: 0 20px;
+}
+
+.upload-buttons-title {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.upload-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.upload-type-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 16px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  position: relative;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: white;
+  font-family: inherit;
+}
+
+.upload-type-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(46, 204, 113, 0.5);
+  transform: translateY(-2px);
+}
+
+.upload-type-btn.selected {
+  border-color: #2ECC71;
+  background: rgba(46, 204, 113, 0.2);
+  box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
+}
+
+.upload-type-btn.uploading {
+  border-color: #2ECC71;
+  background: rgba(46, 204, 113, 0.1);
+  cursor: not-allowed;
+}
+
+.upload-type-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.btn-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.btn-file-name {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  word-break: break-all;
+  max-width: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.2;
+  margin-top: 4px;
+}
+
+.btn-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid #2ECC71;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-top: 4px;
+}
+
+.btn-clear {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  line-height: 1;
+}
+
+.btn-clear:hover {
+  background: #dc3545;
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .upload-buttons-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  
+  .upload-type-btn {
+    min-height: 70px;
+    padding: 12px 8px;
+    gap: 6px;
+  }
+  
+  .btn-icon {
+    font-size: 1.5rem;
+  }
+  
+  .btn-text {
+    font-size: 0.8rem;
+  }
+  
+  .btn-file-name {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .upload-buttons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .upload-type-btn {
+    min-height: 65px;
+    padding: 10px 6px;
+  }
 }
 
 .start-btn {

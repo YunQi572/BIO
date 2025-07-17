@@ -1,3 +1,27 @@
+-- Create the animals table if it doesn't exist
+CREATE TABLE IF NOT EXISTS animals (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    species_id VARCHAR(100) NOT NULL,
+    species_name VARCHAR(100) NOT NULL,
+    animal_id VARCHAR(100) NOT NULL UNIQUE,
+    animal_name VARCHAR(100) NOT NULL,
+    age VARCHAR(50),
+    gender VARCHAR(20),
+    health_status VARCHAR(50),
+    is_sick BOOLEAN DEFAULT FALSE,
+    is_warning BOOLEAN DEFAULT FALSE,
+    weight VARCHAR(50),
+    habitat VARCHAR(255),
+    description TEXT,
+    first_discovered DATETIME,
+    last_seen DATETIME,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL,
+    INDEX idx_species_name (species_name),
+    INDEX idx_animal_id (animal_id),
+    INDEX idx_health_status (health_status)
+);
+
 -- Create the animal_tracking table if it doesn't exist
 CREATE TABLE IF NOT EXISTS animal_tracking (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -10,50 +34,109 @@ CREATE TABLE IF NOT EXISTS animal_tracking (
     longitude DECIMAL(10, 6) NOT NULL,
     INDEX idx_species_id (species, species_id),
     INDEX idx_animal_id (species, animal_id),
-    INDEX idx_timestamp (timestamp)
+    INDEX idx_timestamp (timestamp),
+    -- 添加外键约束，确保数据一致性
+    FOREIGN KEY (animal_id) REFERENCES animals(animal_id) ON DELETE CASCADE
 );
 
--- Sample data for testing
+-- 清除现有数据以避免冲突
+DELETE FROM animal_tracking;
+DELETE FROM animals;
+
+-- 统一的动物个体数据
+INSERT INTO animals (species_id, species_name, animal_id, animal_name, age, gender, health_status, is_sick, is_warning, weight, habitat, description, first_discovered, last_seen, created_at, updated_at)
+VALUES 
+    -- 东北虎个体数据
+    ('ST001', '东北虎', 'CN-TGR-001', '虎啸-001', '5岁', '雄性', '健康', FALSE, FALSE, '180-220kg', '大兴安岭保护地', '左肩有独特斑纹，行为模式稳定', '2023-01-01 08:00:00', '2023-01-02 16:20:00', NOW(), NOW()),
+    ('ST001', '东北虎', 'CN-TGR-002', '森林王者', '7岁', '雄性', '亚健康', FALSE, TRUE, '190-230kg', '大兴安岭保护地', '体型较大，近期活动范围缩小', '2023-01-01 09:00:00', '2023-01-02 17:20:00', NOW(), NOW()),
+    ('ST001', '东北虎', 'CN-TGR-003', '雪域猛虎', '4岁', '雌性', '健康', FALSE, FALSE, '140-180kg', '大兴安岭保护地', '行动敏捷，狩猎成功率高', '2023-01-03 07:30:00', '2023-01-04 18:45:00', NOW(), NOW()),
+    
+    -- 大熊猫个体数据
+    ('GP001', '大熊猫', 'CN-AML-088', '团团', '8岁', '雄性', '需关注', TRUE, TRUE, '80-120kg', '四川卧龙保护地', '背部黑色条带较宽，近期食欲下降', '2023-02-01 09:00:00', '2023-02-02 16:30:00', NOW(), NOW()),
+    ('GP001', '大熊猫', 'CN-AML-089', '圆圆', '6岁', '雌性', '健康', FALSE, FALSE, '70-90kg', '四川卧龙保护地', '行为活跃，繁殖能力强', '2023-02-01 10:00:00', '2023-02-02 16:30:00', NOW(), NOW()),
+    ('GP001', '大熊猫', 'CN-AML-090', '憨憨', '3岁', '雄性', '健康', FALSE, FALSE, '60-80kg', '四川卧龙保护地', '性格温和，适应能力强', '2023-02-03 08:45:00', '2023-02-04 17:15:00', NOW(), NOW()),
+    
+    -- 雪豹个体数据
+    ('PNU001', '雪豹', 'CN-PNU-014', '雪山魅影', '3岁', '雌性', '亚健康', FALSE, FALSE, '25-55kg', '青藏高原', '右耳有轻微缺口，适应高海拔环境', '2023-03-01 07:30:00', '2023-03-02 17:45:00', NOW(), NOW()),
+    ('PNU001', '雪豹', 'CN-PNU-015', '高原精灵', '4岁', '雄性', '健康', FALSE, FALSE, '30-60kg', '青藏高原', '行动敏捷，狩猎技巧娴熟', '2023-03-01 08:30:00', '2023-03-02 17:45:00', NOW(), NOW()),
+    
+    -- 华南虎个体数据
+    ('SCT001', '华南虎', 'CN-SCT-001', '南国之王', '6岁', '雄性', '健康', FALSE, FALSE, '150-190kg', '华南山区', '体型健壮，领地意识强', '2023-04-01 07:30:00', '2023-04-02 16:45:00', NOW(), NOW()),
+    ('SCT001', '华南虎', 'CN-SCT-002', '山林霸主', '5岁', '雌性', '健康', FALSE, FALSE, '110-140kg', '华南山区', '母性强烈，保护幼崽能力出色', '2023-04-01 08:30:00', '2023-04-02 17:45:00', NOW(), NOW()),
+    
+    -- 金丝猴个体数据
+    ('GLD001', '金丝猴', 'CN-GLD-001', '金毛猴王', '7岁', '雄性', '健康', FALSE, FALSE, '15-25kg', '秦岭山区', '群体首领，领导能力强', '2023-05-01 09:00:00', '2023-05-02 18:30:00', NOW(), NOW()),
+    ('GLD001', '金丝猴', 'CN-GLD-002', '森林精灵', '4岁', '雌性', '健康', FALSE, FALSE, '10-15kg', '秦岭山区', '灵活敏捷，群体适应性好', '2023-05-01 09:30:00', '2023-05-02 18:00:00', NOW(), NOW());
+
+-- 统一格式的轨迹数据，使用与animals表一致的animal_id
 INSERT INTO animal_tracking (species, species_id, animal_id, timestamp, location, latitude, longitude)
 VALUES 
-    -- Siberian Tiger tracking - Tiger 1
-    ('SiberianTiger', 'ST001', 'Tiger001', '2023-01-01 08:00:00', 'Northeast China Forest', 48.123456, 127.654321),
-    ('SiberianTiger', 'ST001', 'Tiger001', '2023-01-01 12:30:00', 'Northeast China Forest', 48.234567, 127.765432),
-    ('SiberianTiger', 'ST001', 'Tiger001', '2023-01-01 18:45:00', 'Northeast China Forest', 48.345678, 127.876543),
-    ('SiberianTiger', 'ST001', 'Tiger001', '2023-01-02 07:15:00', 'Northeast China Forest', 48.456789, 127.987654),
-    ('SiberianTiger', 'ST001', 'Tiger001', '2023-01-02 16:20:00', 'Northeast China Forest', 48.567890, 128.098765),
+    -- 东北虎轨迹数据 - CN-TGR-001
+    ('东北虎', 'ST001', 'CN-TGR-001', '2023-01-01 08:00:00', '大兴安岭东部森林', 48.123456, 127.654321),
+    ('东北虎', 'ST001', 'CN-TGR-001', '2023-01-01 12:30:00', '大兴安岭中部区域', 48.234567, 127.765432),
+    ('东北虎', 'ST001', 'CN-TGR-001', '2023-01-01 18:45:00', '森林深处栖息地', 48.345678, 127.876543),
+    ('东北虎', 'ST001', 'CN-TGR-001', '2023-01-02 07:15:00', '河流附近觅食点', 48.456789, 127.987654),
+    ('东北虎', 'ST001', 'CN-TGR-001', '2023-01-02 16:20:00', '高地观察点', 48.567890, 128.098765),
     
-    -- Siberian Tiger tracking - Tiger 2
-    ('SiberianTiger', 'ST001', 'Tiger002', '2023-01-01 09:00:00', 'Northeast China Forest', 48.323456, 127.454321),
-    ('SiberianTiger', 'ST001', 'Tiger002', '2023-01-01 14:30:00', 'Northeast China Forest', 48.334567, 127.565432),
-    ('SiberianTiger', 'ST001', 'Tiger002', '2023-01-01 19:45:00', 'Northeast China Forest', 48.345678, 127.676543),
-    ('SiberianTiger', 'ST001', 'Tiger002', '2023-01-02 08:15:00', 'Northeast China Forest', 48.356789, 127.787654),
-    ('SiberianTiger', 'ST001', 'Tiger002', '2023-01-02 17:20:00', 'Northeast China Forest', 48.367890, 127.898765),
+    -- 东北虎轨迹数据 - CN-TGR-002
+    ('东北虎', 'ST001', 'CN-TGR-002', '2023-01-01 09:00:00', '大兴安岭西部森林', 48.323456, 127.454321),
+    ('东北虎', 'ST001', 'CN-TGR-002', '2023-01-01 14:30:00', '山谷狩猎区域', 48.334567, 127.565432),
+    ('东北虎', 'ST001', 'CN-TGR-002', '2023-01-01 19:45:00', '夜间休息地', 48.345678, 127.676543),
+    ('东北虎', 'ST001', 'CN-TGR-002', '2023-01-02 08:15:00', '晨间巡逻路线', 48.356789, 127.787654),
+    ('东北虎', 'ST001', 'CN-TGR-002', '2023-01-02 17:20:00', '领地边界标记点', 48.367890, 127.898765),
     
-    -- Giant Panda tracking - Panda 1
-    ('GiantPanda', 'GP001', 'Panda001', '2023-02-01 09:00:00', 'Sichuan Bamboo Forest', 30.123456, 103.654321),
-    ('GiantPanda', 'GP001', 'Panda001', '2023-02-01 14:30:00', 'Sichuan Bamboo Forest', 30.134567, 103.765432),
-    ('GiantPanda', 'GP001', 'Panda001', '2023-02-01 19:15:00', 'Sichuan Bamboo Forest', 30.145678, 103.776543),
-    ('GiantPanda', 'GP001', 'Panda001', '2023-02-02 08:45:00', 'Sichuan Bamboo Forest', 30.156789, 103.787654),
-    ('GiantPanda', 'GP001', 'Panda001', '2023-02-02 15:30:00', 'Sichuan Bamboo Forest', 30.167890, 103.798765),
+    -- 大熊猫轨迹数据 - CN-AML-088
+    ('大熊猫', 'GP001', 'CN-AML-088', '2023-02-01 09:00:00', '卧龙核心保护区', 30.123456, 103.654321),
+    ('大熊猫', 'GP001', 'CN-AML-088', '2023-02-01 14:30:00', '竹林觅食区A段', 30.134567, 103.765432),
+    ('大熊猫', 'GP001', 'CN-AML-088', '2023-02-01 19:15:00', '山腰休息平台', 30.145678, 103.776543),
+    ('大熊猫', 'GP001', 'CN-AML-088', '2023-02-02 08:45:00', '晨间活动区域', 30.156789, 103.787654),
+    ('大熊猫', 'GP001', 'CN-AML-088', '2023-02-02 15:30:00', '下午觅食地点', 30.167890, 103.798765),
     
-    -- Giant Panda tracking - Panda 2
-    ('GiantPanda', 'GP001', 'Panda002', '2023-02-01 10:00:00', 'Sichuan Bamboo Forest', 30.223456, 103.854321),
-    ('GiantPanda', 'GP001', 'Panda002', '2023-02-01 15:30:00', 'Sichuan Bamboo Forest', 30.234567, 103.865432),
-    ('GiantPanda', 'GP001', 'Panda002', '2023-02-01 20:15:00', 'Sichuan Bamboo Forest', 30.245678, 103.876543),
-    ('GiantPanda', 'GP001', 'Panda002', '2023-02-02 09:45:00', 'Sichuan Bamboo Forest', 30.256789, 103.887654),
-    ('GiantPanda', 'GP001', 'Panda002', '2023-02-02 16:30:00', 'Sichuan Bamboo Forest', 30.267890, 103.898765),
+    -- 大熊猫轨迹数据 - CN-AML-089
+    ('大熊猫', 'GP001', 'CN-AML-089', '2023-02-01 10:00:00', '卧龙南部竹林', 30.223456, 103.854321),
+    ('大熊猫', 'GP001', 'CN-AML-089', '2023-02-01 15:30:00', '溪流饮水点', 30.234567, 103.865432),
+    ('大熊猫', 'GP001', 'CN-AML-089', '2023-02-01 20:15:00', '夜间栖息树洞', 30.245678, 103.876543),
+    ('大熊猫', 'GP001', 'CN-AML-089', '2023-02-02 09:45:00', '早晨游戏区域', 30.256789, 103.887654),
+    ('大熊猫', 'GP001', 'CN-AML-089', '2023-02-02 16:30:00', '午后阳光浴场所', 30.267890, 103.898765),
     
-    -- South China Tiger tracking - SCTiger 1
-    ('SouthChinaTiger', 'SCT001', 'SCTiger001', '2023-03-01 07:30:00', 'South China Mountain Range', 25.123456, 110.654321),
-    ('SouthChinaTiger', 'SCT001', 'SCTiger001', '2023-03-01 13:15:00', 'South China Mountain Range', 25.234567, 110.765432),
-    ('SouthChinaTiger', 'SCT001', 'SCTiger001', '2023-03-01 19:00:00', 'South China Mountain Range', 25.345678, 110.876543),
-    ('SouthChinaTiger', 'SCT001', 'SCTiger001', '2023-03-02 08:30:00', 'South China Mountain Range', 25.456789, 110.987654),
-    ('SouthChinaTiger', 'SCT001', 'SCTiger001', '2023-03-02 16:45:00', 'South China Mountain Range', 25.567890, 111.098765),
+    -- 华南虎轨迹数据 - CN-SCT-001
+    ('华南虎', 'SCT001', 'CN-SCT-001', '2023-04-01 07:30:00', '华南山脉主峰区', 25.123456, 110.654321),
+    ('华南虎', 'SCT001', 'CN-SCT-001', '2023-04-01 13:15:00', '山间猎物通道', 25.234567, 110.765432),
+    ('华南虎', 'SCT001', 'CN-SCT-001', '2023-04-01 19:00:00', '岩石庇护所', 25.345678, 110.876543),
+    ('华南虎', 'SCT001', 'CN-SCT-001', '2023-04-02 08:30:00', '河谷狩猎场', 25.456789, 110.987654),
+    ('华南虎', 'SCT001', 'CN-SCT-001', '2023-04-02 16:45:00', '高地观察哨', 25.567890, 111.098765),
     
-    -- South China Tiger tracking - SCTiger 2
-    ('SouthChinaTiger', 'SCT001', 'SCTiger002', '2023-03-01 08:30:00', 'South China Mountain Range', 25.623456, 110.754321),
-    ('SouthChinaTiger', 'SCT001', 'SCTiger002', '2023-03-01 14:15:00', 'South China Mountain Range', 25.634567, 110.865432),
-    ('SouthChinaTiger', 'SCT001', 'SCTiger002', '2023-03-01 20:00:00', 'South China Mountain Range', 25.645678, 110.976543),
-    ('SouthChinaTiger', 'SCT001', 'SCTiger002', '2023-03-02 09:30:00', 'South China Mountain Range', 25.656789, 111.087654),
-    ('SouthChinaTiger', 'SCT001', 'SCTiger002', '2023-03-02 17:45:00', 'South China Mountain Range', 25.667890, 111.198765); 
+    -- 华南虎轨迹数据 - CN-SCT-002
+    ('华南虎', 'SCT001', 'CN-SCT-002', '2023-04-01 08:30:00', '华南山脉北坡', 25.623456, 110.754321),
+    ('华南虎', 'SCT001', 'CN-SCT-002', '2023-04-01 14:15:00', '密林深处巢穴', 25.634567, 110.865432),
+    ('华南虎', 'SCT001', 'CN-SCT-002', '2023-04-01 20:00:00', '月夜巡逻路径', 25.645678, 110.976543),
+    ('华南虎', 'SCT001', 'CN-SCT-002', '2023-04-02 09:30:00', '清晨觅食区', 25.656789, 111.087654),
+    ('华南虎', 'SCT001', 'CN-SCT-002', '2023-04-02 17:45:00', '傍晚休憩地', 25.667890, 111.198765),
+    
+    -- 雪豹轨迹数据 - CN-PNU-014
+    ('雪豹', 'PNU001', 'CN-PNU-014', '2023-03-01 07:30:00', '珠峰保护区高海拔区', 27.923456, 86.854321),
+    ('雪豹', 'PNU001', 'CN-PNU-014', '2023-03-01 13:15:00', '冰川边缘觅食点', 27.934567, 86.865432),
+    ('雪豹', 'PNU001', 'CN-PNU-014', '2023-03-01 19:00:00', '岩石缝隙避风处', 27.945678, 86.876543),
+    ('雪豹', 'PNU001', 'CN-PNU-014', '2023-03-02 08:30:00', '山脊巡逻线路', 27.956789, 86.887654),
+    ('雪豹', 'PNU001', 'CN-PNU-014', '2023-03-02 17:45:00', '高原牧草地观察点', 27.967890, 86.898765),
+    
+    -- 雪豹轨迹数据 - CN-PNU-015
+    ('雪豹', 'PNU001', 'CN-PNU-015', '2023-03-01 08:30:00', '唐古拉山脉南段', 27.823456, 86.754321),
+    ('雪豹', 'PNU001', 'CN-PNU-015', '2023-03-01 14:15:00', '雪线附近狩猎区', 27.834567, 86.765432),
+    ('雪豹', 'PNU001', 'CN-PNU-015', '2023-03-01 20:00:00', '山洞过夜栖息地', 27.845678, 86.776543),
+    ('雪豹', 'PNU001', 'CN-PNU-015', '2023-03-02 09:30:00', '晨光中的觅食场', 27.856789, 86.787654),
+    ('雪豹', 'PNU001', 'CN-PNU-015', '2023-03-02 18:45:00', '晚霞下的休息处', 27.867890, 86.798765),
+    
+    -- 金丝猴轨迹数据 - CN-GLD-001
+    ('金丝猴', 'GLD001', 'CN-GLD-001', '2023-05-01 09:00:00', '秦岭主峰森林区', 33.723456, 108.954321),
+    ('金丝猴', 'GLD001', 'CN-GLD-001', '2023-05-01 14:30:00', '古树群觅食场', 33.734567, 108.965432),
+    ('金丝猴', 'GLD001', 'CN-GLD-001', '2023-05-01 19:15:00', '树冠层休息平台', 33.745678, 108.976543),
+    ('金丝猴', 'GLD001', 'CN-GLD-001', '2023-05-02 08:45:00', '晨间群体集合点', 33.756789, 108.987654),
+    ('金丝猴', 'GLD001', 'CN-GLD-001', '2023-05-02 18:30:00', '夕阳下的游戏场', 33.767890, 108.998765),
+    
+    -- 金丝猴轨迹数据 - CN-GLD-002
+    ('金丝猴', 'GLD001', 'CN-GLD-002', '2023-05-01 09:30:00', '秦岭中段竹林', 33.623456, 108.854321),
+    ('金丝猴', 'GLD001', 'CN-GLD-002', '2023-05-01 15:00:00', '山涧饮水处', 33.634567, 108.865432),
+    ('金丝猴', 'GLD001', 'CN-GLD-002', '2023-05-01 20:30:00', '高树枝夜宿点', 33.645678, 108.876543),
+    ('金丝猴', 'GLD001', 'CN-GLD-002', '2023-05-02 09:15:00', '阳光斑点觅食区', 33.656789, 108.887654),
+    ('金丝猴', 'GLD001', 'CN-GLD-002', '2023-05-02 18:00:00', '黄昏归巢路径', 33.667890, 108.898765); 
