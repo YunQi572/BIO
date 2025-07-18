@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="tech-intro-image">
-            <img src="/技术概览.jpg" alt="技术概览">
+            <img src="/Tec.jpg" alt="技术概览">
           </div>
         </div>
       </section>

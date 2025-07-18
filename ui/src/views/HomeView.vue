@@ -31,7 +31,7 @@
                 <p>在此背景下，"增强型全球生物多样性AI守护者"项目应运而生，旨在利用人工智能技术突破传统监测技术的局限，构建全天候、高精度、低成本的生态监测和保护网络，为全球生物多样性保护提供强有力的技术支持和决策依据。</p>
               </div>
               <div class="background-image">
-                <img src="/项目背景.jpg" alt="项目背景图片" />
+                <img src="/ProBac.jpg" alt="项目背景图片" />
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@
             <h3 style="text-align: right;">项目前景</h3>
             <div class="mission-content">
               <div class="mission-image">
-                <img src="/项目前景.jpg" alt="项目前景图片" />
+                <img src="/ProPro.jpg" alt="项目前景图片" />
               </div>
               <div class="mission-text">
                 <p>增强型全球生物多样性AI守护者是一个结合人工智能与生态保护的创新项目，旨在通过先进技术手段监测、分析和保护全球生物多样性。面对生物多样性保护领域的关键挑战，我们开发了一系列创新解决方案，构建了一个全面的生态监测和保护网络，致力于实现以下目标：</p>
@@ -232,10 +232,10 @@
 
           <router-link to="/ai-engine" class="card hover-lift-card">
             <div class="card-image">
-              <img src="@/assets/Picture/核心技术/acbdffbfefbedHraplgZFcBCOqLjRqNK.jpeg" alt="AI个体识别引擎" class="hover-zoom">
+              <img src="@/assets/Picture/核心技术/acbdffbfefbedHraplgZFcBCOqLjRqNK.jpeg" alt="AI-ReID个体识别引擎" class="hover-zoom">
             </div>
             <div class="card-content">
-              <h3>AI个体识别引擎</h3>
+              <h3>AI-ReID个体识别引擎</h3>
               <p>体验AI驱动的个体识别流程</p>
             </div>
           </router-link>

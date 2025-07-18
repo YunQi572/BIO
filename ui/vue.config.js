@@ -1,6 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 const webpack = require('webpack');
 module.exports = defineConfig({
+  transpileDependencies: true,
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
@@ -9,15 +10,27 @@ module.exports = defineConfig({
       }),
     ],
   },
-  transpileDependencies: true,
+  pages: {
+    index: {
+      // entry for the page
+      entry: 'src/main.js',
+      // the source template
+      template: 'public/index.html',
+      // output as dist/index.html
+      filename: 'index.html',
+      // when using title option,
+      // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
+      title: '野瞳万象',
+    }
+  },
   lintOnSave: false,
   // 跨域配置
   devServer: {               //记住，别写错了devServer//设置本地默认端口  选填
     port: 9876,
     proxy: {                  //设置代理，必须填
       '/api': {              //设置拦截器  拦截器格式   斜杠+拦截器名字，名字可以自己定
-        target: 'http://localhost:9090',     //代理的目标地址
-        // target: 'http://47.110.247.24:9090',     //代理的目标地址
+        // target: 'http://localhost:9090',     //代理的目标地址
+        target: 'http://47.110.247.24:9090',     //代理的目标地址
         // target: 'http://47.110.247.24:9090',     //代理的目标地址
         // changeOrigin: true,              //是否设置同源，输入是的
         pathRewrite: {                   //路径重写
