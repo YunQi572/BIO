@@ -112,7 +112,7 @@ onMounted(() => {
       <h1>生态监测数据中心</h1>
       <button class="map-button" @click="navigateToMap">
         <span class="map-icon">🗺️</span>
-        查看迁移地图
+        查看生态地图
       </button>
     </div>
     

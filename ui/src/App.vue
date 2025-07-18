@@ -3,7 +3,7 @@
     <header :class="['main-header', { 'nav-hidden': !isNavVisible }]">
       <nav>
         <div class="nav-container">
-          <div class="logo">生物多样性AI守护者</div>
+          <div class="logo">野瞳万象</div>
           <div class="nav-links">
             <router-link to="/">首页</router-link>
             <router-link to="/ai-engine">AI-ReID个体识别引擎</router-link>
