@@ -3,7 +3,7 @@
     <!-- 英雄区域 -->
     <section class="hero-section">
       <div class="hero-content fade-in">
-        <h1 class="slide-up">增强型全球生物多样性AI守护者</h1>
+        <h1 class="slide-up">野瞳万象：野生动物多模态个体识别与智能预警平台</h1>
         <p class="slide-up delay-1">利用人工智能技术保护地球生物多样性</p>
         <div class="hero-buttons slide-up delay-2">
           <router-link to="/project-overview" class="btn btn-primary hover-lift">了解更多</router-link>
