@@ -296,26 +296,12 @@
                 <span>📊 行为分析 (由 AMLP 驱动)</span>
               </div>
               <div class="behavior-stats">
-                <div class="stat-box">
-                  <span class="stat-label">活跃度</span>
+                <div v-for="stat in behaviorStats" :key="stat.label" class="stat-box">
+                  <span class="stat-label">{{ stat.label }}</span>
                   <div class="stat-bar">
-                    <div class="stat-fill" style="width: 85%"></div>
+                    <div class="stat-fill" :style="{ width: stat.value + '%', background: stat.color }"></div>
                   </div>
-                  <span class="stat-value">85%</span>
-                </div>
-                <div class="stat-box">
-                  <span class="stat-label">觅食频率</span>
-                  <div class="stat-bar">
-                    <div class="stat-fill" style="width: 72%"></div>
-                  </div>
-                  <span class="stat-value">72%</span>
-                </div>
-                <div class="stat-box">
-                  <span class="stat-label">社交互动</span>
-                  <div class="stat-bar">
-                    <div class="stat-fill" style="width: 60%"></div>
-                  </div>
-                  <span class="stat-value">60%</span>
+                  <span class="stat-value">{{ stat.value }}%</span>
                 </div>
               </div>
             </div>
@@ -328,16 +314,16 @@
             </div>
             <div class="mllm-content">
               <div class="mllm-section">
-                <h4 class="mllm-section-title">轨迹分析与预测</h4>
-                <p class="mllm-text">根据最近72小时的活动数据，个体"{{ resultAnimal.name }}"的活动范围稳定在东北方向的15平方公里内，符合其物种习性。轨迹预测模型显示，未来24小时有 <strong>75%</strong> 的概率会向标记的「水源地A」移动。</p>
+                <h4 class="mllm-section-title">{{ mllmAnalysis.trajectory.title }}</h4>
+                <p class="mllm-text" v-html="mllmAnalysis.trajectory.content"></p>
               </div>
               <div class="mllm-section">
-                <h4 class="mllm-section-title">健康与行为风险评估</h4>
-                <p class="mllm-text">视觉分析未发现明显外伤，毛色光泽度正常。但行为数据显示，其夜间活跃度相较于历史基线下降了 <strong>15%</strong>，可能为早期潜在疾病征兆或近期能量摄入不足。风险等级：<span class="risk-level low">低</span></p>
+                <h4 class="mllm-section-title">{{ mllmAnalysis.health.title }}</h4>
+                <p class="mllm-text" v-html="mllmAnalysis.health.content"></p>
               </div>
               <div class="mllm-section">
-                <h4 class="mllm-section-title">多模态信息交叉验证</h4>
-                <p class="mllm-text">用户上传的文本描述「{{ additionalText || '无' }}」与图像分析结果（步态稳健、精神状态良好）交叉验证一致。综合判断，该个体目前状态稳定。</p>
+                <h4 class="mllm-section-title">{{ mllmAnalysis.multimodal.title }}</h4>
+                <p class="mllm-text" v-html="mllmAnalysis.multimodal.content"></p>
               </div>
             </div>
           </div>
@@ -403,17 +389,17 @@ const samples = ref([
     location: '中国东北'
   },
   { 
-    name: '雪豹-014', 
-    desc: '右耳有轻微缺口', 
-    species: '雪豹',
-    text: '夜间红外相机捕捉，海拔4500米区域，正在捕食。',
-    cover: new URL('@/assets/Picture/AI识别/雪豹.jpg', import.meta.url).href, 
-    id: 'CN-PNU-014', 
-    age: '3岁', 
-    health: '亚健康',
-    habitat: '青藏高原',
-    weight: '25-55kg',
-    location: '青海'
+    name: '流浪犬-007', 
+    desc: '左前腿有明显白色斑块', 
+    species: '家犬',
+    text: '城市边缘发现，疑似走失宠物，行为友善，需要救助。',
+    cover: new URL('@/assets/Picture/AI识别/小狗.png', import.meta.url).href, 
+    id: 'CN-DOG-007', 
+    age: '2岁', 
+    health: '轻微营养不良',
+    habitat: '城市边缘地带',
+    weight: '12-15kg',
+    location: '城市郊区'
   },
   { 
     name: '大熊猫-088', 
@@ -586,6 +572,94 @@ const displayImage = computed(() => {
   }
   
   return ''
+})
+
+// 动态行为分析数据
+const behaviorStats = computed(() => {
+  const animal = resultAnimal.value
+  const species = animal.species
+  
+  if (species === '家犬') {
+    return [
+      { label: '人类亲和度', value: 78, color: '#74b9ff' },
+      { label: '觅食能力', value: 92, color: '#00b894' },
+      { label: '警惕性', value: 65, color: '#fdcb6e' },
+      { label: '健康指数', value: 68, color: '#e17055' }
+    ]
+  } else if (species === '东北虎') {
+    return [
+      { label: '活跃度', value: 85, color: '#00b894' },
+      { label: '觅食频率', value: 72, color: '#fdcb6e' },
+      { label: '社交互动', value: 60, color: '#74b9ff' }
+    ]
+  } else if (species === '大熊猫') {
+    return [
+      { label: '活跃度', value: 45, color: '#00b894' },
+      { label: '进食频率', value: 88, color: '#fdcb6e' },
+      { label: '休息质量', value: 92, color: '#74b9ff' }
+    ]
+  } else {
+    // 默认数据
+    return [
+      { label: '活跃度', value: 75, color: '#00b894' },
+      { label: '觅食频率', value: 68, color: '#fdcb6e' },
+      { label: '社交互动', value: 55, color: '#74b9ff' }
+    ]
+  }
+})
+
+// 动态MLLM分析内容
+const mllmAnalysis = computed(() => {
+  const animal = resultAnimal.value
+  const species = animal.species
+  
+  if (species === '家犬') {
+    return {
+      trajectory: {
+        title: '活动轨迹与行为模式分析',
+        content: `根据最近48小时的GPS追踪数据，个体"${animal.name}"主要活动在城市边缘的2平方公里范围内，表现出典型的流浪犬觅食行为模式。AI预测模型显示，该犬只有 <strong>85%</strong> 的概率会在傍晚时分返回「垃圾收集点B」附近觅食。`
+      },
+      health: {
+        title: '健康状况与救助评估',
+        content: `通过图像分析检测到轻微的营养不良症状，体重估算比标准值低约 <strong>20%</strong>。毛发状态显示缺乏定期护理，但未发现明显外伤或疾病征象。行为评估显示该犬对人类保持警惕但无攻击性。救助优先级：<span class="risk-level medium">中等</span>`
+      },
+      multimodal: {
+        title: '多模态信息综合判断',
+        content: `结合用户描述「${additionalText.value || '城市边缘发现，疑似走失宠物'}」与AI视觉分析（体态匀称、眼神清澈、无明显恐惧行为），判断该犬只可能为近期走失的家养宠物，建议优先进行身份识别和寻主工作。`
+      }
+    }
+  } else if (species === '东北虎') {
+    return {
+      trajectory: {
+        title: '轨迹分析与预测',
+        content: `根据最近72小时的活动数据，个体"${animal.name}"的活动范围稳定在东北方向的15平方公里内，符合其物种习性。轨迹预测模型显示，未来24小时有 <strong>75%</strong> 的概率会向标记的「水源地A」移动。`
+      },
+      health: {
+        title: '健康与行为风险评估',
+        content: `视觉分析未发现明显外伤，毛色光泽度正常。但行为数据显示，其夜间活跃度相较于历史基线下降了 <strong>15%</strong>，可能为早期潜在疾病征兆或近期能量摄入不足。风险等级：<span class="risk-level low">低</span>`
+      },
+      multimodal: {
+        title: '多模态信息交叉验证',
+        content: `用户上传的文本描述「${additionalText.value || '无'}」与图像分析结果（步态稳健、精神状态良好）交叉验证一致。综合判断，该个体目前状态稳定。`
+      }
+    }
+  } else {
+    // 大熊猫或其他物种的默认分析
+    return {
+      trajectory: {
+        title: '轨迹分析与预测',
+        content: `根据最近72小时的活动数据，个体"${animal.name}"的活动范围符合其物种的典型行为模式。AI预测模型显示良好的栖息地适应性。`
+      },
+      health: {
+        title: '健康与行为风险评估',
+        content: `通过多模态分析，该个体整体健康状况良好，行为模式正常。建议持续监测以确保长期健康。风险等级：<span class="risk-level low">低</span>`
+      },
+      multimodal: {
+        title: '多模态信息交叉验证',
+        content: `综合图像、文本等多源信息，该个体识别准确度高，状态评估可靠。`
+      }
+    }
+  }
 })
 
 // 辅助函数：检查是否有上传的文件
@@ -762,6 +836,37 @@ function initializeAnalysis() {
   currentStatusIndex.value = 0
   resultAccuracy.value = 0
   
+  // 根据物种设置不同的状态消息
+  const animal = resultAnimal.value
+  const species = animal.species
+  
+  if (species === '家犬') {
+    statusMessages.value = [
+      "接收多模态输入，启动城市动物识别...",
+      "分析犬类特征，检测品种与健康状况...",
+      "匹配走失宠物数据库，评估救助优先级...",
+      "生成个体身份档案与行为评估...",
+      "识别完成，生成救助建议与寻主方案..."
+    ]
+  } else if (species === '东北虎') {
+    statusMessages.value = [
+      "接收多模态输入，智能解析数据...",
+      "深度特征提取，融合多源信息...",
+      "RotTrans等核心算法提升识别鲁棒性...",
+      "AI智能比对数据库个体...",
+      "识别完成，生成数字档案与相似推荐..."
+    ]
+  } else {
+    // 默认状态消息
+    statusMessages.value = [
+      "接收多模态输入，智能解析数据...",
+      "深度特征提取，融合多源信息...",
+      "应用AI算法进行个体识别...",
+      "智能比对数据库，确认个体身份...",
+      "识别完成，生成数字档案..."
+    ]
+  }
+  
   // 生成检测点
   detectionPoints.value = [
     { id: 1, x: 25, y: 30, delay: 0.5 },
@@ -902,15 +1007,43 @@ function showNextStatus() {
 }
 
 function updateInsights() {
-  const insights = [
-    ['加载多模态REID神经网络', '初始化红外图像预处理器'],
-    ['应用跨场景识别模型', '检测个体基本轮廓'],
-    ['分析动物身体高频纹理', '滤除背景及光照噪声'],
-    ['校正拍摄角度偏差', '确保关键特征的稳定性'],
-    ['并行分析健康状况、行为模式、年龄等', '构建多维度生物特征向量'],
-    ['对比通用AI，生成结构化、专业化描述', '构建完整的个体数字档案'],
-    ['REID匹配成功！已确认个体身份']
-  ]
+  const animal = resultAnimal.value
+  const species = animal.species
+  
+  let insights = []
+  
+  if (species === '家犬') {
+    insights = [
+      ['启动城市动物识别模块', '加载宠物特征数据库'],
+      ['检测犬类品种特征', '分析毛色与体型特征'],
+      ['评估营养状况与健康指标', '识别可能的身份标识'],
+      ['匹配走失宠物数据库', '分析行为模式与社会化程度'],
+      ['生成救助优先级评估', '构建个体身份档案'],
+      ['整合多模态信息', '生成救助建议与寻主方案'],
+      ['识别完成！建议立即启动救助流程']
+    ]
+  } else if (species === '东北虎') {
+    insights = [
+      ['加载多模态REID神经网络', '初始化红外图像预处理器'],
+      ['应用跨场景识别模型', '检测个体基本轮廓'],
+      ['分析动物身体高频纹理', '滤除背景及光照噪声'],
+      ['校正拍摄角度偏差', '确保关键特征的稳定性'],
+      ['并行分析健康状况、行为模式、年龄等', '构建多维度生物特征向量'],
+      ['对比通用AI，生成结构化、专业化描述', '构建完整的个体数字档案'],
+      ['REID匹配成功！已确认个体身份']
+    ]
+  } else {
+    // 默认洞察（大熊猫等）
+    insights = [
+      ['加载物种识别模块', '初始化特征提取器'],
+      ['分析个体特征', '检测关键识别点'],
+      ['应用机器学习算法', '进行模式匹配'],
+      ['评估识别置信度', '验证结果准确性'],
+      ['生成个体档案', '整合分析结果'],
+      ['完成多模态验证', '输出最终报告'],
+      ['识别流程完成！']
+    ]
+  }
   
   if (currentStatusIndex.value < insights.length) {
     currentInsights.value = insights[currentStatusIndex.value]
@@ -920,7 +1053,7 @@ function updateInsights() {
 function getProtectionLevel(species) {
   const levels = {
     '东北虎': 'critical',
-    '雪豹': 'vulnerable', 
+    '家犬': 'rescue', 
     '大熊猫': 'vulnerable'
   }
   return levels[species] || 'unknown'
@@ -929,7 +1062,7 @@ function getProtectionLevel(species) {
 function getProtectionText(species) {
   const texts = {
     '东北虎': '极危物种',
-    '雪豹': '易危物种',
+    '家犬': '需要救助',
     '大熊猫': '易危物种'
   }
   return texts[species] || '保护状态未知'
@@ -939,7 +1072,8 @@ function getHealthClass(health) {
   const classes = {
     '健康': 'healthy',
     '亚健康': 'warning',
-    '需关注': 'danger'
+    '需关注': 'danger',
+    '轻微营养不良': 'warning'
   }
   return classes[health] || 'unknown'
 }
@@ -1040,8 +1174,8 @@ function generateRandomLatitude(location) {
   const locationCoords = {
     '大兴安岭保护地': 48.2 + Math.random() * 0.5,
     '中国东北': 48.0 + Math.random() * 0.8,
-    '青海': 36.0 + Math.random() * 2.0,
-    '青藏高原': 35.0 + Math.random() * 3.0,
+    '城市郊区': 39.9 + Math.random() * 0.2,
+    '城市边缘地带': 39.8 + Math.random() * 0.3,
     '四川卧龙保护地': 30.8 + Math.random() * 0.4,
     '四川': 30.5 + Math.random() * 1.0
   }
@@ -1053,8 +1187,8 @@ function generateRandomLongitude(location) {
   const locationCoords = {
     '大兴安岭保护地': 127.0 + Math.random() * 2.0,
     '中国东北': 126.0 + Math.random() * 3.0,
-    '青海': 96.0 + Math.random() * 6.0,
-    '青藏高原': 95.0 + Math.random() * 8.0,
+    '城市郊区': 116.4 + Math.random() * 0.2,
+    '城市边缘地带': 116.3 + Math.random() * 0.3,
     '四川卧龙保护地': 103.0 + Math.random() * 1.0,
     '四川': 102.0 + Math.random() * 3.0
   }
@@ -1159,9 +1293,9 @@ async function onCustomImageChange(e) {
 
 // 新增：为自定义上传生成模拟数据
 function generateMockDataForCustomUpload(fileName) {
-  const randomSpecies = ['金丝猴', '藏羚羊', '华南虎', '白鱀豚', '扬子鳄', '朱鹮', '丹顶鹤']
-  const randomLocations = ['云南', '西藏', '新疆', '内蒙古', '黑龙江', '四川', '青海']
-  const randomHealth = ['健康', '亚健康', '需关注']
+  const randomSpecies = ['金丝猴', '藏羚羊', '华南虎', '白鱀豚', '扬子鳄', '朱鹮', '丹顶鹤', '家犬', '流浪猫']
+  const randomLocations = ['云南', '西藏', '新疆', '内蒙古', '黑龙江', '四川', '青海', '城市郊区', '城市边缘地带']
+  const randomHealth = ['健康', '亚健康', '需关注', '轻微营养不良']
   
   const species = randomSpecies[Math.floor(Math.random() * randomSpecies.length)]
   const location = randomLocations[Math.floor(Math.random() * randomLocations.length)]
@@ -2193,6 +2327,11 @@ function clearCustomUpload() {
   color: #e17055;
 }
 
+.protection-status.rescue {
+  background: #74b9ff;
+  color: #0984e3;
+}
+
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -2672,7 +2811,8 @@ function clearCustomUpload() {
   color: white;
 }
 .risk-level.low { background-color: #28a745; }
-.risk-level.medium { background-color: #ffc107; }
+.risk-level.medium { background-color: #ffc107; color: #212529; }
+.risk-level.high { background-color: #dc3545; }
 
 /* 步骤图标动画 */
 .step-icon {
