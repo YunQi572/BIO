@@ -376,17 +376,30 @@ import axios from 'axios'
 // 响应式数据
 const samples = ref([
   { 
-    name: '东北虎-001', 
-    desc: '左肩有独特斑纹', 
-    species: '东北虎',
-    text: '2023年4月拍摄于大兴安岭，晨间活动，精神状态良好。',
-    cover: new URL('@/assets/Picture/AI识别/东北虎.jpg', import.meta.url).href, 
-    id: 'CN-TGR-001', 
-    age: '5岁', 
+    name: '流浪猫-004', 
+    desc: '右耳有小缺口，眼神机警', 
+    species: '家猫',
+    text: '珞珈山发现，行为谨慎但不攻击人，可能是走失的宠物猫。',
+    cover: new URL('@/assets/Picture/AI识别/猫素描.png', import.meta.url).href, 
+    id: 'CN-CAT-004', 
+    age: '1岁', 
     health: '健康',
-    habitat: '大兴安岭保护地',
-    weight: '180-220kg',
-    location: '中国东北'
+    habitat: '珞珈山',
+    weight: '3-4kg',
+    location: '湖北武汉'
+  },
+  { 
+    name: '金丝猴-043', 
+    desc: '毛色金黄，群体中的幼体', 
+    species: '金丝猴',
+    text: '黔灵山公园拍摄，正在学习觅食技能，母猴在附近保护。',
+    cover: new URL('@/assets/Picture/AI识别/猴子.jpg', import.meta.url).href, 
+    id: 'CN-GLD-043', 
+    age: '6个月', 
+    health: '健康',
+    habitat: '黔灵山公园',
+    weight: '2-3kg',
+    location: '贵州贵阳'
   },
   { 
     name: '流浪犬-007', 
@@ -400,6 +413,19 @@ const samples = ref([
     habitat: '城市边缘地带',
     weight: '12-15kg',
     location: '城市郊区'
+  },
+  { 
+    name: '东北虎-001', 
+    desc: '左肩有独特斑纹', 
+    species: '东北虎',
+    text: '2023年4月拍摄于大兴安岭，晨间活动，精神状态良好。',
+    cover: new URL('@/assets/Picture/AI识别/东北虎.jpg', import.meta.url).href, 
+    id: 'CN-TGR-001', 
+    age: '5岁', 
+    health: '健康',
+    habitat: '大兴安岭保护地',
+    weight: '180-220kg',
+    location: '中国东北'
   },
   { 
     name: '大熊猫-088', 
@@ -579,7 +605,21 @@ const behaviorStats = computed(() => {
   const animal = resultAnimal.value
   const species = animal.species
   
-  if (species === '家犬') {
+  if (species === '家猫') {
+    return [
+      { label: '人类亲和度', value: 65, color: '#74b9ff' },
+      { label: '觅食能力', value: 88, color: '#00b894' },
+      { label: '警惕性', value: 85, color: '#fdcb6e' },
+      { label: '健康指数', value: 92, color: '#e17055' }
+    ]
+  } else if (species === '金丝猴') {
+    return [
+      { label: '群体适应性', value: 95, color: '#74b9ff' },
+      { label: '攀爬能力', value: 98, color: '#00b894' },
+      { label: '觅食技能', value: 72, color: '#fdcb6e' },
+      { label: '社交互动', value: 90, color: '#e17055' }
+    ]
+  } else if (species === '家犬') {
     return [
       { label: '人类亲和度', value: 78, color: '#74b9ff' },
       { label: '觅食能力', value: 92, color: '#00b894' },
@@ -613,7 +653,37 @@ const mllmAnalysis = computed(() => {
   const animal = resultAnimal.value
   const species = animal.species
   
-  if (species === '家犬') {
+  if (species === '家猫') {
+    return {
+      trajectory: {
+        title: '活动轨迹与行为模式分析',
+        content: `根据最近24小时的GPS追踪数据，个体"${animal.name}"主要活动在珞珈山的0.8平方公里范围内，表现出典型的半野生猫科动物行为模式。AI预测模型显示，该猫只有 <strong>78%</strong> 的概率会在清晨和黄昏时分在「山腰休息点」附近活动。`
+      },
+      health: {
+        title: '健康状况与救助评估',
+        content: `通过图像分析显示整体健康状况良好，体重在正常范围内。毛发光泽度正常，未发现明显外伤。行为评估显示该猫对人类保持适度警惕，但无攻击倾向。右耳小缺口可能为身份标识。救助优先级：<span class="risk-level low">低</span>`
+      },
+      multimodal: {
+        title: '多模态信息综合判断',
+        content: `结合用户描述「${additionalText.value || '珞珈山发现，行为谨慎但不攻击人'}」与AI视觉分析（体态健康、眼神机警、行为自然），判断该猫只可能为适应良好的流浪猫或走失宠物，建议进行TNR（捕捉-绝育-放归）评估。`
+      }
+    }
+  } else if (species === '金丝猴') {
+    return {
+      trajectory: {
+        title: '活动轨迹与群体行为分析',
+        content: `根据最近72小时的观察数据，个体"${animal.name}"作为幼体主要跟随母猴在黔灵山公园的3平方公里范围内活动。AI行为分析显示，该幼体有 <strong>92%</strong> 的时间与母猴保持在10米范围内，符合金丝猴幼体的正常发育模式。`
+      },
+      health: {
+        title: '发育状况与保护评估',
+        content: `通过图像分析显示该幼体发育良好，毛色金黄光泽，体重符合6个月龄幼体标准。行为观察显示学习能力强，已开始模仿成体觅食行为。群体接纳度高。保护状态：<span class="risk-level low">良好</span>`
+      },
+      multimodal: {
+        title: '多模态信息综合判断',
+        content: `结合用户描述「${additionalText.value || '黔灵山公园拍摄，正在学习觅食技能'}」与AI视觉分析（毛色健康、行为活跃、群体互动良好），判断该个体为健康发育的野生金丝猴幼体，建议继续远距离观察，避免人为干扰。`
+      }
+    }
+  } else if (species === '家犬') {
     return {
       trajectory: {
         title: '活动轨迹与行为模式分析',
@@ -836,36 +906,14 @@ function initializeAnalysis() {
   currentStatusIndex.value = 0
   resultAccuracy.value = 0
   
-  // 根据物种设置不同的状态消息
-  const animal = resultAnimal.value
-  const species = animal.species
-  
-  if (species === '家犬') {
-    statusMessages.value = [
-      "接收多模态输入，启动城市动物识别...",
-      "分析犬类特征，检测品种与健康状况...",
-      "匹配走失宠物数据库，评估救助优先级...",
-      "生成个体身份档案与行为评估...",
-      "识别完成，生成救助建议与寻主方案..."
-    ]
-  } else if (species === '东北虎') {
-    statusMessages.value = [
-      "接收多模态输入，智能解析数据...",
-      "深度特征提取，融合多源信息...",
-      "RotTrans等核心算法提升识别鲁棒性...",
-      "AI智能比对数据库个体...",
-      "识别完成，生成数字档案与相似推荐..."
-    ]
-  } else {
-    // 默认状态消息
-    statusMessages.value = [
-      "接收多模态输入，智能解析数据...",
-      "深度特征提取，融合多源信息...",
-      "应用AI算法进行个体识别...",
-      "智能比对数据库，确认个体身份...",
-      "识别完成，生成数字档案..."
-    ]
-  }
+  // 统一使用东北虎的状态消息和动效
+  statusMessages.value = [
+    "接收多模态输入，智能解析数据...",
+    "深度特征提取，融合多源信息...",
+    "RotTrans等核心算法提升识别鲁棒性...",
+    "AI智能比对数据库个体...",
+    "识别完成，生成数字档案与相似推荐..."
+  ]
   
   // 生成检测点
   detectionPoints.value = [
@@ -1007,43 +1055,16 @@ function showNextStatus() {
 }
 
 function updateInsights() {
-  const animal = resultAnimal.value
-  const species = animal.species
-  
-  let insights = []
-  
-  if (species === '家犬') {
-    insights = [
-      ['启动城市动物识别模块', '加载宠物特征数据库'],
-      ['检测犬类品种特征', '分析毛色与体型特征'],
-      ['评估营养状况与健康指标', '识别可能的身份标识'],
-      ['匹配走失宠物数据库', '分析行为模式与社会化程度'],
-      ['生成救助优先级评估', '构建个体身份档案'],
-      ['整合多模态信息', '生成救助建议与寻主方案'],
-      ['识别完成！建议立即启动救助流程']
-    ]
-  } else if (species === '东北虎') {
-    insights = [
-      ['加载多模态REID神经网络', '初始化红外图像预处理器'],
-      ['应用跨场景识别模型', '检测个体基本轮廓'],
-      ['分析动物身体高频纹理', '滤除背景及光照噪声'],
-      ['校正拍摄角度偏差', '确保关键特征的稳定性'],
-      ['并行分析健康状况、行为模式、年龄等', '构建多维度生物特征向量'],
-      ['对比通用AI，生成结构化、专业化描述', '构建完整的个体数字档案'],
-      ['REID匹配成功！已确认个体身份']
-    ]
-  } else {
-    // 默认洞察（大熊猫等）
-    insights = [
-      ['加载物种识别模块', '初始化特征提取器'],
-      ['分析个体特征', '检测关键识别点'],
-      ['应用机器学习算法', '进行模式匹配'],
-      ['评估识别置信度', '验证结果准确性'],
-      ['生成个体档案', '整合分析结果'],
-      ['完成多模态验证', '输出最终报告'],
-      ['识别流程完成！']
-    ]
-  }
+  // 统一使用东北虎的洞察信息
+  const insights = [
+    ['加载多模态REID神经网络', '初始化红外图像预处理器'],
+    ['应用跨场景识别模型', '检测个体基本轮廓'],
+    ['分析动物身体高频纹理', '滤除背景及光照噪声'],
+    ['校正拍摄角度偏差', '确保关键特征的稳定性'],
+    ['并行分析健康状况、行为模式、年龄等', '构建多维度生物特征向量'],
+    ['对比通用AI，生成结构化、专业化描述', '构建完整的个体数字档案'],
+    ['REID匹配成功！已确认个体身份']
+  ]
   
   if (currentStatusIndex.value < insights.length) {
     currentInsights.value = insights[currentStatusIndex.value]
@@ -1293,8 +1314,8 @@ async function onCustomImageChange(e) {
 
 // 新增：为自定义上传生成模拟数据
 function generateMockDataForCustomUpload(fileName) {
-  const randomSpecies = ['金丝猴', '藏羚羊', '华南虎', '白鱀豚', '扬子鳄', '朱鹮', '丹顶鹤', '家犬', '流浪猫']
-  const randomLocations = ['云南', '西藏', '新疆', '内蒙古', '黑龙江', '四川', '青海', '城市郊区', '城市边缘地带']
+  const randomSpecies = ['家猫', '金丝猴', '东北虎', '大熊猫', '家犬', '藏羚羊', '华南虎', '白鱀豚', '扬子鳄', '丹顶鹤', '流浪猫']
+  const randomLocations = ['城市中心', '陕西秦岭', '中国东北', '四川', '城市郊区', '云南', '西藏', '新疆', '内蒙古', '黑龙江', '青海', '城市边缘地带']
   const randomHealth = ['健康', '亚健康', '需关注', '轻微营养不良']
   
   const species = randomSpecies[Math.floor(Math.random() * randomSpecies.length)]
@@ -1841,6 +1862,7 @@ function clearCustomUpload() {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   line-height: 1.2;
   margin-top: 4px;
